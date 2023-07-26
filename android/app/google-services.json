@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "188510453771",
+    "project_id": "planetauz-33295",
+    "storage_bucket": "planetauz-33295.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:188510453771:android:950b7bdded17b9b308470e",
+        "android_client_info": {
+          "package_name": "uz.planeta.uz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "188510453771-8h0tlfcga4pu0v2btuvenqpc1sirbqsp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEfZtYJr_unzv0BBV-_HDWEKr50eON3Og"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "188510453771-8h0tlfcga4pu0v2btuvenqpc1sirbqsp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
