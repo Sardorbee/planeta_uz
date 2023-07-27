@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/ui/forget_password/create_new_pass.dart';
+import 'package:planeta_uz/ui/utils/colors.dart';
 
 import '../sign_in/sign_in_page.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
   ForgetPasswordPage({super.key});
-  TextEditingController _emmaillcont = TextEditingController();
+  final TextEditingController _emmaillcont = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,17 +39,6 @@ class ForgetPasswordPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.02,
-                    ),
-                    Text(
-                      style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          color: Colors.black45,
-                          fontSize: MediaQuery.of(context).size.height * 0.02,
-                          fontFamily: 'Fjalla'),
-                      'We need your email adress so we can send you the password reset code.',
-                    ),
-                    SizedBox(
                       height: MediaQuery.of(context).size.height * 0.04,
                     ),
                     Container(
@@ -71,6 +61,17 @@ class ForgetPasswordPage extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.02,
                     ),
+                    Text(
+                      style: TextStyle(
+                          // fontWeight: FontWeight.bold,
+                          color: Colors.black45,
+                          fontSize: MediaQuery.of(context).size.height * 0.02,
+                          fontFamily: 'Fjalla'),
+                      'We need your email adress so we can send you the password reset code.',
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.04,
+                    ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.065,
                       child: ElevatedButton(
@@ -79,11 +80,11 @@ class ForgetPasswordPage extends StatelessWidget {
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
-                                  MediaQuery.of(context).size.height * 0.028),
+                                  MediaQuery.of(context).size.height * 0.01),
                             ),
                           ),
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            const Color.fromRGBO(37, 43, 51, 1),
+                            AppColors.mainButtonColor,
                           ),
                         ),
                         onPressed: (() {
@@ -91,8 +92,7 @@ class ForgetPasswordPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: ((context) =>
-                                     CreateNewPasswordPage()),
+                                builder: ((context) => CreateNewPasswordPage()),
                               ),
                             );
                           } else {
@@ -122,15 +122,18 @@ class ForgetPasswordPage extends StatelessWidget {
                             fontSize: MediaQuery.of(context).size.height * 0.02,
                           ),
                         ),
-                        InkWell(onTap: () => Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) => SignInPage())),
-                                (route) => false),
+                        InkWell(
+                          onTap: () => Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => const SignInPage())),
+                              (route) => false),
                           child: Text(
                             'Try again',
                             style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height * 0.02,
+                                color: AppColors.mainButtonColor,
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.02,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
