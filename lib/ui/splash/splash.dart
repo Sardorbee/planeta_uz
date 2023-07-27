@@ -1,57 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
+import 'package:planeta_uz/ui/home/home_page.dart';
 import 'package:planeta_uz/ui/sign_in/sign_in_page.dart';
+import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:provider/provider.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        
-        Positioned(
-          bottom: MediaQuery.of(context).size.height * 0.03,
-          right: MediaQuery.of(context).size.width * 0.055,
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.085,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                  const Color.fromRGBO(16, 16, 15, 1),
-                ),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ((context) => SignInPage()),
-                  ),
-                );
-              },
-              child: const Row(
-                children: [
-                  Expanded(
-                    flex: 9,
-                    child: Center(
-                      child: Text('Sign Up'),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Icon(Icons.arrow_forward),
-                  )
-                ],
-              ),
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  init() async {
+    await Future.delayed(const Duration(seconds: 3));
+
+    if (context.mounted) {
+      if (context.read<LoginProvider>().isLoggedIN == true) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(),
             ),
-          ),
+            (route) => false);
+      } else {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SignInPage(),
+            ),
+            (route) => false);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/png/splash.png',
+            ),
+            SizedBox(
+              width: 10.w,
+            ),
+            Text(
+              'Stylish',
+              style: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.mainButtonColor),
+            )
+          ],
         ),
-      ],
+      ),
     );
   }
 }

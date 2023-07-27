@@ -194,6 +194,8 @@ class _SignInPageState extends State<SignInPage> {
                         //         duration: Duration(seconds: 1)),
                         // );
                         // }
+                        
+                        x.tozalash();
                       }),
                       child: const Center(
                         child: Text('Sign In'),
