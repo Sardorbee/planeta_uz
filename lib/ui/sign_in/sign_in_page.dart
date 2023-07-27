@@ -14,7 +14,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
-    LoginProvider x = context.watch<LoginProvider>();
+    // AuthProvider x = context.watch<AuthProvider>();
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
@@ -94,7 +94,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Stack stackmethod(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
-    LoginProvider x = context.watch<LoginProvider>();
+    AuthProvider x = context.watch<AuthProvider>();
     var h = MediaQuery.of(context).size.height;
     return Stack(
       children: [
@@ -131,7 +131,7 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 children: [
                   TextFormField(
-                    controller: x.emailcontroller,
+                    controller: x.emailController,
                     decoration: const InputDecoration(
                       suffixIcon: Icon(Icons.check_circle_rounded),
                       labelText: 'Email',
@@ -143,7 +143,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   TextFormField(
                     obscureText: x.obscureText,
-                    controller: x.passwordcontroller,
+                    controller: x.passwordController,
                     decoration: InputDecoration(
                       labelText: ('Password'),
                       labelStyle: const TextStyle(fontWeight: FontWeight.bold),
