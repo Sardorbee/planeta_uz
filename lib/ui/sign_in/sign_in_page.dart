@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/ui/forget_password/forget_pass_page.dart';
+import 'package:planeta_uz/ui/home/home_page.dart';
 import 'package:planeta_uz/ui/sign_in/widgets/social_buttons.dart';
 import 'package:planeta_uz/ui/sign_up/sign_up_page.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
@@ -24,50 +25,54 @@ class _SignInPageState extends State<SignInPage> {
       onTap: (() => FocusScope.of(context).unfocus()),
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 243, 240, 240),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: h * 0.6,
-                child: stackmethod(context),
-              ),
-              SizedBox(
-                height: h * 0.06,
-              ),
-              Column(
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
                 children: [
-                  const Center(
-                    child: Text('or continue with'),
+                  SizedBox(
+                    height: h * 0.6,
+                    child: stackmethod(context),
                   ),
-                  SocialButtons(w: w),
-                  Padding(
-                    padding: EdgeInsets.all(w * 0.18),
-                    child: Row(
-                      children: [
-                        const Text("Don't have an account yet? "),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: ((context) => const SignUpPage()),
+                  SizedBox(
+                    height: h * 0.06,
+                  ),
+                  Column(
+                    children: [
+                      const Center(
+                        child: Text('or continue with'),
+                      ),
+                      SocialButtons(w: w),
+                      Padding(
+                        padding: EdgeInsets.all(w * 0.18),
+                        child: Row(
+                          children: [
+                            const Text("Don't have an account yet? "),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: ((context) => const SignUpPage()),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Registration',
+                                style: TextStyle(
+                                    color: AppColors.mainButtonColor,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            );
-                          },
-                          child: Text(
-                            'Registration',
-                            style: TextStyle(
-                                color: AppColors.mainButtonColor,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -178,24 +183,19 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       ),
                       onPressed: (() {
-                        // if (_passwordcontroller.text == '123456' &&
-                        //     _emailcontroller.text == '123@gmail.com') {
-                        // Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: ((context) => const HomePage())),
-                        //     (route) => false);
+                        if (x.passwordcontroller.text.isNotEmpty &&
+                            x.emailcontroller.text.isNotEmpty) {
+                          x.login(context);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Email or Password is incorrect'),
+                                backgroundColor: Colors.red,
+                                duration: Duration(seconds: 1)),
+                          );
+                        }
 
-                        // } else {
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(
-                        //         content: Text('Email or Password is incorrect'),
-                        //         backgroundColor: Colors.red,
-                        //         duration: Duration(seconds: 1)),
-                        // );
-                        // }
                         
-                        x.tozalash();
                       }),
                       child: const Center(
                         child: Text('Sign In'),
@@ -206,7 +206,12 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
           ),
-        )
+        ),
+        Visibility(
+            visible: x.isLoading,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ))
       ],
     );
   }

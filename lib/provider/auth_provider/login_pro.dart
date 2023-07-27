@@ -10,7 +10,7 @@ class LoginProvider with ChangeNotifier {
       TextEditingController();
   bool obscureText = true;
   bool obscureText1 = true;
-  bool isLoggedIN = false;
+
   bool isLoading = false;
   tozalash() {
     emailcontroller.clear();
@@ -19,21 +19,36 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  authState() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        isLoggedIN = false;
+  Future<void> authState(BuildContext context) async {
+    User? user = await FirebaseAuth.instance.authStateChanges().first;
 
-        print('User is currently signed out!');
-      } else {
-        isLoggedIN = true;
-        print('User is signed in!');
+    if (user == null) {
+      if(context.mounted){
+        Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignInPage(),
+        ),
+        (route) => false,
+      );
+
       }
-    });
-    if (isLoggedIN) {
+      print('User is currently signed out!');
     } else {
-      const SignInPage();
+      if(context.mounted){
+        Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+        (route) => false,
+      );
+
+      }
+
+      print('User is signed in!');
     }
+
     notifyListeners();
   }
 
@@ -85,23 +100,49 @@ class LoginProvider with ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
       if (context.mounted) {
         snackkbar(context, "logged in successfully! ");
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: ((context) => const HomeScreen())),
+            (route) => false);
+        tozalash();
       }
 
       isLoading = false;
       notifyListeners();
     } on FirebaseAuthException catch (e) {
       snackkbar(context, e.code);
-      // if (e.code == 'weak-password') {
-      //   debugPrint('The password provided is too weak.');
-      // } else if (e.code == 'email-already-in-use') {
-      //   debugPrint('The account already exists for that email.');
-      // }
+    } catch (error) {
+      snackkbar(context, error.toString());
+    }
+  }
+
+  Future<void> logOut(BuildContext context) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      await FirebaseAuth.instance.signOut();
+
+      if (context.mounted) {
+        snackkbar(context, "logged Out successfully! ");
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SignInPage(),
+            ),
+            (route) => false);
+      }
+      isLoading = false;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      snackkbar(context, e.code);
     } catch (error) {
       snackkbar(context, error.toString());
     }

@@ -16,29 +16,15 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   init() async {
     await Future.delayed(const Duration(seconds: 3));
-
-    if (context.mounted) {
-      if (context.read<LoginProvider>().isLoggedIN == true) {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-            (route) => false);
-      } else {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const SignInPage(),
-            ),
-            (route) => false);
-      }
+    if(context.mounted){
+      context.read<LoginProvider>().authState(context);
     }
   }
 
   @override
   void initState() {
     init();
+
     super.initState();
   }
 
