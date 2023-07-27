@@ -5,7 +5,7 @@ import '../sign_in/sign_in_page.dart';
 
 class ForgetPasswordPage extends StatelessWidget {
   ForgetPasswordPage({super.key});
-  TextEditingController _emmaillcont = TextEditingController();
+  final TextEditingController _emmaillcont = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
