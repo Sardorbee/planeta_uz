@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/ui/forget_password/forget_pass_page.dart';
+import 'package:planeta_uz/ui/sign_in/widgets/social_buttons.dart';
 import 'package:planeta_uz/ui/sign_up/sign_up_page.dart';
+import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
@@ -14,7 +16,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
-    LoginProvider x = context.watch<LoginProvider>();
+    LoginProvider x = context.read<LoginProvider>();
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
@@ -37,28 +39,7 @@ class _SignInPageState extends State<SignInPage> {
                   const Center(
                     child: Text('or continue with'),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: w * 0.2, right: w * 0.2, top: w * 0.01),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CircleAvatar(
-                          maxRadius: h * 0.045,
-                          child: Icon(Icons.facebook_sharp, size: w * 0.1),
-                        ),
-                        CircleAvatar(
-                          backgroundColor: Colors.red,
-                          maxRadius: h * 0.045,
-                          child: Text(
-                            'G',
-                            style: TextStyle(
-                                fontSize: w * 0.1, color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  SocialButtons(w: w),
                   Padding(
                     padding: EdgeInsets.all(w * 0.18),
                     child: Row(
@@ -73,10 +54,10 @@ class _SignInPageState extends State<SignInPage> {
                               ),
                             );
                           },
-                          child: const Text(
+                          child: Text(
                             'Registration',
                             style: TextStyle(
-                                color: Colors.purple,
+                                color: AppColors.mainButtonColor,
                                 fontWeight: FontWeight.bold),
                           ),
                         )
@@ -101,7 +82,7 @@ class _SignInPageState extends State<SignInPage> {
         Positioned(
           child: Container(
             decoration: BoxDecoration(
-              color: const Color.fromRGBO(37, 43, 51, 1),
+              color: AppColors.mainButtonColor,
               borderRadius: BorderRadius.circular(h * 0.025),
             ),
             width: w * 1,
@@ -109,10 +90,10 @@ class _SignInPageState extends State<SignInPage> {
           ),
         ),
         Positioned(
-          right: w * 0.65,
+          right: w * 0.35,
           top: h * 0.15,
           child: Text(
-            'Sign In',
+            'Welcome Back',
             style: TextStyle(color: Colors.white, fontSize: w * 0.08),
           ),
         ),
@@ -175,7 +156,7 @@ class _SignInPageState extends State<SignInPage> {
                       alignment: Alignment.bottomRight,
                       child: Text(
                         'Do not remember the password?',
-                        style: TextStyle(color: Colors.blue.shade900),
+                        style: TextStyle(color: AppColors.mainButtonColor),
                       ),
                     ),
                   ),
@@ -189,11 +170,11 @@ class _SignInPageState extends State<SignInPage> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(h * 0.031),
+                            borderRadius: BorderRadius.circular(h * 0.01),
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromRGBO(37, 43, 51, 1),
+                          AppColors.mainButtonColor,
                         ),
                       ),
                       onPressed: (() {

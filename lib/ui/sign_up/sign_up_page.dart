@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/ui/sign_in/sign_in_page.dart';
+import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -9,11 +13,9 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool obscureText = true;
-  bool obscureText1 = true;
-
   @override
   Widget build(BuildContext context) {
+    LoginProvider x = context.read<LoginProvider>();
     return GestureDetector(
       onTap: (() => FocusScope.of(context).unfocus()),
       child: Scaffold(
@@ -23,7 +25,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+                padding: EdgeInsets.only(left: 20.h, right: 20.h),
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -31,23 +33,16 @@ class _SignUpPageState extends State<SignUpPage> {
                         height: MediaQuery.of(context).size.height * 0.1,
                       ),
                       Text(
-                        'Registration',
+                        'Create an Account',
                         style: TextStyle(
                           fontFamily: 'Fjalla',
+                          fontWeight: FontWeight.bold,
                           fontSize: MediaQuery.of(context).size.height * 0.032,
                           // fontWeight: FontWeight.bold
                         ),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Text(
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black45,
-                            fontSize: MediaQuery.of(context).size.height * 0.02,
-                            fontFamily: 'Fjalla'),
-                        '',
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.04,
@@ -78,38 +73,17 @@ class _SignUpPageState extends State<SignUpPage> {
                           color: Colors.black12,
                         ),
                         child: TextFormField(
-                          decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              prefixIcon: Icon(Icons.email),
-                              labelText: "Email Address",
-                              labelStyle: TextStyle(
-                                fontFamily: 'Fjalla',
-                              )),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.02,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              MediaQuery.of(context).size.height * 0.019),
-                          color: Colors.black12,
-                        ),
-                        child: TextFormField(
-                          obscureText: obscureText,
+                          obscureText: x.obscureText,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               prefixIcon: const Icon(Icons.lock),
                               labelText: "Password",
                               suffixIcon: IconButton(
-                                icon: Icon(obscureText
+                                icon: Icon(x.obscureText
                                     ? Icons.visibility_off
                                     : Icons.visibility),
                                 onPressed: () {
-                                  setState(() {
-                                    obscureText = !obscureText;
-                                  });
+                                  x.obs1();
                                 },
                               ),
                               labelStyle: const TextStyle(
@@ -127,18 +101,16 @@ class _SignUpPageState extends State<SignUpPage> {
                           color: Colors.black12,
                         ),
                         child: TextFormField(
-                          obscureText: obscureText1,
+                          obscureText: x.obscureText1,
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               prefixIcon: const Icon(Icons.lock),
                               suffixIcon: IconButton(
-                                icon: Icon(obscureText1
+                                icon: Icon(x.obscureText1
                                     ? Icons.visibility_off
                                     : Icons.visibility),
                                 onPressed: () {
-                                  setState(() {
-                                    obscureText1 = !obscureText1;
-                                  });
+                                  x.obs2();
                                 },
                               ),
                               labelText: "Repeat Password",
@@ -158,11 +130,11 @@ class _SignUpPageState extends State<SignUpPage> {
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
-                                    MediaQuery.of(context).size.height * 0.031),
+                                    MediaQuery.of(context).size.height * 0.01),
                               ),
                             ),
                             backgroundColor: MaterialStateProperty.all<Color>(
-                              const Color.fromRGBO(37, 43, 51, 1),
+                              AppColors.mainButtonColor,
                             ),
                           ),
                           onPressed: (() {}),
@@ -193,6 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             child: Text(
                               'Sign In',
                               style: TextStyle(
+                                  color: AppColors.mainButtonColor,
                                   fontSize:
                                       MediaQuery.of(context).size.height * 0.02,
                                   fontWeight: FontWeight.bold),
