@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/ui/forget_password/forget_pass_page.dart';
-import 'package:planeta_uz/ui/home/home_page.dart';
 import 'package:planeta_uz/ui/sign_in/widgets/social_buttons.dart';
 import 'package:planeta_uz/ui/sign_up/sign_up_page.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
@@ -17,7 +16,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
-    LoginProvider x = context.read<LoginProvider>();
+    // LoginProvider x = context.read<LoginProvider>();
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 

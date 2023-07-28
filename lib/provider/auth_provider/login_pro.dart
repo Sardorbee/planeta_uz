@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:planeta_uz/ui/home/home_page.dart';
 import 'package:planeta_uz/ui/sign_in/sign_in_page.dart';
+import 'package:planeta_uz/ui/tab_box/tab_box.dart';
 
 class LoginProvider with ChangeNotifier {
   final TextEditingController emailcontroller = TextEditingController();
@@ -39,7 +39,7 @@ class LoginProvider with ChangeNotifier {
         Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
+          builder: (context) => const TabBox(),
         ),
         (route) => false,
       );
@@ -109,7 +109,7 @@ class LoginProvider with ChangeNotifier {
         snackkbar(context, "logged in successfully! ");
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: ((context) => const HomeScreen())),
+            MaterialPageRoute(builder: ((context) => const TabBox())),
             (route) => false);
         tozalash();
       }
