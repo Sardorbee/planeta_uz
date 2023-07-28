@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planeta_uz/ui/forget_password/create_new_pass.dart';
+import 'package:planeta_uz/ui/auth/forget_password/create_new_pass.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
 
 import '../sign_in/sign_in_page.dart';

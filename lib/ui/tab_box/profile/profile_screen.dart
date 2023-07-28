@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Padding(
             padding: EdgeInsets.only(top: 20.h),
             child: Text(
-              'Checkout',
+              'Profile',
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
@@ -62,10 +62,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             SizedBox(height: 31.h),
             Center(
-              child: Icon(
-                Icons.account_circle,
-                size: 96.h,
-              ),
+              child:
+               context.read<ProfileProvider>().currentUser!.photoURL ==
+                      null
+                  ?
+                   Icon(
+                      Icons.account_circle,
+                      size: 96.h,
+                    )
+                  : CircleAvatar(
+                      foregroundImage: NetworkImage(
+                        context.read<ProfileProvider>().currentUser!.photoURL!,
+                        scale: 2,
+                      ),
+                    ),
             ),
             Center(
               child: Text(

@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/data/firebase/profile_service.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
-import 'package:planeta_uz/ui/splash/splash.dart';
+import 'package:planeta_uz/ui/auth/splash/splash.dart';
+
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -18,7 +19,8 @@ Future<void> main() async {
           lazy: true,
         ),
         ChangeNotifierProvider(
-          create: (context) => ProfileProvider(profileService: ProfileService()),
+          create: (context) =>
+              ProfileProvider(profileService: ProfileService()),
           lazy: true,
         )
       ],

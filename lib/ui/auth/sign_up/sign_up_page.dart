@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
-import 'package:planeta_uz/ui/sign_in/sign_in_page.dart';
+import 'package:planeta_uz/ui/auth/sign_in/sign_in_page.dart';
+import 'package:planeta_uz/ui/auth/sign_in/widgets/social_buttons.dart';
+
 import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +19,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     LoginProvider x = context.read<LoginProvider>();
     LoginProvider y = context.watch<LoginProvider>();
+    var w = MediaQuery.of(context).size.width;
     return GestureDetector(
       onTap: (() => FocusScope.of(context).unfocus()),
       child: Scaffold(
@@ -87,10 +90,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                   labelText: "Password",
                                   suffixIcon: IconButton(
                                     icon: Icon(x.obscureText
-                                    ? Icons.visibility_off
-                                    : Icons.visibility),
+                                        ? Icons.visibility_off
+                                        : Icons.visibility),
                                     onPressed: () {
-                                  x.obs1();
+                                      x.obs1();
                                     },
                                   ),
                                   labelStyle: const TextStyle(
@@ -164,7 +167,11 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.21,
+                            height: MediaQuery.of(context).size.height * 0.06,
+                          ),
+                          SocialButtons(w: w),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.10,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
+import 'package:planeta_uz/provider/profile_provider.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -20,9 +21,23 @@ class HomeScreen extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => const ProfileScreen()));
             },
-            icon: Icon(Icons.account_circle,size: 40.h,),
+            icon: 
+            context.read<ProfileProvider>().currentUser!.photoURL == null
+                ?
+                 Icon(
+                    Icons.account_circle,
+                    size: 40.h,
+                  )
+                : CircleAvatar(
+                    foregroundImage: NetworkImage(
+                      context.read<ProfileProvider>().currentUser!.photoURL!,
+                      scale: 2,
+                    ),
+                  ),
           ),
-          SizedBox(width: 12.w,),
+          SizedBox(
+            width: 12.w,
+          ),
         ],
       ),
       body: Center(

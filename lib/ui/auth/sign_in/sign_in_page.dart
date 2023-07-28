@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
-import 'package:planeta_uz/ui/forget_password/forget_pass_page.dart';
-import 'package:planeta_uz/ui/sign_in/widgets/social_buttons.dart';
-import 'package:planeta_uz/ui/sign_up/sign_up_page.dart';
+import 'package:planeta_uz/ui/auth/forget_password/forget_pass_page.dart';
+import 'package:planeta_uz/ui/auth/sign_in/widgets/social_buttons.dart';
+import 'package:planeta_uz/ui/auth/sign_up/sign_up_page.dart';
+
 import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:provider/provider.dart';
 
