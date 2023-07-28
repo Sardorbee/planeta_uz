@@ -22,8 +22,8 @@ dependencies:
   firebase_storage: ^11.2.5
   provider: ^6.0.5
   http: ^1.1.0
-  flutter_svg: ^2.0.7
   flutter_screenutil: ^5.8.4
+  flutter_svg: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -37,8 +37,9 @@ flutter:
 
  
   assets:
-    - assets/icons/
-  #   - images/a_dot_ham.jpeg
+    - assets/svg/
+    - assets/png/
+    # - images/a_dot_ham.jpeg
 
 
   #   - family: Schyler

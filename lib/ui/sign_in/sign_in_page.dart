@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/ui/forget_password/forget_pass_page.dart';
+import 'package:planeta_uz/ui/home/home_page.dart';
+import 'package:planeta_uz/ui/sign_in/widgets/social_buttons.dart';
 import 'package:planeta_uz/ui/sign_up/sign_up_page.dart';
+import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
@@ -14,7 +17,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
-    // AuthProvider x = context.watch<AuthProvider>();
+    LoginProvider x = context.read<LoginProvider>();
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
@@ -22,71 +25,54 @@ class _SignInPageState extends State<SignInPage> {
       onTap: (() => FocusScope.of(context).unfocus()),
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 243, 240, 240),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: h * 0.6,
-                child: stackmethod(context),
-              ),
-              SizedBox(
-                height: h * 0.06,
-              ),
-              Column(
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
                 children: [
-                  const Center(
-                    child: Text('or continue with'),
+                  SizedBox(
+                    height: h * 0.6,
+                    child: stackmethod(context),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: w * 0.2, right: w * 0.2, top: w * 0.01),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        CircleAvatar(
-                          maxRadius: h * 0.045,
-                          child: Icon(Icons.facebook_sharp, size: w * 0.1),
-                        ),
-                        CircleAvatar(
-                          backgroundColor: Colors.red,
-                          maxRadius: h * 0.045,
-                          child: Text(
-                            'G',
-                            style: TextStyle(
-                                fontSize: w * 0.1, color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
+                  SizedBox(
+                    height: h * 0.06,
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(w * 0.18),
-                    child: Row(
-                      children: [
-                        const Text("Don't have an account yet? "),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: ((context) => const SignUpPage()),
+                  Column(
+                    children: [
+                      const Center(
+                        child: Text('or continue with'),
+                      ),
+                      SocialButtons(w: w),
+                      Padding(
+                        padding: EdgeInsets.all(w * 0.18),
+                        child: Row(
+                          children: [
+                            const Text("Don't have an account yet? "),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: ((context) => const SignUpPage()),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Registration',
+                                style: TextStyle(
+                                    color: AppColors.mainButtonColor,
+                                    fontWeight: FontWeight.bold),
                               ),
-                            );
-                          },
-                          child: const Text(
-                            'Registration',
-                            style: TextStyle(
-                                color: Colors.purple,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        )
-                      ],
-                    ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
-          ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -94,14 +80,14 @@ class _SignInPageState extends State<SignInPage> {
 
   Stack stackmethod(BuildContext context) {
     var w = MediaQuery.of(context).size.width;
-    AuthProvider x = context.watch<AuthProvider>();
+    LoginProvider x = context.watch<LoginProvider>();
     var h = MediaQuery.of(context).size.height;
     return Stack(
       children: [
         Positioned(
           child: Container(
             decoration: BoxDecoration(
-              color: const Color.fromRGBO(37, 43, 51, 1),
+              color: AppColors.mainButtonColor,
               borderRadius: BorderRadius.circular(h * 0.025),
             ),
             width: w * 1,
@@ -109,10 +95,10 @@ class _SignInPageState extends State<SignInPage> {
           ),
         ),
         Positioned(
-          right: w * 0.65,
+          right: w * 0.35,
           top: h * 0.15,
           child: Text(
-            'Sign In',
+            'Welcome Back',
             style: TextStyle(color: Colors.white, fontSize: w * 0.08),
           ),
         ),
@@ -131,7 +117,7 @@ class _SignInPageState extends State<SignInPage> {
               child: Column(
                 children: [
                   TextFormField(
-                    controller: x.emailController,
+                    controller: x.emailcontroller,
                     decoration: const InputDecoration(
                       suffixIcon: Icon(Icons.check_circle_rounded),
                       labelText: 'Email',
@@ -143,7 +129,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   TextFormField(
                     obscureText: x.obscureText,
-                    controller: x.passwordController,
+                    controller: x.passwordcontroller,
                     decoration: InputDecoration(
                       labelText: ('Password'),
                       labelStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -175,7 +161,7 @@ class _SignInPageState extends State<SignInPage> {
                       alignment: Alignment.bottomRight,
                       child: Text(
                         'Do not remember the password?',
-                        style: TextStyle(color: Colors.blue.shade900),
+                        style: TextStyle(color: AppColors.mainButtonColor),
                       ),
                     ),
                   ),
@@ -189,30 +175,27 @@ class _SignInPageState extends State<SignInPage> {
                         shape:
                             MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(h * 0.031),
+                            borderRadius: BorderRadius.circular(h * 0.01),
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromRGBO(37, 43, 51, 1),
+                          AppColors.mainButtonColor,
                         ),
                       ),
                       onPressed: (() {
-                        // if (_passwordcontroller.text == '123456' &&
-                        //     _emailcontroller.text == '123@gmail.com') {
-                        // Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: ((context) => const HomePage())),
-                        //     (route) => false);
+                        if (x.passwordcontroller.text.isNotEmpty &&
+                            x.emailcontroller.text.isNotEmpty) {
+                          x.login(context);
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Email or Password is incorrect'),
+                                backgroundColor: Colors.red,
+                                duration: Duration(seconds: 1)),
+                          );
+                        }
 
-                        // } else {
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(
-                        //         content: Text('Email or Password is incorrect'),
-                        //         backgroundColor: Colors.red,
-                        //         duration: Duration(seconds: 1)),
-                        // );
-                        // }
+                        
                       }),
                       child: const Center(
                         child: Text('Sign In'),
@@ -223,7 +206,12 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
           ),
-        )
+        ),
+        Visibility(
+            visible: x.isLoading,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ))
       ],
     );
   }

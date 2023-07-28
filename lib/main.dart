@@ -2,18 +2,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
-import 'package:planeta_uz/ui/splash/stylish_splash.dart';
+import 'package:planeta_uz/ui/splash/splash.dart';
 import 'package:provider/provider.dart';
 
-Future<void> main()async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => AuthProvider(),
-        ),
+          create: (context) => LoginProvider(),
+          lazy: true,
+        )
       ],
       child: const MyApp(),
     ),
@@ -23,20 +24,17 @@ Future<void> main()async{
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: child,
+      builder: (context, child) {
+        return const MaterialApp(
+          home: SplashPage(),
         );
       },
-      child: const SplashScreen(),
     );
   }
 }
