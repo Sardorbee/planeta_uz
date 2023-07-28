@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:planeta_uz/data/firebase/profile_service.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
+import 'package:planeta_uz/provider/profile_provider.dart';
 import 'package:planeta_uz/ui/splash/splash.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +15,10 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LoginProvider(),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProfileProvider(profileService: ProfileService()),
           lazy: true,
         )
       ],
@@ -32,6 +38,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return const MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: SplashPage(),
         );
       },

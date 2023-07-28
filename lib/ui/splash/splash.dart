@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
-import 'package:planeta_uz/ui/home/home_page.dart';
-import 'package:planeta_uz/ui/sign_in/sign_in_page.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:provider/provider.dart';
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
+import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,7 +11,20 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     LoginProvider x = context.read<LoginProvider>();
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()));
+            },
+            icon: Icon(Icons.account_circle,size: 40.h,),
+          ),
+          SizedBox(width: 12.w,),
+        ],
+      ),
       body: Center(
         child: Stack(
           children: [
@@ -25,10 +40,11 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
             Visibility(
-                visible: x.isLoading,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ))
+              visible: x.isLoading,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
           ],
         ),
       ),
