@@ -5,7 +5,6 @@ import 'package:planeta_uz/data/firebase/profile_service.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
 import 'package:planeta_uz/ui/auth/splash/splash.dart';
-
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

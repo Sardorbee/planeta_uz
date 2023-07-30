@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/ui/auth/app/app.dart';
-import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
-import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -49,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
               width: 10.w,
             ),
             Text(
-              'Stylish',
+              'Planeta UZ',
               style: TextStyle(
                   fontSize: 45,
                   fontWeight: FontWeight.bold,

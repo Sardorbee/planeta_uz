@@ -63,19 +63,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: 31.h),
             Center(
               child:
-               context.read<ProfileProvider>().currentUser!.photoURL ==
-                      null
-                  ?
-                   Icon(
-                      Icons.account_circle,
-                      size: 96.h,
-                    )
-                  : CircleAvatar(
-                      foregroundImage: NetworkImage(
-                        context.read<ProfileProvider>().currentUser!.photoURL!,
-                        scale: 2,
-                      ),
-                    ),
+                  context.read<ProfileProvider>().currentUser!.photoURL == null 
+                      ? Icon(
+                          Icons.account_circle,
+                          size: 96.h,
+                        )
+                      : Stack(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 60,
+                              foregroundImage: NetworkImage(
+                                context
+                                    .read<ProfileProvider>()
+                                    .currentUser!
+                                    .photoURL!,
+                                scale: 2,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              left: 60,
+                              child: Container(
+                                height: 40,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.blue,
+                                ),
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
             ),
             Center(
               child: Text(
@@ -108,6 +133,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
+                suffixIcon: IconButton(
+                    splashRadius: 1,
+                    onPressed: () {
+                      context.read<ProfileProvider>().updateEmail(context);
+                    },
+                    icon: const Icon(Icons.upload_rounded)),
                 filled: true,
                 fillColor: Colors.white,
                 hintText: 'Edit email',
@@ -120,16 +151,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
+            SizedBox(
+              height: 10.h,
             ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  context.read<ProfileProvider>().updateEmail(context);
-                },
-                child: const Text('Update email'),
+            TextField(
+              controller: context.read<ProfileProvider>().passwordcont,
+              obscureText: true,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                    splashRadius: 1,
+                    onPressed: () {},
+                    icon: const Icon(Icons.upload_rounded)),
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'New password',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFC8C8C8),
+                    width: 1,
+                  ),
+                ),
               ),
+            ),
+            SizedBox(
+              height: 10.h,
             ),
           ],
         ),
