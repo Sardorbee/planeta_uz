@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 class Updateproducts extends StatefulWidget {
   Updateproducts({super.key, required this.productModel});
+
   ProductModel productModel;
 
   @override
@@ -69,11 +70,15 @@ class _UpdateproductsState extends State<Updateproducts> {
         child: ListView(
           children: [
             SizedBox(height: 10.h),
+            const Text('Name'),
+            SizedBox(height: 10.h),
             GlobalTextField(
                 hintText: "Add Product name",
                 textAlign: TextAlign.start,
                 controller:
                     context.read<ProductsProvider>().ProductsNamecontroller),
+            SizedBox(height: 10.h),
+            const Text('Count'),
             SizedBox(height: 10.h),
             GlobalTextField(
                 hintText: "Add Product count",
@@ -81,35 +86,33 @@ class _UpdateproductsState extends State<Updateproducts> {
                 keyboardType: TextInputType.number,
                 controller:
                     context.read<ProductsProvider>().ProductsCountcontroller),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 10.h),
+            const Text('Description'),
+            SizedBox(height: 10.h),
             GlobalTextField(
                 hintText: "Add Product description",
                 textAlign: TextAlign.start,
                 controller:
                     context.read<ProductsProvider>().ProductsDesccontroller),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 10.h),
+            const Text('Price'),
+            SizedBox(height: 10.h),
             GlobalTextField(
                 keyboardType: TextInputType.number,
                 hintText: "Add Product Price",
                 textAlign: TextAlign.start,
                 controller:
                     context.read<ProductsProvider>().ProductsPricecontroller),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 10.h),
+            const Text('Currency'),
+            SizedBox(height: 10.h),
             GlobalTextField(
                 hintText: "Add Product Currency",
                 textAlign: TextAlign.start,
                 controller: context
                     .read<ProductsProvider>()
                     .ProductsCurrencycontroller),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 10.h),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -147,20 +150,23 @@ class _UpdateproductsState extends State<Updateproducts> {
                   child: const Text('Upload Image'),
                 ),
                 const SizedBox(width: 20),
-                if (_imageFile != null)
+                _imageFile != null ?
                   Image.file(
                     File(
                       _imageFile!.path,
                     ),
                     height: 70,
-                  ),
+                  ):Image.network(
+                    widget.productModel.productImages[0],
+                height: 70
+                  ,
+                ),
               ],
             ),
             UpdateProductButton(
               imageUrl: _imageUrl,
               catID: catID,
               productModel: widget.productModel,
-              
             ),
           ],
         ),

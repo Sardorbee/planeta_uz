@@ -76,6 +76,7 @@ class _UpdateProductButtonState extends State<UpdateProductButton> {
                         .ProductsCurrencycontroller
                         .text),
               );
+          Navigator.pop(context);
         }
       },
       child: const Text(

@@ -26,6 +26,7 @@ class CategorySelectionWidget extends StatelessWidget {
         } else {
           List<CategoryModel> categories = snapshot.data!;
           return ListView.builder(
+            padding: const EdgeInsets.all(10),
             itemCount: categories.length,
             itemBuilder: (BuildContext context, int index) {
               CategoryModel x = categories[index];
@@ -38,9 +39,9 @@ class CategorySelectionWidget extends StatelessWidget {
                 child: Row(
                   children: [
                     SizedBox(
-                      height: 50,
+                      height: 100,
                       width: 100,
-                      child: Text(x.categoryName),
+                      child: Text(x.categoryName, style: TextStyle(fontSize: 30),),
                     ),
                   ],
                 ),
