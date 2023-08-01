@@ -65,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(height: 31.h),
                   Center(
                     child:
-                        context.read<ProfileProvider>().currentUser!.photoURL ==
+                        context.read<ProfileProvider>().currentUser?.photoURL ==
                                 null
                             ? Icon(
                                 Icons.account_circle,

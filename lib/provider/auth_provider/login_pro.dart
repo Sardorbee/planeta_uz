@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:planeta_uz/provider/ui_utils/error_message_dialog.dart';
+import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 import 'package:planeta_uz/ui/auth/sign_in/sign_in_page.dart';
 
 import 'package:planeta_uz/ui/tab_box/tab_box.dart';
+import 'package:planeta_uz/ui/tab_box_admin/tab_box_admin.dart';
 
 class LoginProvider with ChangeNotifier {
   final TextEditingController emailcontroller = TextEditingController();
@@ -13,12 +16,6 @@ class LoginProvider with ChangeNotifier {
   bool obscureText = true;
   bool obscureText1 = true;
   User? user = FirebaseAuth.instance.currentUser;
-
-  bool isLoading = false;
-  notify(bool v) {
-    isLoading = v;
-    notifyListeners();
-  }
 
   tozalash() {
     emailcontroller.clear();
@@ -33,7 +30,7 @@ class LoginProvider with ChangeNotifier {
     String email = emailcontroller.text;
     String password = passwordcontroller.text;
     try {
-      notify(true);
+      showLoading(context: context);
 
       if (password == repeatpasswordcontroller.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -41,7 +38,8 @@ class LoginProvider with ChangeNotifier {
           password: password,
         );
         if (context.mounted) {
-          snackkbar(context, "User created successfully! ");
+          showErrorMessage(
+              message: "User created successfully! ", context: context);
         }
         if (context.mounted) {
           Navigator.pushAndRemoveUntil(
@@ -53,18 +51,20 @@ class LoginProvider with ChangeNotifier {
         }
         tozalash();
       } else {
-        snackkbar(context, "Ikkala password ham bir hil bo'lishi kerak");
+        showErrorMessage(
+            message: "Ikkala password ham bir hil bo'lishi kerak! ",
+            context: context);
       }
-      notify(false);
+      hideLoading(dialogContext: context);
     } on FirebaseAuthException catch (e) {
-      snackkbar(context, e.code);
+      showErrorMessage(message: e.code.toString(), context: context);
       if (e.code == 'weak-password') {
         debugPrint('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         debugPrint('The account already exists for that email.');
       }
     } catch (error) {
-      snackkbar(context, error.toString());
+      showErrorMessage(message: error.toString(), context: context);
     }
   }
 
@@ -72,7 +72,7 @@ class LoginProvider with ChangeNotifier {
     String email = emailcontroller.text;
     String password = passwordcontroller.text;
     try {
-      notify(true);
+      showLoading(context: context);
 
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -80,30 +80,43 @@ class LoginProvider with ChangeNotifier {
       );
 
       if (context.mounted) {
-        snackkbar(context, "logged in successfully! ");
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: ((context) => const TabBox())),
-            (route) => false);
+        hideLoading(dialogContext: context);
+        if (email == "admin123@mail.ru") {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TabBoxAdmin(),
+              ),
+              (route) => false);
+        } else {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TabBox(),
+              ),
+              (route) => false);
+        }
+        showConfirmMessage(
+            message: "logged in successfully! ", context: context);
+
         tozalash();
       }
-
-      notify(false);
     } on FirebaseAuthException catch (e) {
-      snackkbar(context, e.code);
+      showErrorMessage(message: e.code.toString(), context: context);
     } catch (error) {
-      snackkbar(context, error.toString());
+      showErrorMessage(message: error.toString(), context: context);
     }
   }
 
   Future<void> logOut(BuildContext context) async {
     try {
-      notify(true);
+      showLoading(context: context);
 
       await FirebaseAuth.instance.signOut();
 
       if (context.mounted) {
-        snackkbar(context, "logged Out successfully! ");
+        hideLoading(dialogContext: context);
+
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -111,17 +124,16 @@ class LoginProvider with ChangeNotifier {
             ),
             (route) => false);
       }
-      notify(false);
     } on FirebaseAuthException catch (e) {
-      snackkbar(context, e.code);
+      showErrorMessage(message: e.code.toString(), context: context);
     } catch (error) {
-      snackkbar(context, error.toString());
+      showErrorMessage(message: error.toString(), context: context);
     }
   }
 
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
-      notify(true);
+      showLoading(context: context);
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
@@ -130,18 +142,12 @@ class LoginProvider with ChangeNotifier {
         idToken: googleAuth?.idToken,
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
-      notify(false);
+      hideLoading(dialogContext: context);
     } on FirebaseAuthException catch (e) {
-      snackkbar(context, e.code);
+      showErrorMessage(message: e.code.toString(), context: context);
     } catch (error) {
-      snackkbar(context, error.toString());
+      showErrorMessage(message: error.toString(), context: context);
     }
-  }
-
-  snackkbar(BuildContext context, String error) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
-    isLoading = false;
-    notifyListeners();
   }
 
   obs1() {

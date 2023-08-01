@@ -54,12 +54,7 @@ class HomeScreenAdmin extends StatelessWidget {
                     child: const Text('Log Out'))
               ],
             ),
-            Visibility(
-              visible: x.isLoading,
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
+            
           ],
         ),
       ),

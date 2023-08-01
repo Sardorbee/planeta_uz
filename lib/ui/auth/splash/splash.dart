@@ -46,12 +46,14 @@ class _SplashPageState extends State<SplashPage> {
             SizedBox(
               width: 10.w,
             ),
-            Text(
-              'The Gallactic Baazar',
-              style: TextStyle(
-                  fontSize: 45,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.mainButtonColor),
+            Flexible(
+              child: Text(
+                'The Gallactic Baazar',
+                style: TextStyle(
+                    fontSize: 45,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.mainButtonColor),
+              ),
             )
           ],
         ),
