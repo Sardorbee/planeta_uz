@@ -113,23 +113,31 @@ class HomeScreen extends StatelessWidget {
                       crossAxisSpacing: 16.w,
                       itemBuilder: (context, index) {
                         ProductModel x = products[index];
-                        return Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: CachedNetworkImage(
-                                imageUrl: x.productImages[0],
-                                placeholder: (context, url) =>
-                                    const ShimmerPhoto(),
-                              ),
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              15,
                             ),
-                            SizedBox(height: 8.h),
-                            Text(x.productName),
-                            SizedBox(height: 4.h),
-                            Text(x.description),
-                            SizedBox(height: 4.h),
-                            Text("${x.price} ${x.currency}"),
-                          ],
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: CachedNetworkImage(
+                                  imageUrl: x.productImages[0],
+                                  placeholder: (context, url) =>
+                                      const ShimmerPhoto(),
+                                ),
+                              ),
+                              SizedBox(height: 8.h),
+                              Text(x.productName),
+                              SizedBox(height: 4.h),
+                              Text(x.description),
+                              SizedBox(height: 4.h),
+                              Text("${x.price} ${x.currency}"),
+                            ],
+                          ),
                         );
                       },
                     );
