@@ -66,91 +66,97 @@ class HomeScreen extends StatelessWidget {
           SizedBox(width: 12.w),
         ],
       ),
-      body: ListView(
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 14.w),
-        children: [
-          SizedBox(height: 16.h),
-           MyTextField(),
-          SizedBox(height: 17.h),
-          Row(
-            children: [
-              Text(
-                '2 Categories',
-                style: TextStyle(
-                  color: AppColors.black,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          // shrinkWrap: true,
+          // physics: const BouncingScrollPhysics(),
+          // padding: EdgeInsets.symmetric(horizontal: 14.w),
+          children: [
+            SizedBox(height: 16.h),
+            const MyTextField(),
+            SizedBox(height: 17.h),
+            Row(
+              children: [
+                Text(
+                  '2 Categories',
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              const Spacer(),
-              SmallButton(text: 'Sort', iconData: Icons.sort),
-              SizedBox(width: 12.w),
-              SmallButton(text: 'Filter', iconData: Icons.filter_alt_outlined),
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.08,
-            child: const CategoryProducts(),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height - 108.h,
-            child: StreamBuilder<List<ProductModel>>(
-              stream: context.read<ProductsProvider>().getProducts(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<List<ProductModel>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text(snapshot.error.toString()));
-                } else {
-                  List<ProductModel>? products = snapshot.data;
-                  if (products != null && products.isNotEmpty) {
-                    return MasonryGridView.count(
-                      itemCount: products.length,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 16.h,
-                      crossAxisSpacing: 16.w,
-                      itemBuilder: (context, index) {
-                        ProductModel x = products[index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              15,
-                            ),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: CachedNetworkImage(
-                                  imageUrl: x.productImages[0],
-                                  placeholder: (context, url) =>
-                                      const ShimmerPhoto(),
-                                ),
-                              ),
-                              SizedBox(height: 8.h),
-                              Text(x.productName),
-                              SizedBox(height: 4.h),
-                              Text(x.description),
-                              SizedBox(height: 4.h),
-                              Text("${x.price} ${x.currency}"),
-                            ],
-                          ),
-                        );
-                      },
-                    );
-                  } else {
-                    // Empty data
-                    return const Center(child: Text("Empty!"));
-                  }
-                }
-              },
+                const Spacer(),
+                SmallButton(text: 'Sort', iconData: Icons.sort),
+                SizedBox(width: 12.w),
+                SmallButton(
+                    text: 'Filter', iconData: Icons.filter_alt_outlined),
+              ],
             ),
-          )
-        ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
+              child: const CategoryProducts(),
+            ),
+            Expanded(
+              flex: 6,
+              child: StreamBuilder<List<ProductModel>>(
+                stream: context.read<ProductsProvider>().getProducts(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<ProductModel>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox();
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error.toString()));
+                  } else {
+                    List<ProductModel>? products = snapshot.data;
+                    if (products != null && products.isNotEmpty) {
+                      return SizedBox(
+                        child: MasonryGridView.count(
+                          itemCount: products.length,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 16.h,
+                          crossAxisSpacing: 16.w,
+                          itemBuilder: (context, index) {
+                            ProductModel x = products[index];
+                            return Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                  15,
+                                ),
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: CachedNetworkImage(
+                                      imageUrl: x.productImages[0],
+                                      placeholder: (context, url) =>
+                                          const ShimmerPhoto(),
+                                    ),
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  Text(x.productName),
+                                  SizedBox(height: 4.h),
+                                  Text(x.description),
+                                  SizedBox(height: 4.h),
+                                  Text("${x.price} ${x.currency}"),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      // Empty data
+                      return const Center(child: Text("Empty!"));
+                    }
+                  }
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

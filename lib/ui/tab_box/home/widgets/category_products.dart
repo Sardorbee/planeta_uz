@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
+import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class CategoryProducts extends StatefulWidget {
@@ -12,19 +13,21 @@ class CategoryProducts extends StatefulWidget {
 
 class _CategoryProductsState extends State<CategoryProducts> {
   String selectedCategoryId = "";
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<CategoryModel>>(
-      stream: context.read<CategoryProvider>().getCategories(),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<CategoryModel>> snapshot) {
-        if (snapshot.hasData) {
-          return snapshot.data!.isNotEmpty
-              ? Container(
-                  margin: const EdgeInsets.all(5),
-                  height: 50,
-                  width: MediaQuery.of(context).size.width,
-                  child: Expanded(
+    return Scaffold(
+      backgroundColor: const Color(0xFFF2F2F2),
+      body: StreamBuilder<List<CategoryModel>>(
+        stream: context.read<CategoryProvider>().getCategories(),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<CategoryModel>> snapshot) {
+          if (snapshot.hasData) {
+            return snapshot.data!.isNotEmpty
+                ? Container(
+                    margin: const EdgeInsets.all(5),
+                    height: 70,
+                    width: MediaQuery.of(context).size.width,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
                       children: List.generate(
@@ -56,17 +59,17 @@ class _CategoryProductsState extends State<CategoryProducts> {
                         },
                       ),
                     ),
-                  ),
-                )
-              : const Center(child: Text("Empty!"));
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Text(snapshot.error.toString()),
-          );
-        }
-        return const Center(child: CircularProgressIndicator());
-      },
+                  )
+                : const Center(child: Text("Empty!"));
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(snapshot.error.toString()),
+            );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
     );
   }
 }
