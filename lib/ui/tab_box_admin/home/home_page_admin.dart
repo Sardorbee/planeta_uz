@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/add_category.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreenAdmin extends StatelessWidget {
@@ -61,6 +62,13 @@ class HomeScreenAdmin extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CategoryADD()));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
