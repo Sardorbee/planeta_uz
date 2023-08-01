@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
-import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
@@ -16,7 +13,6 @@ class CategoryScreenAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginProvider x = context.read<LoginProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Category Page'),
@@ -121,8 +117,8 @@ class CategoryScreenAdmin extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => CategoryADD()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const CategoryADD()));
         },
         child: const Icon(Icons.add),
       ),

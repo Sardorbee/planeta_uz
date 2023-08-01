@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
@@ -76,6 +75,7 @@ class AddProductButton extends StatelessWidget {
                         .ProductsCurrencycontroller
                         .text),
               );
+          Navigator.pop(context);
         }
       },
       child: const Text(

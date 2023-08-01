@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
-import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin/add_products/add_products.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin/add_products/update_products.dart';
@@ -12,7 +11,6 @@ class ProductScreenAdmin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginProvider x = context.read<LoginProvider>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Product Page'),
@@ -29,8 +27,12 @@ class ProductScreenAdmin extends StatelessWidget {
                       (index) {
                         ProductModel productModel = snapshot.data![index];
                         return ListTile(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailScreen(productModel: productModel)));
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductDetailScreen(
+                                        productModel: productModel)));
                           },
                           onLongPress: () {
                             showDialog(
@@ -96,8 +98,8 @@ class ProductScreenAdmin extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Addproducts()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Addproducts()));
         },
         child: const Icon(Icons.add),
       ),
