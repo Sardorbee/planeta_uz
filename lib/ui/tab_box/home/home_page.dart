@@ -2,14 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:lottie/lottie.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
+import 'package:planeta_uz/ui/tab_box/home/widgets/products_count.dart';
 import 'package:planeta_uz/ui/tab_box/home/widgets/small_button.dart';
 import 'package:planeta_uz/ui/tab_box/home/widgets/text_field.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
+import 'package:planeta_uz/ui/tab_box/widgets/global_mason.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:planeta_uz/utils/shimmer_photo.dart';
 import 'package:provider/provider.dart';
@@ -81,49 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(height: 17.h),
             Row(
               children: [
-                SizedBox(
-                  child: StreamBuilder(
-                    stream: selectedCategoryId == 'all'
-                        ? context.read<ProductsProvider>().getProducts()
-                        : selectedCategoryId != 'all'
-                            ? context
-                                .read<ProductsProvider>()
-                                .getProductsByCategoryId(selectedCategoryId)
-                            : context.read<ProductsProvider>().getProducts(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const SizedBox();
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text(snapshot.error.toString()));
-                      } else {
-                        List<ProductModel>? products = snapshot.data;
-                        if (products != null && products.isNotEmpty) {
-                          return Container(
-                            child: Text(
-                              "${snapshot.data.length} Products",
-                              style: TextStyle(
-                                color: AppColors.black,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          );
-                        } else {
-                          // Empty data
-                          return Center(
-                              child: Text(
-                            "0 Products",
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ));
-                        }
-                      }
-                    },
-                  ),
-                ),
+                ProductsCount(selectedId: selectedCategoryId),
                 const Spacer(),
                 SmallButton(text: 'Sort', iconData: Icons.sort),
                 SizedBox(width: 12.w),
@@ -232,48 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     List<ProductModel>? products = snapshot.data;
                     if (products != null && products.isNotEmpty) {
-                      return SizedBox(
-                        child: MasonryGridView.count(
-                          itemCount: products.length,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 16.h,
-                          crossAxisSpacing: 16.w,
-                          itemBuilder: (context, index) {
-                            ProductModel x = products[index];
-                            return Container(
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  15,
-                                ),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: CachedNetworkImage(
-                                      imageUrl: x.productImages[0],
-                                      placeholder: (context, url) =>
-                                          const ShimmerPhoto(),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8.h),
-                                  Text(x.productName),
-                                  SizedBox(height: 4.h),
-                                  Text(x.description),
-                                  SizedBox(height: 4.h),
-                                  Text("${x.price} ${x.currency}"),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      );
+                      return GlobalMason(products: products);
                     } else {
                       // Empty data
-                      return const Center(child: Text("Empty!"));
+                      return Center(child: Lottie.asset("assets/lottie/empty_box.json"));
                     }
                   }
                 },
