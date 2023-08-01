@@ -47,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
               width: 10.w,
             ),
             Text(
-              'Planeta UZ',
+              'The Gallactic Baazar',
               style: TextStyle(
                   fontSize: 45,
                   fontWeight: FontWeight.bold,

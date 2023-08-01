@@ -12,6 +12,7 @@ class LoginProvider with ChangeNotifier {
       TextEditingController();
   bool obscureText = true;
   bool obscureText1 = true;
+  User? user = FirebaseAuth.instance.currentUser;
 
   bool isLoading = false;
   notify(bool v) {

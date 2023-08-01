@@ -5,15 +5,15 @@ import 'package:planeta_uz/provider/profile_provider.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreenAdmin extends StatelessWidget {
+  const HomeScreenAdmin({super.key});
 
   @override
   Widget build(BuildContext context) {
     LoginProvider x = context.read<LoginProvider>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text(' Home Page'),
+        title: const Text('Admin Home Page'),
         actions: [
           IconButton(
             onPressed: () {
@@ -22,10 +22,8 @@ class HomeScreen extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => const ProfileScreen()));
             },
-            icon: 
-            context.read<ProfileProvider>().currentUser!.photoURL == null
-                ?
-                 Icon(
+            icon: context.read<ProfileProvider>().currentUser!.photoURL == null
+                ? Icon(
                     Icons.account_circle,
                     size: 40.h,
                   )
