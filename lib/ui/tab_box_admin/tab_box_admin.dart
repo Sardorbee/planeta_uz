@@ -19,8 +19,8 @@ class _TabBoxAdminState extends State<TabBoxAdmin> {
   @override
   void initState() {
     screens = [
+      const ProductScreenAdmin(),
       const HomeScreenAdmin(),
-      const WishlistScreenAdmin(),
       const SearchScreenAdmin(),
       const SettingsScreenAdmin(),
     ];
@@ -38,7 +38,7 @@ class _TabBoxAdminState extends State<TabBoxAdmin> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: "Wishlist"),
+              icon: Icon(Icons.category), label: "Category"),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings), label: "Settings"),

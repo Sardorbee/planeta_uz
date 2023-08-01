@@ -27,7 +27,6 @@ class GlobalTextField extends StatelessWidget {
     return TextField(
       maxLines: maxLines,
       style: TextStyle(
-        
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.c_0C1A30,
@@ -47,35 +46,38 @@ class GlobalTextField extends StatelessWidget {
             color: AppColors.c_0C1A30,
             fontFamily: "DMSans"),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(width: 1, color: AppColors.white),
-        ),
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
             width: 1,
-            color: AppColors.white,
+            color: AppColors.c_C8C8C8,
+          ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+            width: 1,
+            color: AppColors.c_C8C8C8,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
             width: 1,
-            color: AppColors.white,
+            color: AppColors.c_C8C8C8,
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
             width: 1,
-            color: AppColors.white,
+            color: AppColors.c_C8C8C8,
           ),
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
             width: 1,
-            color: AppColors.white,
+            color: AppColors.c_C8C8C8,
           ),
         ),
       ),
