@@ -23,12 +23,18 @@ class ProfileProvider with ChangeNotifier {
       notifyListeners();
     });
   }
+  notify(bool v) {
+    isLoading = v;
+    notifyListeners();
+  }
 
   Future<void> updateEmail(BuildContext context) async {
     String email = emailController.text;
     if (email.isNotEmpty) {
+      notify(true);
       UniversalData universalData =
           await profileService.updateuserEmail(email: email);
+      notify(false);
       if (universalData.error.isEmpty) {
         if (context.mounted) {
           snackkbar(context, universalData.data.toString());
@@ -44,8 +50,10 @@ class ProfileProvider with ChangeNotifier {
   Future<void> updatePassword(BuildContext context) async {
     String password = passwordcont.text;
     if (password.isNotEmpty) {
+      notify(true);
       UniversalData universalData =
           await profileService.updateUserPassword(password: password);
+      notify(false);
       if (universalData.error.isEmpty) {
         if (context.mounted) {
           snackkbar(context, universalData.data.toString());
