@@ -1,8 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:planeta_uz/chat/chat_provider.dart';
+import 'package:planeta_uz/chat/chat_service.dart';
+import 'package:planeta_uz/data/firebase/category_service.dart';
+import 'package:planeta_uz/data/firebase/order_service.dart';
+import 'package:planeta_uz/data/firebase/products_service.dart';
 import 'package:planeta_uz/data/firebase/profile_service.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
+import 'package:planeta_uz/provider/category_provider.dart';
+import 'package:planeta_uz/provider/order_provider.dart';
+import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
 import 'package:planeta_uz/ui/auth/splash/splash.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +23,18 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LoginProvider(),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CategoryProvider(categoryService: CategoryService()),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ProductsProvider(ProductService()),
+          lazy: true,
+        ),
+        ChangeNotifierProvider(
+          create: (context) => OrderProvider(OrderService()),
           lazy: true,
         ),
         ChangeNotifierProvider(

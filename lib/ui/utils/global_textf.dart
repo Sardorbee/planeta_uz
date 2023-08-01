@@ -6,16 +6,18 @@ class GlobalTextField extends StatelessWidget {
   GlobalTextField({
     Key? key,
     required this.hintText,
-    required this.keyboardType,
-    required this.textInputAction,
+    this.keyboardType,
+    this.textInputAction,
     required this.textAlign,
     this.obscureText = false,
+    this.maxLines = 1,
     required this.controller,
   }) : super(key: key);
 
   final String hintText;
-  TextInputType keyboardType;
-  TextInputAction textInputAction;
+  int? maxLines;
+  TextInputType? keyboardType;
+  TextInputAction? textInputAction;
   TextAlign textAlign;
   final bool obscureText;
   final TextEditingController controller;
@@ -23,7 +25,9 @@ class GlobalTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      maxLines: maxLines,
       style: TextStyle(
+        
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: AppColors.c_0C1A30,
