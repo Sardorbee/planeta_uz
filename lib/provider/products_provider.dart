@@ -21,6 +21,16 @@ class ProductsProvider with ChangeNotifier {
   TextEditingController ProductsCurrencycontroller = TextEditingController();
   TextEditingController ProductsDesccontroller = TextEditingController();
 
+
+  tozalash() {
+    ProductsNamecontroller.clear();
+    ProductsCountcontroller.clear();
+    ProductsPricecontroller.clear();
+    ProductsCurrencycontroller.clear();
+    ProductsDesccontroller.clear();
+    notifyListeners();
+  }
+
   Future<void> addProducts({
     required BuildContext context,
     required ProductModel productModel,
@@ -30,6 +40,7 @@ class ProductsProvider with ChangeNotifier {
         await ProductService.addProduct(productModel: productModel);
     if (context.mounted) {
       hideLoading(dialogContext: context);
+      tozalash();
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -51,6 +62,7 @@ class ProductsProvider with ChangeNotifier {
         await ProductService.updateProduct(productModel: productModel);
     if (context.mounted) {
       hideLoading(dialogContext: context);
+      tozalash();
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
