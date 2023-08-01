@@ -96,14 +96,7 @@ class CategoryProvider with ChangeNotifier {
             .toList(),
       );
  
-  Stream<List<ProductModel>> getProductsByCategoryId(String categoryId) {
-    final databaseReference = FirebaseFirestore.instance.collection('products');
-
-    return databaseReference
-        .where('categoryId', isEqualTo: categoryId)
-        .snapshots()
-        .map((querySnapshot) => querySnapshot.docs.map((doc) => ProductModel.fromJson(doc.data())).toList());
-  }
+  
 
 
 

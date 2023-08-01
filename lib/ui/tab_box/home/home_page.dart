@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
-import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
+import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
-import 'package:planeta_uz/ui/tab_box/home/widgets/category_products.dart';
 import 'package:planeta_uz/ui/tab_box/home/widgets/small_button.dart';
 import 'package:planeta_uz/ui/tab_box/home/widgets/text_field.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
@@ -14,8 +14,15 @@ import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:planeta_uz/utils/shimmer_photo.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String selectedCategoryId = "all";
 
   @override
   Widget build(BuildContext context) {
@@ -68,21 +75,39 @@ class HomeScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
-          // shrinkWrap: true,
-          // physics: const BouncingScrollPhysics(),
-          // padding: EdgeInsets.symmetric(horizontal: 14.w),
           children: [
             SizedBox(height: 16.h),
             const MyTextField(),
             SizedBox(height: 17.h),
             Row(
               children: [
-                Text(
-                  '2 Categories',
-                  style: TextStyle(
-                    color: AppColors.black,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w600,
+                SizedBox(
+                  child: StreamBuilder(
+                    stream: context.read<ProductsProvider>().getProducts(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox();
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text(snapshot.error.toString()));
+                      } else {
+                        List<ProductModel>? products = snapshot.data;
+                        if (products != null && products.isNotEmpty) {
+                          return Container(
+                            child: Text(
+                              "${snapshot.data.length} Products",
+                              style: TextStyle(
+                                color: AppColors.black,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          );
+                        } else {
+                          // Empty data
+                          return const Center(child: Text("Empty!"));
+                        }
+                      }
+                    },
                   ),
                 ),
                 const Spacer(),
@@ -94,12 +119,96 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.08,
-              child: const CategoryProducts(),
+              child: StreamBuilder<List<CategoryModel>>(
+                stream: context.read<CategoryProvider>().getCategories(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<CategoryModel>> snapshot) {
+                  if (snapshot.hasData) {
+                    return snapshot.data!.isNotEmpty
+                        ? SizedBox(
+                            width: MediaQuery.of(context).size.width,
+                            child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        selectedCategoryId = "all";
+                                      });
+                                      print(selectedCategoryId);
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(6.0),
+                                      child: Column(
+                                        children: [
+                                          CircleAvatar(),
+                                          Center(
+                                            child: Text(
+                                              "All",
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  ...List.generate(
+                                    snapshot.data!.length,
+                                    (index) {
+                                      CategoryModel categoryModel =
+                                          snapshot.data![index];
+                                      return GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedCategoryId =
+                                                categoryModel.categoryId;
+                                          });
+                                          print(selectedCategoryId);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(6.0),
+                                          child: Column(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                    categoryModel.imageUrl),
+                                              ),
+                                              Center(
+                                                child: Text(
+                                                  categoryModel.categoryName,
+                                                  style: const TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ]),
+                          )
+                        : const Center(child: Text("Empty!"));
+                  }
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
             ),
             Expanded(
-              flex: 6,
               child: StreamBuilder<List<ProductModel>>(
-                stream: context.read<ProductsProvider>().getProducts(),
+                stream: selectedCategoryId == 'all'
+                    ? context.read<ProductsProvider>().getProducts()
+                    : selectedCategoryId != 'all'
+                        ? context
+                            .read<ProductsProvider>()
+                            .getProductsByCategoryId(selectedCategoryId)
+                        : context.read<ProductsProvider>().getProducts(),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<ProductModel>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -118,6 +227,7 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             ProductModel x = products[index];
                             return Container(
+                              padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(
                                   15,
@@ -125,6 +235,7 @@ class HomeScreen extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(15),
