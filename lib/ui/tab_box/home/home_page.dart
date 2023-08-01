@@ -18,8 +18,12 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       appBar: AppBar(
+
         elevation: 0,
         backgroundColor: const Color(0xFFF2F2F2),
+
+        title: const Text(' Home Page'),
+
         actions: [
           Image.asset(
             'assets/png/splash.png',
