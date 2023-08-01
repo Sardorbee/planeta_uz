@@ -1,6 +1,3 @@
-
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/data/firebase/category_service.dart';
@@ -17,6 +14,11 @@ class CategoryProvider with ChangeNotifier {
   TextEditingController categoryNamecontroller = TextEditingController();
   TextEditingController categoryDesccontroller = TextEditingController();
 
+  tozalash() {
+    categoryDesccontroller.clear();
+    categoryNamecontroller.clear();
+  }
+
   Future<void> addCategory({
     required BuildContext context,
     required CategoryModel categoryModel,
@@ -26,6 +28,7 @@ class CategoryProvider with ChangeNotifier {
         await categoryService.addCategory(categoryModel: categoryModel);
     if (context.mounted) {
       hideLoading(dialogContext: context);
+      tozalash();
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -47,6 +50,8 @@ class CategoryProvider with ChangeNotifier {
         await categoryService.updateCategory(categoryModel: categoryModel);
     if (context.mounted) {
       hideLoading(dialogContext: context);
+      tozalash();
+
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -68,6 +73,8 @@ class CategoryProvider with ChangeNotifier {
         await categoryService.deleteCategory(categoryId: categoryId);
     if (context.mounted) {
       hideLoading(dialogContext: context);
+      tozalash();
+
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -80,8 +87,6 @@ class CategoryProvider with ChangeNotifier {
     }
   }
 
-
-
   Stream<List<CategoryModel>> getCategories() =>
       FirebaseFirestore.instance.collection("categories").snapshots().map(
             (event1) => event1.docs
@@ -92,21 +97,9 @@ class CategoryProvider with ChangeNotifier {
   Stream<List<ProductModel>> getAllProducts() =>
       FirebaseFirestore.instance.collection("products").snapshots().map(
             (event1) => event1.docs
-            .map((doc) => ProductModel.fromJson(doc.data()))
-            .toList(),
-      );
- 
-  Stream<List<ProductModel>> getProductsByCategoryId(String categoryId) {
-    final databaseReference = FirebaseFirestore.instance.collection('products');
-
-    return databaseReference
-        .where('categoryId', isEqualTo: categoryId)
-        .snapshots()
-        .map((querySnapshot) => querySnapshot.docs.map((doc) => ProductModel.fromJson(doc.data())).toList());
-  }
-
-
-
+                .map((doc) => ProductModel.fromJson(doc.data()))
+                .toList(),
+          );
 
   showMessage(BuildContext context, String error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));

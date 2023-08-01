@@ -6,8 +6,6 @@ import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/data/model/universal.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 
-
-
 class ProductsProvider with ChangeNotifier {
   ProductsProvider(
     this.productService,
@@ -20,15 +18,12 @@ class ProductsProvider with ChangeNotifier {
   TextEditingController ProductsPricecontroller = TextEditingController();
   TextEditingController ProductsCurrencycontroller = TextEditingController();
   TextEditingController ProductsDesccontroller = TextEditingController();
-
-
   tozalash() {
     ProductsNamecontroller.clear();
     ProductsCountcontroller.clear();
     ProductsPricecontroller.clear();
     ProductsCurrencycontroller.clear();
     ProductsDesccontroller.clear();
-    notifyListeners();
   }
 
   Future<void> addProducts({
@@ -63,6 +58,7 @@ class ProductsProvider with ChangeNotifier {
     if (context.mounted) {
       hideLoading(dialogContext: context);
       tozalash();
+
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -102,6 +98,16 @@ class ProductsProvider with ChangeNotifier {
                 .map((doc) => ProductModel.fromJson(doc.data()))
                 .toList(),
           );
+  Stream<List<ProductModel>> getProductsByCategoryId(String categoryId) {
+    final databaseReference = FirebaseFirestore.instance.collection('products');
+
+    return databaseReference
+        .where('categoryId', isEqualTo: categoryId)
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))
+            .toList());
+  }
 
   showMessage(BuildContext context, String error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
