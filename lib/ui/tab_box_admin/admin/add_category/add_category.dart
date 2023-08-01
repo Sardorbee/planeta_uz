@@ -45,50 +45,48 @@ class _CategoryADDState extends State<CategoryADD> {
         child: ListView(
           children: [
             SizedBox(height: 10.h),
+            const Text('Name'),
+            SizedBox(height: 10.h),
             GlobalTextField(
                 hintText: "Add Category name",
                 textAlign: TextAlign.start,
                 controller:
                     context.read<CategoryProvider>().categoryNamecontroller),
-            SizedBox(
-              height: 10.h,
-            ),
+            SizedBox(height: 10.h),
+            const Text('Description'),
+            SizedBox(height: 10.h),
             GlobalTextField(
                 hintText: "Add Category description",
                 maxLines: 5,
                 textAlign: TextAlign.start,
                 controller:
                     context.read<CategoryProvider>().categoryDesccontroller),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.black),
-                  ),
-                  onPressed: () async {
-                    await _pickImage();
-
-                    await _uploadImage();
-                  },
-                  child: const Text('Upload Image'),
-                ),
-                const SizedBox(width: 20),
-                if (_imageFile != null)
-                  Image.file(
-                    File(
-                      _imageFile!.path,
-                    ),
-                    height: 70,
-                  ),
-              ],
-            ),
+            SizedBox(height: 10.h),
             ElevatedButton(
               style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.black),
+                backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
+              ),
+              onPressed: () async {
+                await _pickImage();
+
+                await _uploadImage();
+              },
+              child: _imageFile != null
+                  ? Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Image.file(
+                File(
+                    _imageFile!.path,
+                ),
+                height: 70,
+              ),
+                  )
+                  : const Text('Upload image'),
+            ),
+            const SizedBox(width: 20),
+            ElevatedButton(
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Color(0xFFF83758)),
               ),
               onPressed: () {
                 print(_imageUrl);
@@ -119,6 +117,13 @@ class _CategoryADDState extends State<CategoryADD> {
                           createdAt: DateTime.now().toString(),
                         ),
                       );
+                  Navigator.pop(context);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Maydonlar to\'ldirilmagan'),
+                    ),
+                  );
                 }
               },
               child: const Text(

@@ -30,8 +30,11 @@ class CategorySelectionWidget extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               CategoryModel x = categories[index];
               return GestureDetector(
-                onTap: () => onCategorySelected(x
-                    .categoryId), // Call the callback with the selected category ID
+                onTap: () {
+                  onCategorySelected(x
+                      .categoryId);
+                  Navigator.pop(context);
+                },
                 child: Row(
                   children: [
                     SizedBox(
