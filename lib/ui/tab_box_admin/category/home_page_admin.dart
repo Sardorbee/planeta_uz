@@ -11,8 +11,8 @@ import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/add_category.dart
 import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/update_category.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreenAdmin extends StatelessWidget {
-  const HomeScreenAdmin({super.key});
+class CategoryScreenAdmin extends StatelessWidget {
+  const CategoryScreenAdmin({super.key});
 
   @override
   Widget build(BuildContext context) {

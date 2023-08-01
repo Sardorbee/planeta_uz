@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planeta_uz/ui/tab_box_admin/home/home_page_admin.dart';
+import 'package:planeta_uz/ui/tab_box_admin/category/home_page_admin.dart';
 import 'package:planeta_uz/ui/tab_box_admin/search/search_screen_admin.dart';
 import 'package:planeta_uz/ui/tab_box_admin/settings/settings_screen_admin.dart';
 import 'package:planeta_uz/ui/tab_box_admin/wishlist/wishlist_screen_admin.dart';
@@ -20,7 +20,7 @@ class _TabBoxAdminState extends State<TabBoxAdmin> {
   void initState() {
     screens = [
       const ProductScreenAdmin(),
-      const HomeScreenAdmin(),
+      const CategoryScreenAdmin(),
       const SearchScreenAdmin(),
       const SettingsScreenAdmin(),
     ];
