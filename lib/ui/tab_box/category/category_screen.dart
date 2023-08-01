@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class WishlistScreen extends StatelessWidget {
-  const WishlistScreen({super.key});
+class CategoryScreen extends StatelessWidget {
+  const CategoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

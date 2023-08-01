@@ -4,8 +4,8 @@ import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/add_category.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/update_category.dart';
+import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/add_category.dart';
+import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/update_category.dart';
 import 'package:provider/provider.dart';
 
 class CategoryScreenAdmin extends StatelessWidget {

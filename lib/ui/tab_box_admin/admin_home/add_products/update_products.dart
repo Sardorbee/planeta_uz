@@ -6,9 +6,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/upload_img.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_products/widgets/select_cat.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_products/widgets/updatebutton.dart';
+import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/select_cat.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/updatebutton.dart';
 import 'package:planeta_uz/ui/utils/global_textf.dart';
 import 'package:provider/provider.dart';
 

@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/upload_img.dart';
+import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
 import 'package:planeta_uz/ui/utils/global_textf.dart';
 import 'package:provider/provider.dart';
 

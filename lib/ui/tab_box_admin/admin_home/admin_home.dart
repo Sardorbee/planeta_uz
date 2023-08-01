@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_products/add_products.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_products/update_products.dart';
-import 'package:planeta_uz/ui/tab_box_admin/product_detail/product_detail_screen.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/add_products.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/update_products.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/product_detail/product_detail_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProductScreenAdmin extends StatelessWidget {

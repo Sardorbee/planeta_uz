@@ -83,7 +83,13 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 SizedBox(
                   child: StreamBuilder(
-                    stream: context.read<ProductsProvider>().getProducts(),
+                    stream: selectedCategoryId == 'all'
+                        ? context.read<ProductsProvider>().getProducts()
+                        : selectedCategoryId != 'all'
+                            ? context
+                                .read<ProductsProvider>()
+                                .getProductsByCategoryId(selectedCategoryId)
+                            : context.read<ProductsProvider>().getProducts(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const SizedBox();
@@ -104,7 +110,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         } else {
                           // Empty data
-                          return const Center(child: Text("Empty!"));
+                          return Center(
+                              child: Text(
+                            "0 Products",
+                            style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ));
                         }
                       }
                     },
