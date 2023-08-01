@@ -67,11 +67,12 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
+        shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(horizontal: 14.w),
         children: [
           SizedBox(height: 16.h),
-          const MyTextField(),
+           MyTextField(),
           SizedBox(height: 17.h),
           Row(
             children: [
