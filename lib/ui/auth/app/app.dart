@@ -7,7 +7,9 @@ import 'package:planeta_uz/ui/tab_box_admin/tab_box_admin.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key});
+  const App({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +20,11 @@ class App extends StatelessWidget {
           if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else if (snapshot.data == null) {
-            print('User is not signed in');
             return const SignInPage();
           } else {
-            if (context
-                .read<LoginProvider>()
-                .user!
-                .email!
-                .contains('admin123')) {
-              print('Admin');
-              return const TabBoxAdmin();
-            } else {
-              print('Client');
-              return const TabBox();
-            }
+            return snapshot.data?.email == 'admin123@mail.ru'
+                ? const TabBoxAdmin()
+                : const TabBox();
           }
         },
       ),

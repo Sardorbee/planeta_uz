@@ -189,7 +189,7 @@ class _SignInPageState extends State<SignInPage> {
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('Email or Password is incorrect'),
+                                content: Text('You should fill all fields'),
                                 backgroundColor: Colors.red,
                                 duration: Duration(seconds: 1)),
                           );
@@ -207,11 +207,7 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ),
         ),
-        Visibility(
-            visible: x.isLoading,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ))
+        
       ],
     );
   }

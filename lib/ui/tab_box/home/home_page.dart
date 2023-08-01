@@ -18,12 +18,8 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
       appBar: AppBar(
-
         elevation: 0,
         backgroundColor: const Color(0xFFF2F2F2),
-
-        title: const Text(' Home Page'),
-
         actions: [
           Image.asset(
             'assets/png/splash.png',
@@ -33,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           SizedBox(width: 9.w),
           Center(
             child: Text(
-              'Planeta UZ',
+              'The Gallactic Baazar',
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold,
@@ -90,12 +86,12 @@ class HomeScreen extends StatelessWidget {
           ),
           SizedBox(height: 17.h),
           SizedBox(
-            height: MediaQuery.of(context).size.height-108.h,
+            height: MediaQuery.of(context).size.height - 108.h,
             child: GridView.count(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              children: [
+              children: const [
                 ProductsGridView(),
                 ProductsGridView(),
               ],

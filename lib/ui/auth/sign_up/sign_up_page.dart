@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
+import 'package:planeta_uz/provider/ui_utils/error_message_dialog.dart';
 import 'package:planeta_uz/ui/auth/sign_in/sign_in_page.dart';
 import 'package:planeta_uz/ui/auth/sign_in/widgets/social_buttons.dart';
 
@@ -157,8 +158,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                         .isNotEmpty) {
                                   await x.createUser(context);
                                 } else {
-                                  x.snackkbar(context,
-                                      "Qaysidir qatorni kiritishni unutdingiz!?");
+                                  showErrorMessage(
+                                      message:
+                                          "Qaysidir qatorni kiritishni unutdingiz!?",
+                                      context: context);
                                 }
                               },
                               child: const Center(
@@ -209,11 +212,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ],
               ),
             ),
-            Visibility(
-                visible: x.isLoading,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ))
+           
           ],
         ),
       ),
