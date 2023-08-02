@@ -150,17 +150,19 @@ class _UpdateproductsState extends State<Updateproducts> {
                   child: const Text('Upload Image'),
                 ),
                 const SizedBox(width: 20),
-                _imageFile != null ?
-                  Image.file(
-                    File(
-                      _imageFile!.path,
-                    ),
-                    height: 70,
-                  ):Image.network(
-                    widget.productModel.productImages[0],
-                height: 70
-                  ,
-                ),
+                _imageFile != null
+                    ? Image.file(
+                        File(
+                          _imageFile!.path,
+                        ),
+                        height: 70,
+                        width: 70,
+                      )
+                    : Image.network(
+                        widget.productModel.productImages[0],
+                        height: 70,
+                        width: 70,
+                      ),
               ],
             ),
             UpdateProductButton(
