@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/firebase/category_service.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/data/model/universal.dart';
+import 'package:planeta_uz/data/upload_service.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 
 class CategoryProvider with ChangeNotifier {
@@ -13,6 +15,8 @@ class CategoryProvider with ChangeNotifier {
 
   TextEditingController categoryNamecontroller = TextEditingController();
   TextEditingController categoryDesccontroller = TextEditingController();
+  String categoryUrl = '';
+  ImagePicker picker = ImagePicker();
 
   tozalash() {
     categoryDesccontroller.clear();
@@ -21,48 +25,87 @@ class CategoryProvider with ChangeNotifier {
 
   Future<void> addCategory({
     required BuildContext context,
-    required CategoryModel categoryModel,
+    
   }) async {
-    showLoading(context: context);
-    UniversalData universalData =
-        await categoryService.addCategory(categoryModel: categoryModel);
-    if (context.mounted) {
-      hideLoading(dialogContext: context);
-      tozalash();
-    }
-    if (universalData.error.isEmpty) {
+    if (categoryNamecontroller.text.isNotEmpty &&
+        categoryDesccontroller.text.isNotEmpty &&
+        categoryUrl.isNotEmpty) {
+      showLoading(context: context);
+      UniversalData universalData = await categoryService.addCategory(
+        categoryModel: CategoryModel(
+          categoryId: '',
+          categoryName: categoryNamecontroller.text,
+          description: categoryDesccontroller.text,
+          imageUrl: categoryUrl,
+          createdAt: DateTime.now().toString(),
+        ),
+      );
       if (context.mounted) {
         hideLoading(dialogContext: context);
-        showMessage(context, universalData.data as String);
-        Navigator.pop(context);
+        tozalash();
       }
+      if (universalData.error.isEmpty) {
+        if (context.mounted) {
+          showMessage(context, universalData.data as String);
+        }
+      } else {
+        if (context.mounted) {
+          showMessage(context, universalData.error);
+        }
+      }
+    }
+  }
+
+  Future<void> uploadCategoryImage(
+    BuildContext context,
+    XFile xFile,
+  ) async {
+    showLoading(context: context);
+    UniversalData data = await ImageHandler.imageUploader(xFile);
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
+    if (data.error.isEmpty) {
+      categoryUrl = data.data as String;
+      notifyListeners();
     } else {
       if (context.mounted) {
-        showMessage(context, universalData.error);
+        showMessage(context, data.error);
       }
     }
   }
 
   Future<void> updateCategory({
     required BuildContext context,
-    required CategoryModel categoryModel,
+    required CategoryModel category,
   }) async {
-    showLoading(context: context);
-    UniversalData universalData =
-        await categoryService.updateCategory(categoryModel: categoryModel);
-    if (context.mounted) {
-      hideLoading(dialogContext: context);
-      tozalash();
+    if (categoryUrl.isEmpty) categoryUrl = category.imageUrl;
+    if (categoryNamecontroller.text.isNotEmpty &&
+        categoryDesccontroller.text.isNotEmpty &&
+        categoryUrl.isNotEmpty) {
+      showLoading(context: context);
 
-    }
-    if (universalData.error.isEmpty) {
+      UniversalData universalData = await categoryService.updateCategory(
+          categoryModel: CategoryModel(
+              categoryId: category.categoryId,
+              categoryName: categoryNamecontroller.text,
+              description: categoryDesccontroller.text,
+              imageUrl: categoryUrl,
+              createdAt: category.createdAt));
+
       if (context.mounted) {
-        showMessage(context, universalData.data as String);
-        Navigator.pop(context);
+        hideLoading(dialogContext: context);
+        categoryUrl = '';
+        tozalash();
       }
-    } else {
-      if (context.mounted) {
-        showMessage(context, universalData.error);
+      if (universalData.error.isEmpty) {
+        if (context.mounted) {
+          showMessage(context, universalData.data as String);
+        }
+      } else {
+        if (context.mounted) {
+          showMessage(context, universalData.error);
+        }
       }
     }
   }
@@ -71,11 +114,12 @@ class CategoryProvider with ChangeNotifier {
     required BuildContext context,
     required String categoryId,
   }) async {
-    // showLoading(context: context);
+    showLoading(context: context);
     UniversalData universalData =
         await categoryService.deleteCategory(categoryId: categoryId);
     if (context.mounted) {
-      // hideLoading(dialogContext: context);
+      hideLoading(dialogContext: context);
+      tozalash();
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {

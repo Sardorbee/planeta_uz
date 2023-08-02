@@ -1,11 +1,8 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
-import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
 import 'package:planeta_uz/ui/utils/global_textf.dart';
 import 'package:provider/provider.dart';
 
@@ -17,24 +14,10 @@ class CategoryADD extends StatefulWidget {
 }
 
 class _CategoryADDState extends State<CategoryADD> {
-  XFile? _imageFile;
-  String? _imageUrl;
 
-  Future<void> _pickImage() async {
-    XFile? pickedFile = await pickImage(
 
-    );
-    setState(() {
-      _imageFile = pickedFile;
-    });
-  }
+  ImagePicker picker = ImagePicker();
 
-  Future<void> _uploadImage() async {
-    String? downloadUrl = await uploadImageToFirebase(_imageFile);
-    setState(() {
-      _imageUrl = downloadUrl;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,112 +25,53 @@ class _CategoryADDState extends State<CategoryADD> {
       appBar: AppBar(
         title: const Text("Category Add"),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView(
-              physics: const BouncingScrollPhysics(),
-              padding: EdgeInsets.all(10.h),
-              children: [
-                SizedBox(height: 10.h),
-                GlobalTextField(
-                  hintText: "Add Category name",
-                  textAlign: TextAlign.start,
-                  controller:
-                      context.read<CategoryProvider>().categoryNamecontroller,
-                  label: 'Name',
-                ),
-                SizedBox(height: 10.h),
-                GlobalTextField(
-                  hintText: "Add Category description",
-                  maxLines: 5,
-                  textAlign: TextAlign.start,
-                  controller:
-                      context.read<CategoryProvider>().categoryDesccontroller,
-                  label: 'Description',
-                ),
-                SizedBox(height: 10.h),
-                ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
-                  ),
-                  onPressed: () async {
-                    await _pickImage();
-
-                    await _uploadImage();
-                  },
-                  child: _imageFile != null
-                      ? Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Image.file(
-                            File(
-                              _imageFile!.path,
-                            ),
-                            height: 70,
-                          ),
-                        )
-                      : const Text('Upload image'),
-                ),
-                const SizedBox(width: 20),
-              ],
+      body: Padding(
+        padding: EdgeInsets.all(10.h),
+        child: ListView(
+          children: [
+            SizedBox(height: 10.h),
+            const Text('Name'),
+            SizedBox(height: 10.h),
+            GlobalTextField(
+                hintText: "Add Category name",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<CategoryProvider>().categoryNamecontroller),
+            SizedBox(height: 10.h),
+            const Text('Description'),
+            SizedBox(height: 10.h),
+            GlobalTextField(
+                hintText: "Add Category description",
+                maxLines: 5,
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<CategoryProvider>().categoryDesccontroller),
+            SizedBox(height: 10.h),
+            ElevatedButton(
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
+              ),
+              onPressed: () async {
+                showBottomSheetDialog(context);
+              },
+              child: context.watch<CategoryProvider>().categoryUrl.isNotEmpty
+                  ? Image.network(context.watch<CategoryProvider>().categoryUrl)
+                  : Text('Upload image'),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: SizedBox(
-              height: 52.h,
-              width: double.infinity,
-              child: ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Color(0xFFF83758)),
-                ),
-                onPressed: () {
-                  print(_imageUrl);
-                  if (context
-                          .read<CategoryProvider>()
-                          .categoryNamecontroller
-                          .text
-                          .isNotEmpty &&
-                      context
-                          .read<CategoryProvider>()
-                          .categoryDesccontroller
-                          .text
-                          .isNotEmpty &&
-                      _imageUrl != null) {
-                    context.read<CategoryProvider>().addCategory(
-                          context: context,
-                          categoryModel: CategoryModel(
-                            categoryId: '',
-                            categoryName: context
-                                .read<CategoryProvider>()
-                                .categoryNamecontroller
-                                .text,
-                            description: context
-                                .read<CategoryProvider>()
-                                .categoryDesccontroller
-                                .text,
-                            imageUrl: _imageUrl!,
-                            createdAt: DateTime.now().toString(),
-                          ),
-                        );
-                  }
-                  else if(_imageUrl==null){
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Rasm to\'liq yuklanmadi'),
-                      ),
+            const SizedBox(width: 20),
+            ElevatedButton(
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Color(0xFFF83758)),
+              ),
+              onPressed: () {
+                context.read<CategoryProvider>().addCategory(
+                      context: context,
                     );
-                  }else{
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Maydonlar to\'ldirilmadi'),
-                      ),
-                    );
-                  }
-                },
-                child: const Text(
-                  "Add Category",
-                ),
+                Navigator.pop(context);
+              },
+              child: const Text(
+                "Add Category",
+
               ),
             ),
           ),
@@ -155,5 +79,72 @@ class _CategoryADDState extends State<CategoryADD> {
         ],
       ),
     );
+  }
+
+  void showBottomSheetDialog(BuildContext x) {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: x,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          height: 200,
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 255, 248, 248),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                onTap: () {
+                  _getFromCamera(context);
+                },
+                leading: const Icon(Icons.camera_alt),
+                title: const Text("Select from Camera"),
+              ),
+              ListTile(
+                onTap: () {
+                  _getFromGallery(context);
+                },
+                leading: const Icon(Icons.photo),
+                title: const Text("Select from Gallery"),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _getFromCamera(BuildContext context) async {
+    XFile? xFile = await picker.pickImage(
+      source: ImageSource.camera,
+      maxHeight: 512,
+      maxWidth: 512,
+    );
+
+    if (xFile != null) {
+      await context
+          .read<CategoryProvider>()
+          .uploadCategoryImage(context, xFile);
+    }
+    Navigator.pop(context);
+  }
+
+  Future<void> _getFromGallery(BuildContext context) async {
+    XFile? xFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 512,
+      maxWidth: 512,
+    );
+    if (xFile != null) {
+      await context
+          .read<CategoryProvider>()
+          .uploadCategoryImage(context, xFile);
+    }
+    Navigator.pop(context);
   }
 }
