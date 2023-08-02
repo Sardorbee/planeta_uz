@@ -3,18 +3,17 @@ import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:provider/provider.dart';
 
-class UpdateProductButton extends StatefulWidget {
-  UpdateProductButton({super.key, required this.imageUrl, required this.catID, required this.productModel});
+class AddProductButton extends StatelessWidget {
+  const AddProductButton({
+    super.key,
+    required String? imageUrl,
+    required String? catId,
+  })  : _imageUrl = imageUrl,
+        _catID = catId;
 
-  final String? imageUrl;
-  final String? catID;
-  ProductModel productModel;
+  final String? _imageUrl;
+  final String? _catID;
 
-  @override
-  State<UpdateProductButton> createState() => _UpdateProductButtonState();
-}
-
-class _UpdateProductButtonState extends State<UpdateProductButton> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -47,8 +46,8 @@ class _UpdateProductButtonState extends State<UpdateProductButton> {
                 .ProductsPricecontroller
                 .text
                 .isNotEmpty &&
-            widget.imageUrl != null) {
-          context.read<ProductsProvider>().updateProducts(
+            _imageUrl != null) {
+          context.read<ProductsProvider>().addProducts(
                 context: context,
                 productModel: ProductModel(
                     count: int.parse(context
@@ -59,9 +58,9 @@ class _UpdateProductButtonState extends State<UpdateProductButton> {
                         .read<ProductsProvider>()
                         .ProductsPricecontroller
                         .text),
-                    productImages: [widget.imageUrl],
-                    categoryId: widget.catID!,
-                    productId: widget.productModel.productId,
+                    productImages: [_imageUrl],
+                    categoryId: _catID!,
+                    productId: '',
                     productName: context
                         .read<ProductsProvider>()
                         .ProductsNamecontroller
@@ -70,7 +69,7 @@ class _UpdateProductButtonState extends State<UpdateProductButton> {
                         .read<ProductsProvider>()
                         .ProductsDesccontroller
                         .text,
-                    createdAt: widget.productModel.createdAt,
+                    createdAt: DateTime.now().toString(),
                     currency: context
                         .read<ProductsProvider>()
                         .ProductsCurrencycontroller
@@ -80,7 +79,7 @@ class _UpdateProductButtonState extends State<UpdateProductButton> {
         }
       },
       child: const Text(
-        "Update Product",
+        "Add Product",
       ),
     );
   }

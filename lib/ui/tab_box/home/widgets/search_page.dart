@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
+import 'package:planeta_uz/ui/tab_box/widgets/global_mason.dart';
 import 'package:planeta_uz/utils/shimmer_photo.dart';
 
 import 'package:provider/provider.dart';
@@ -64,43 +65,7 @@ class ProductsSearchDelegate extends SearchDelegate<String> {
                       .startsWith(query.toLowerCase()))
                   .toList();
 
-          return MasonryGridView.count(
-                          itemCount: suggestionList.length,
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 16.h,
-                          crossAxisSpacing: 16.w,
-                          itemBuilder: (context, index) {
-                            ProductModel x = suggestionList[index];
-                            return Container(
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                  15,
-                                ),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(15),
-                                    child: CachedNetworkImage(
-                                      imageUrl: x.productImages[0],
-                                      placeholder: (context, url) =>
-                                          const ShimmerPhoto(),
-                                    ),
-                                  ),
-                                  SizedBox(height: 8.h),
-                                  Text(x.productName),
-                                  SizedBox(height: 4.h),
-                                  Text(x.description),
-                                  SizedBox(height: 4.h),
-                                  Text("${x.price} ${x.currency}"),
-                                ],
-                              ),
-                            );
-                          },
-                        );
+          return GlobalMason(products: suggestionList);
         }
       },
     );

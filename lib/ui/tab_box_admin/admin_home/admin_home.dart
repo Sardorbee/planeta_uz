@@ -1,69 +1,46 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:planeta_uz/data/model/category_model.dart';
-import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
-import 'package:planeta_uz/provider/category_provider.dart';
-import 'package:planeta_uz/provider/profile_provider.dart';
-import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/add_category.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin/add_category/update_category.dart';
+import 'package:planeta_uz/data/model/product_model.dart';
+import 'package:planeta_uz/provider/products_provider.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/add_products.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/update_products.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/product_detail/product_detail_screen.dart';
 import 'package:provider/provider.dart';
 
-class CategoryScreenAdmin extends StatelessWidget {
-  const CategoryScreenAdmin({super.key});
+class ProductScreenAdmin extends StatelessWidget {
+  const ProductScreenAdmin({super.key});
 
   @override
   Widget build(BuildContext context) {
-    LoginProvider x = context.read<LoginProvider>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Category Page'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ProfileScreen()));
-            },
-            icon: context.read<ProfileProvider>().currentUser!.photoURL == null
-                ? Icon(
-                    Icons.account_circle,
-                    size: 40.h,
-                  )
-                : CircleAvatar(
-                    foregroundImage: NetworkImage(
-                      context.read<ProfileProvider>().currentUser!.photoURL!,
-                      scale: 2,
-                    ),
-                  ),
-          ),
-          SizedBox(
-            width: 12.w,
-          ),
-        ],
+        title: const Text('Admin Product Page'),
       ),
-      body: StreamBuilder<List<CategoryModel>>(
-        stream: context.read<CategoryProvider>().getCategories(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<CategoryModel>> snapshot) {
+      body: StreamBuilder<List<ProductModel>>(
+        stream: context.read<ProductsProvider>().getProducts(),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<ProductModel>> snapshot) {
           if (snapshot.hasData) {
             return snapshot.data!.isNotEmpty
                 ? ListView(
                     children: List.generate(
                       snapshot.data!.length,
                       (index) {
-                        CategoryModel categoryModel = snapshot.data![index];
+                        ProductModel productModel = snapshot.data![index];
                         return ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductDetailScreen(
+                                        productModel: productModel)));
+                          },
                           onLongPress: () {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
                                 title: const Text('Delete'),
                                 content: const Text(
-                                    'Are you sure to delete this category?'),
+                                    'Are you sure to delete this product?'),
                                 actions: [
                                   TextButton(
                                       onPressed: () {
@@ -73,11 +50,10 @@ class CategoryScreenAdmin extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       context
-                                          .read<CategoryProvider>()
-                                          .deleteCategory(
+                                          .read<ProductsProvider>()
+                                          .deleteProducts(
                                             context: context,
-                                            categoryId:
-                                                categoryModel.categoryId,
+                                            productsId: productModel.productId,
                                           );
                                       Navigator.pop(context);
                                     },
@@ -89,17 +65,18 @@ class CategoryScreenAdmin extends StatelessWidget {
                           },
                           leading: CircleAvatar(
                             backgroundImage:
-                                NetworkImage(categoryModel.imageUrl),
+                                NetworkImage(productModel.productImages[0]),
                           ),
-                          title: Text(categoryModel.categoryName),
-                          subtitle: Text(categoryModel.description),
+                          title: Text(productModel.productName),
+                          subtitle: Text(productModel.description),
                           trailing: IconButton(
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UpdateCategory(
-                                      categoryModel: categoryModel),
+                                  builder: (context) => Updateproducts(
+                                    productModel: productModel,
+                                  ),
                                 ),
                               );
                             },
@@ -121,8 +98,8 @@ class CategoryScreenAdmin extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => CategoryADD()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Addproducts()));
         },
         child: const Icon(Icons.add),
       ),

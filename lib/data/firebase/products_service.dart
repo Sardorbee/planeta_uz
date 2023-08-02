@@ -34,7 +34,7 @@ class ProductService {
           .doc(productModel.productId)
           .update(productModel.toJson());
 
-      return UniversalData(data: "Category updated!");
+      return UniversalData(data: "Product updated!");
     } on FirebaseException catch (e) {
       return UniversalData(error: e.code);
     } catch (error) {

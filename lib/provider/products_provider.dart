@@ -58,8 +58,10 @@ class ProductsProvider with ChangeNotifier {
     if (context.mounted) {
       hideLoading(dialogContext: context);
       tozalash();
+      
 
     }
+    
     if (universalData.error.isEmpty) {
       if (context.mounted) {
         showMessage(context, universalData.data as String);
