@@ -1,24 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/utils/shimmer_photo.dart';
 
-class GlobalMason extends StatelessWidget {
-  GlobalMason({super.key, required this.products});
-  List<ProductModel> products;
+class GlobalMason extends StatefulWidget {
+  const GlobalMason({super.key, required this.products});
+  final List<ProductModel> products;
 
+  @override
+  State<GlobalMason> createState() => _GlobalMasonState();
+}
+
+class _GlobalMasonState extends State<GlobalMason> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: MasonryGridView.count(
-        itemCount: products.length,
+        itemCount: widget.products.length,
         crossAxisCount: 2,
         mainAxisSpacing: 16.h,
         crossAxisSpacing: 16.w,
         itemBuilder: (context, index) {
-          ProductModel x = products[index];
+          ProductModel x = widget.products[index];
           return Container(
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
@@ -38,10 +44,22 @@ class GlobalMason extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.h),
-                Text(
-                  x.productName,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w600),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      x.productName,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      splashRadius: 2,
+                      icon: const Icon(
+                        Icons.shopping_cart_outlined,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 4.h),
                 Text(
@@ -51,6 +69,26 @@ class GlobalMason extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text("${x.price} ${x.currency}"),
+                RatingStars(
+                  value: x.count.toDouble(),
+                  // onValueChanged: (v) {
+                  //   //
+                  //   // setState(() {
+                  //   //   // value = v;
+                  //   // });
+                  // },
+
+                  starCount: 5,
+                  starSize: 20,
+                  valueLabelVisibility: false,
+                  maxValue: 50,
+                  starSpacing: 1.5,
+
+                  animationDuration: const Duration(milliseconds: 1000),
+
+                  starOffColor: const Color(0xffe7e8ea),
+                  starColor: Colors.yellow,
+                ),
               ],
             ),
           );

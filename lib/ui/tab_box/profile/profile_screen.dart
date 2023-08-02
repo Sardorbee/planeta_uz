@@ -18,18 +18,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     User? user = context.watch<ProfileProvider>().currentUser;
     return Scaffold(
         backgroundColor: const Color(0xFFFDFDFD),
+        
         appBar: AppBar(
           backgroundColor: const Color(0xFFFDFDFD),
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-          ),
+          
           actions: [
             const Spacer(),
             Padding(

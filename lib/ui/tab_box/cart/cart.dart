@@ -7,7 +7,9 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Screen'),
+      backgroundColor: const Color(0xFFF2F2F2),
+
+        title: const Text('Cart Screen'),
       ),
     );
   }

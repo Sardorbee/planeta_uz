@@ -12,6 +12,8 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+      backgroundColor: const Color(0xFFF2F2F2),
+
         title: const Text('Category Screen'),
       ),
       body: StreamBuilder<List<CategoryModel>>(
