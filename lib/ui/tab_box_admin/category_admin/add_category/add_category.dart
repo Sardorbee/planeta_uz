@@ -14,7 +14,10 @@ class CategoryADD extends StatefulWidget {
 }
 
 class _CategoryADDState extends State<CategoryADD> {
+
+
   ImagePicker picker = ImagePicker();
+
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +71,12 @@ class _CategoryADDState extends State<CategoryADD> {
               },
               child: const Text(
                 "Add Category",
+
               ),
             ),
-          ],
-        ),
+          ),
+          SizedBox(height: 5.h),
+        ],
       ),
     );
   }

@@ -123,7 +123,10 @@ class CategoryProvider with ChangeNotifier {
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
+        hideLoading(dialogContext: context);
+        tozalash();
         showMessage(context, universalData.data as String);
+        Navigator.pop(context);
       }
     } else {
       if (context.mounted) {

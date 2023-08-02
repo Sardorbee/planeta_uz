@@ -55,7 +55,6 @@ class ProductScreenAdmin extends StatelessWidget {
                                             context: context,
                                             productsId: productModel.productId,
                                           );
-                                      Navigator.pop(context);
                                     },
                                     child: const Text('Yes'),
                                   ),

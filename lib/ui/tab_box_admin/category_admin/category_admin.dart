@@ -69,7 +69,11 @@ class CategoryScreenAdmin extends StatelessWidget {
                                       child: const Text('No')),
                                   TextButton(
                                     onPressed: () {
+
+                                      Navigator.pop(context);
+
                                       showLoading(context: context);
+
                                       context
                                           .read<CategoryProvider>()
                                           .deleteCategory(
@@ -79,6 +83,7 @@ class CategoryScreenAdmin extends StatelessWidget {
                                           );
                                       hideLoading(dialogContext: context);
                                       Navigator.pop(context);
+
                                     },
                                     child: const Text('Yes'),
                                   ),

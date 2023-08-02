@@ -27,11 +27,15 @@ Future<String?> uploadImageToFirebase(XFile? imageFile) async {
 }
 
 Future<XFile?> pickImage() async {
-  final picker = ImagePicker();
+  final picker = ImagePicker(
+
+
+  );
+
   XFile? pickedFile;
 
   try {
-    pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    pickedFile = await picker.pickImage(source: ImageSource.gallery,maxHeight: 512,maxWidth: 512);
   } catch (e) {
     print('Error picking image: $e');
   }

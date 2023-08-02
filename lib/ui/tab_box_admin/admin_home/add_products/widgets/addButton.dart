@@ -18,9 +18,10 @@ class AddProductButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: const ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(Colors.black),
+        backgroundColor: MaterialStatePropertyAll(Color(0xFFF83758)),
       ),
       onPressed: () {
+        print(_imageUrl);
         if (context
                 .read<ProductsProvider>()
                 .ProductsNamecontroller
@@ -75,7 +76,18 @@ class AddProductButton extends StatelessWidget {
                         .ProductsCurrencycontroller
                         .text),
               );
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Product added'),
+            ),
+          );
           Navigator.pop(context);
+        }else{
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Maydonlar to\'ldirilmadi'),
+            ),
+          );
         }
       },
       child: const Text(
