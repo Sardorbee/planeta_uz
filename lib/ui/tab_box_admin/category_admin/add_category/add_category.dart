@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,10 +13,7 @@ class CategoryADD extends StatefulWidget {
 }
 
 class _CategoryADDState extends State<CategoryADD> {
-
-
   ImagePicker picker = ImagePicker();
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +29,22 @@ class _CategoryADDState extends State<CategoryADD> {
             const Text('Name'),
             SizedBox(height: 10.h),
             GlobalTextField(
-                hintText: "Add Category name",
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<CategoryProvider>().categoryNamecontroller),
+              label: "Category Name",
+              hintText: "Add Category name",
+              textAlign: TextAlign.start,
+              controller:
+                  context.read<CategoryProvider>().categoryNamecontroller,
+            ),
             SizedBox(height: 10.h),
-            const Text('Description'),
             SizedBox(height: 10.h),
             GlobalTextField(
-                hintText: "Add Category description",
-                maxLines: 5,
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<CategoryProvider>().categoryDesccontroller),
+              label: "Description",
+              hintText: "Add Category description",
+              maxLines: 5,
+              textAlign: TextAlign.start,
+              controller:
+                  context.read<CategoryProvider>().categoryDesccontroller,
+            ),
             SizedBox(height: 10.h),
             ElevatedButton(
               style: const ButtonStyle(
@@ -56,7 +55,7 @@ class _CategoryADDState extends State<CategoryADD> {
               },
               child: context.watch<CategoryProvider>().categoryUrl.isNotEmpty
                   ? Image.network(context.watch<CategoryProvider>().categoryUrl)
-                  : Text('Upload image'),
+                  : const Text('Upload image'),
             ),
             const SizedBox(width: 20),
             ElevatedButton(
@@ -71,12 +70,11 @@ class _CategoryADDState extends State<CategoryADD> {
               },
               child: const Text(
                 "Add Category",
-
               ),
             ),
-          ),
-          SizedBox(height: 5.h),
-        ],
+            SizedBox(height: 5.h),
+          ],
+        ),
       ),
     );
   }
@@ -111,7 +109,7 @@ class _CategoryADDState extends State<CategoryADD> {
                 },
                 leading: const Icon(Icons.photo),
                 title: const Text("Select from Gallery"),
-              )
+              ),
             ],
           ),
         );
