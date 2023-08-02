@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 // ignore: must_be_immutable
 class UpdateCategory extends StatefulWidget {
   UpdateCategory({super.key, required this.categoryModel});
+
   CategoryModel categoryModel;
 
   @override
@@ -67,7 +68,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
               context.read<CategoryProvider>().tozalash();
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
           ),
@@ -78,22 +79,22 @@ class _UpdateCategoryState extends State<UpdateCategory> {
             children: [
               SizedBox(height: 10.h),
               GlobalTextField(
-                  hintText: "Add Category name",
-                  textAlign: TextAlign.start,
-                  controller:
-                      context.read<CategoryProvider>().categoryNamecontroller, label: 'Name',),
-              SizedBox(
-                height: 10.h,
+                hintText: "Add Category name",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<CategoryProvider>().categoryNamecontroller,
+                label: 'Name',
               ),
+              SizedBox(height: 10.h),
               GlobalTextField(
-                  hintText: "Add Category description",
-                  maxLines: 5,
-                  textAlign: TextAlign.start,
-                  controller:
-                      context.read<CategoryProvider>().categoryDesccontroller, label: 'Description',),
-              SizedBox(
-                height: 10.h,
+                hintText: "Add Category description",
+                maxLines: 5,
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<CategoryProvider>().categoryDesccontroller,
+                label: 'Description',
               ),
+              SizedBox(height: 10.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -150,7 +151,6 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                             createdAt: DateTime.now().toString(),
                           ),
                         );
-                    Navigator.pop(context);
                   }
                 },
                 child: const Text(

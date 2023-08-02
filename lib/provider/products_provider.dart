@@ -86,6 +86,7 @@ class ProductsProvider with ChangeNotifier {
     if (universalData.error.isEmpty) {
       if (context.mounted) {
         showMessage(context, universalData.data as String);
+        Navigator.pop(context);
       }
     } else {
       if (context.mounted) {

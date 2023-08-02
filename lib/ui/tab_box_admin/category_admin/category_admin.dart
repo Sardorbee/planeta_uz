@@ -68,6 +68,7 @@ class CategoryScreenAdmin extends StatelessWidget {
                                       child: const Text('No')),
                                   TextButton(
                                     onPressed: () {
+                                      Navigator.pop(context);
                                       context
                                           .read<CategoryProvider>()
                                           .deleteCategory(
@@ -75,7 +76,7 @@ class CategoryScreenAdmin extends StatelessWidget {
                                             categoryId:
                                                 categoryModel.categoryId,
                                           );
-                                      Navigator.pop(context);
+
                                     },
                                     child: const Text('Yes'),
                                   ),

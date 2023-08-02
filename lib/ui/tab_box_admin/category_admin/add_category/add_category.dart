@@ -130,12 +130,17 @@ class _CategoryADDState extends State<CategoryADD> {
                             createdAt: DateTime.now().toString(),
                           ),
                         );
-                    Navigator.pop(context);
                   }
-                  else {
+                  else if(_imageUrl==null){
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Maydonlar to\'ldirilmagan'),
+                        content: Text('Rasm to\'liq yuklanmadi'),
+                      ),
+                    );
+                  }else{
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Maydonlar to\'ldirilmadi'),
                       ),
                     );
                   }

@@ -21,6 +21,7 @@ class AddProductButton extends StatelessWidget {
         backgroundColor: MaterialStatePropertyAll(Color(0xFFF83758)),
       ),
       onPressed: () {
+        print(_imageUrl);
         if (context
                 .read<ProductsProvider>()
                 .ProductsNamecontroller

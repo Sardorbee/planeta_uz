@@ -32,7 +32,9 @@ class CategoryProvider with ChangeNotifier {
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
+        hideLoading(dialogContext: context);
         showMessage(context, universalData.data as String);
+        Navigator.pop(context);
       }
     } else {
       if (context.mounted) {
@@ -56,6 +58,7 @@ class CategoryProvider with ChangeNotifier {
     if (universalData.error.isEmpty) {
       if (context.mounted) {
         showMessage(context, universalData.data as String);
+        Navigator.pop(context);
       }
     } else {
       if (context.mounted) {
@@ -68,17 +71,18 @@ class CategoryProvider with ChangeNotifier {
     required BuildContext context,
     required String categoryId,
   }) async {
-    showLoading(context: context);
+    // showLoading(context: context);
     UniversalData universalData =
         await categoryService.deleteCategory(categoryId: categoryId);
     if (context.mounted) {
-      hideLoading(dialogContext: context);
-      tozalash();
-
+      // hideLoading(dialogContext: context);
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
+        hideLoading(dialogContext: context);
+        tozalash();
         showMessage(context, universalData.data as String);
+        Navigator.pop(context);
       }
     } else {
       if (context.mounted) {
