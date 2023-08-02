@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
+import 'package:planeta_uz/data/upload_service.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
@@ -20,24 +21,8 @@ class UpdateCategory extends StatefulWidget {
 }
 
 class _UpdateCategoryState extends State<UpdateCategory> {
-  XFile? _imageFile;
-  String? _imageUrl;
+  ImagePicker picker = ImagePicker();
 
-  Future<void> _pickImage() async {
-    XFile? pickedFile = await pickImage();
-    setState(() {
-      _imageFile = pickedFile;
-    });
-  }
-
-  Future<void> _uploadImage() async {
-    showLoading(context: context);
-    String? downloadUrl = await uploadImageToFirebase(_imageFile);
-    setState(() {
-      _imageUrl = downloadUrl;
-    });
-    hideLoading(dialogContext: context);
-  }
 
   textInit() {
     context.read<CategoryProvider>().categoryNamecontroller.text =
@@ -94,64 +79,32 @@ class _UpdateCategoryState extends State<UpdateCategory> {
               SizedBox(
                 height: 10.h,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  ElevatedButton(
-                    style: const ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(Colors.black),
-                    ),
-                    onPressed: () async {
-                      await _pickImage();
-
-                      await _uploadImage();
-                    },
-                    child: const Text('Upload Image'),
-                  ),
-                  const SizedBox(width: 20),
-                  if (_imageFile != null)
-                    Image.file(
-                      File(
-                        _imageFile!.path,
-                      ),
-                      height: 70,
-                    ),
-                ],
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: context.watch<CategoryProvider>().categoryUrl.isEmpty
+                    ? Image.network(widget.categoryModel.imageUrl)
+                    : Image.network(
+                        context.watch<CategoryProvider>().categoryUrl),
               ),
               ElevatedButton(
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.black),
                 ),
+                onPressed: () async {
+                  showBottomSheetDialog(context);
+                },
+                child: const Text('Upload Image'),
+              ),
+              const SizedBox(width: 20),
+              ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                ),
                 onPressed: () {
-                  if (context
-                          .read<CategoryProvider>()
-                          .categoryNamecontroller
-                          .text
-                          .isNotEmpty &&
-                      context
-                          .read<CategoryProvider>()
-                          .categoryDesccontroller
-                          .text
-                          .isNotEmpty) {
-                    context.read<CategoryProvider>().updateCategory(
-                          context: context,
-                          categoryModel: CategoryModel(
-                            categoryId: widget.categoryModel.categoryId,
-                            categoryName: context
-                                .read<CategoryProvider>()
-                                .categoryNamecontroller
-                                .text,
-                            description: context
-                                .read<CategoryProvider>()
-                                .categoryDesccontroller
-                                .text,
-                            imageUrl:
-                                _imageUrl ?? widget.categoryModel.imageUrl,
-                            createdAt: DateTime.now().toString(),
-                          ),
-                        );
-                    Navigator.pop(context);
-                  }
+                  context.read<CategoryProvider>().updateCategory(
+                      context: context, category: widget.categoryModel);
+                  Navigator.pop(context);
                 },
                 child: const Text(
                   "Update Category",
@@ -163,4 +116,72 @@ class _UpdateCategoryState extends State<UpdateCategory> {
       ),
     );
   }
+
+  void showBottomSheetDialog(BuildContext x) {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: x,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(24),
+          height: 200,
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 255, 248, 248),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+          ),
+          child: Column(
+            children: [
+              ListTile(
+                onTap: () {
+                  _getFromCamera(context);
+                },
+                leading: const Icon(Icons.camera_alt),
+                title: const Text("Select from Camera"),
+              ),
+              ListTile(
+                onTap: () {
+                  _getFromGallery(context);
+                },
+                leading: const Icon(Icons.photo),
+                title: const Text("Select from Gallery"),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _getFromCamera(BuildContext context) async {
+    XFile? xFile = await picker.pickImage(
+      source: ImageSource.camera,
+      maxHeight: 512,
+      maxWidth: 512,
+    );
+
+    if (xFile != null) {
+      await context
+          .read<CategoryProvider>()
+          .uploadCategoryImage(context, xFile);
+    }
+    Navigator.pop(context);
+  }
+
+  Future<void> _getFromGallery(BuildContext context) async {
+    XFile? xFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 512,
+      maxWidth: 512,
+    );
+    if (xFile != null) {
+      await context
+          .read<CategoryProvider>()
+          .uploadCategoryImage(context, xFile);
+    }
+    Navigator.pop(context);
+  }
+
 }

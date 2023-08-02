@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/profile_provider.dart';
+import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
 import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/add_category.dart';
 import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/update_category.dart';
@@ -68,6 +69,7 @@ class CategoryScreenAdmin extends StatelessWidget {
                                       child: const Text('No')),
                                   TextButton(
                                     onPressed: () {
+                                      showLoading(context: context);
                                       context
                                           .read<CategoryProvider>()
                                           .deleteCategory(
@@ -75,6 +77,7 @@ class CategoryScreenAdmin extends StatelessWidget {
                                             categoryId:
                                                 categoryModel.categoryId,
                                           );
+                                      hideLoading(dialogContext: context);
                                       Navigator.pop(context);
                                     },
                                     child: const Text('Yes'),

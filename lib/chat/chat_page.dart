@@ -51,6 +51,7 @@ class ChatScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
+                                      
                                       Text(
                                         x.message,
                                         style: const TextStyle(fontSize: 25),
