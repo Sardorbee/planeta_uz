@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
-import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/ui/tab_box/widgets/global_mason.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class ProductsByCAt extends StatelessWidget {
   ProductsByCAt({super.key, required this.category});
   CategoryModel category;
