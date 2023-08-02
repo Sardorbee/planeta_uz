@@ -8,6 +8,7 @@ import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_i
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/addButton.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/select_cat.dart';
 import 'package:planeta_uz/ui/utils/global_textf.dart';
+import 'package:planeta_uz/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 class Addproducts extends StatefulWidget {
@@ -21,6 +22,7 @@ class _AddproductsState extends State<Addproducts> {
   XFile? _imageFile;
   String? _imageUrl;
   String? catID;
+  String? catName;
 
   Future<void> _pickImage() async {
     XFile? pickedFile = await pickImage();
@@ -42,104 +44,109 @@ class _AddproductsState extends State<Addproducts> {
       appBar: AppBar(
         title: const Text("Add Products"),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(10.h),
-        child: ListView(
-          children: [
-            SizedBox(height: 10.h),
-            GlobalTextField(
-                hintText: "Add Product name",
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<ProductsProvider>().ProductsNamecontroller),
-            SizedBox(height: 10.h),
-            GlobalTextField(
-                hintText: "Add Product count",
-                textAlign: TextAlign.start,
-                keyboardType: TextInputType.number,
-                controller:
-                    context.read<ProductsProvider>().ProductsCountcontroller),
-            SizedBox(
-              height: 10.h,
-            ),
-            GlobalTextField(
-                hintText: "Add Product description",
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<ProductsProvider>().ProductsDesccontroller),
-            SizedBox(
-              height: 10.h,
-            ),
-            GlobalTextField(
-                keyboardType: TextInputType.number,
-                hintText: "Add Product Price",
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<ProductsProvider>().ProductsPricecontroller),
-            SizedBox(
-              height: 10.h,
-            ),
-            GlobalTextField(
-                hintText: "Add Product Currency",
-                textAlign: TextAlign.start,
-                controller: context
-                    .read<ProductsProvider>()
-                    .ProductsCurrencycontroller),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.all(10.h),
+              children: [
+                SizedBox(height: 10.h),
+                GlobalTextField(
+                    hintText: "Add Product name",
+                    textAlign: TextAlign.start,
+                    controller: context
+                        .read<ProductsProvider>()
+                        .ProductsNamecontroller, label: 'Name',),
+                SizedBox(height: 10.h),
+                GlobalTextField(
+                    hintText: "Add Product count",
+                    textAlign: TextAlign.start,
+                    keyboardType: TextInputType.number,
+                    controller: context
+                        .read<ProductsProvider>()
+                        .ProductsCountcontroller, label: 'Count',),
+                SizedBox(height: 10.h),
+                GlobalTextField(
+                    hintText: "Add Product description",
+                    textAlign: TextAlign.start,
+                    controller: context
+                        .read<ProductsProvider>()
+                        .ProductsDesccontroller, label: 'Description',),
+                SizedBox(height: 10.h),
+                GlobalTextField(
+                    keyboardType: TextInputType.number,
+                    hintText: "Add Product Price",
+                    textAlign: TextAlign.start,
+                    controller: context
+                        .read<ProductsProvider>()
+                        .ProductsPricecontroller, label: 'Price',),
+                SizedBox(height: 10.h),
+                GlobalTextField(
+                    hintText: "Add Product Currency",
+                    textAlign: TextAlign.start,
+                    controller: context
+                        .read<ProductsProvider>()
+                        .ProductsCurrencycontroller, label: 'Currency',),
+                SizedBox(height: 10.h),
                 ElevatedButton(
                   style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.black),
+                    backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
                   ),
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
                         return CategorySelectionWidget(
-                          onCategorySelected: (p0) {
+                          onCategorySelected: (p0,name) {
                             setState(() {
                               catID = p0;
+                              catName = name;
                             });
                           },
                         );
                       },
                     );
                   },
-                  child: const Text(
+                  child: catName!=null ? Text(catName!.capitalize()) :const Text(
                     "Choose Category",
                   ),
                 ),
                 ElevatedButton(
                   style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.black),
+                    backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
                   ),
                   onPressed: () async {
                     await _pickImage();
 
                     await _uploadImage();
                   },
-                  child: const Text('Upload Image'),
+                  child: _imageFile != null
+                      ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.file(
+                            File(
+                              _imageFile!.path,
+                            ),
+                            height: 70,
+                          ),
+                      )
+                      : const Text('Upload Image'),
                 ),
-                const SizedBox(width: 20),
-                if (_imageFile != null)
-                  Image.file(
-                    File(
-                      _imageFile!.path,
-                    ),
-                    height: 70,
-                  ),
               ],
             ),
-            AddProductButton(
-              imageUrl: _imageUrl,
-              catId: catID,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 10.w,right: 10.w,bottom: 5.h),
+            child: SizedBox(
+              width: double.infinity,
+              height: 52.h,
+              child: AddProductButton(
+                imageUrl: _imageUrl,
+                catId: catID,
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

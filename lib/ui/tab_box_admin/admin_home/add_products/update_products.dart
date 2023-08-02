@@ -8,8 +8,8 @@ import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/select_cat.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/updatebutton.dart';
 import 'package:planeta_uz/ui/utils/global_textf.dart';
+import 'package:planeta_uz/utils/constants.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -26,6 +26,7 @@ class _UpdateproductsState extends State<Updateproducts> {
   XFile? _imageFile;
   String? _imageUrl;
   String? catID;
+  String? catName;
 
   Future<void> _pickImage() async {
     XFile? pickedFile = await pickImage();
@@ -78,7 +79,7 @@ class _UpdateproductsState extends State<Updateproducts> {
               context.read<ProductsProvider>().tozalash();
               Navigator.pop(context);
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
             ),
           ),
@@ -88,48 +89,38 @@ class _UpdateproductsState extends State<Updateproducts> {
           child: ListView(
             children: [
               SizedBox(height: 10.h),
-              const Text('Name'),
-              SizedBox(height: 10.h),
               GlobalTextField(
                   hintText: "Add Product name",
                   textAlign: TextAlign.start,
                   controller:
-                      context.read<ProductsProvider>().ProductsNamecontroller),
-              SizedBox(height: 10.h),
-              const Text('Count'),
+                      context.read<ProductsProvider>().ProductsNamecontroller, label: 'Name',),
               SizedBox(height: 10.h),
               GlobalTextField(
                   hintText: "Add Product count",
                   textAlign: TextAlign.start,
                   keyboardType: TextInputType.number,
                   controller:
-                      context.read<ProductsProvider>().ProductsCountcontroller),
-              SizedBox(height: 10.h),
-              const Text('Description'),
+                      context.read<ProductsProvider>().ProductsCountcontroller, label: 'Count',),
               SizedBox(height: 10.h),
               GlobalTextField(
                   hintText: "Add Product description",
                   textAlign: TextAlign.start,
                   controller:
-                      context.read<ProductsProvider>().ProductsDesccontroller),
-              SizedBox(height: 10.h),
-              const Text('Price'),
+                      context.read<ProductsProvider>().ProductsDesccontroller, label: 'Description',),
               SizedBox(height: 10.h),
               GlobalTextField(
                   keyboardType: TextInputType.number,
                   hintText: "Add Product Price",
                   textAlign: TextAlign.start,
                   controller:
-                      context.read<ProductsProvider>().ProductsPricecontroller),
-              SizedBox(height: 10.h),
-              const Text('Currency'),
+                      context.read<ProductsProvider>().ProductsPricecontroller, label: 'Price',),
               SizedBox(height: 10.h),
               GlobalTextField(
                   hintText: "Add Product Currency",
                   textAlign: TextAlign.start,
                   controller: context
                       .read<ProductsProvider>()
-                      .ProductsCurrencycontroller),
+                      .ProductsCurrencycontroller, label: 'Currency',),
               SizedBox(height: 10.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,16 +134,17 @@ class _UpdateproductsState extends State<Updateproducts> {
                         context: context,
                         builder: (BuildContext context) {
                           return CategorySelectionWidget(
-                            onCategorySelected: (p0) {
+                            onCategorySelected: (p0,name) {
                               setState(() {
                                 catID = p0;
+                                catName = name;
                               });
                             },
                           );
                         },
                       );
                     },
-                    child: const Text(
+                    child: catName!=null ? Text(catName!.capitalize()) : const Text(
                       "Choose Category",
                     ),
                   ),

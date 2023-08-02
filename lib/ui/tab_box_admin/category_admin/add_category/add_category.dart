@@ -21,7 +21,9 @@ class _CategoryADDState extends State<CategoryADD> {
   String? _imageUrl;
 
   Future<void> _pickImage() async {
-    XFile? pickedFile = await pickImage();
+    XFile? pickedFile = await pickImage(
+
+    );
     setState(() {
       _imageFile = pickedFile;
     });
@@ -40,98 +42,112 @@ class _CategoryADDState extends State<CategoryADD> {
       appBar: AppBar(
         title: const Text("Category Add"),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(10.h),
-        child: ListView(
-          children: [
-            SizedBox(height: 10.h),
-            const Text('Name'),
-            SizedBox(height: 10.h),
-            GlobalTextField(
-                hintText: "Add Category name",
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<CategoryProvider>().categoryNamecontroller),
-            SizedBox(height: 10.h),
-            const Text('Description'),
-            SizedBox(height: 10.h),
-            GlobalTextField(
-                hintText: "Add Category description",
-                maxLines: 5,
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<CategoryProvider>().categoryDesccontroller),
-            SizedBox(height: 10.h),
-            ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
-              ),
-              onPressed: () async {
-                await _pickImage();
-
-                await _uploadImage();
-              },
-              child: _imageFile != null
-                  ? Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Image.file(
-                File(
-                    _imageFile!.path,
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              physics: const BouncingScrollPhysics(),
+              padding: EdgeInsets.all(10.h),
+              children: [
+                SizedBox(height: 10.h),
+                GlobalTextField(
+                  hintText: "Add Category name",
+                  textAlign: TextAlign.start,
+                  controller:
+                      context.read<CategoryProvider>().categoryNamecontroller,
+                  label: 'Name',
                 ),
-                height: 70,
-              ),
-                  )
-                  : const Text('Upload image'),
+                SizedBox(height: 10.h),
+                GlobalTextField(
+                  hintText: "Add Category description",
+                  maxLines: 5,
+                  textAlign: TextAlign.start,
+                  controller:
+                      context.read<CategoryProvider>().categoryDesccontroller,
+                  label: 'Description',
+                ),
+                SizedBox(height: 10.h),
+                ElevatedButton(
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
+                  ),
+                  onPressed: () async {
+                    await _pickImage();
+
+                    await _uploadImage();
+                  },
+                  child: _imageFile != null
+                      ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Image.file(
+                            File(
+                              _imageFile!.path,
+                            ),
+                            height: 70,
+                          ),
+                        )
+                      : const Text('Upload image'),
+                ),
+                const SizedBox(width: 20),
+              ],
             ),
-            const SizedBox(width: 20),
-            ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Color(0xFFF83758)),
-              ),
-              onPressed: () {
-                print(_imageUrl);
-                if (context
-                        .read<CategoryProvider>()
-                        .categoryNamecontroller
-                        .text
-                        .isNotEmpty &&
-                    context
-                        .read<CategoryProvider>()
-                        .categoryDesccontroller
-                        .text
-                        .isNotEmpty &&
-                    _imageUrl != null) {
-                  context.read<CategoryProvider>().addCategory(
-                        context: context,
-                        categoryModel: CategoryModel(
-                          categoryId: '',
-                          categoryName: context
-                              .read<CategoryProvider>()
-                              .categoryNamecontroller
-                              .text,
-                          description: context
-                              .read<CategoryProvider>()
-                              .categoryDesccontroller
-                              .text,
-                          imageUrl: _imageUrl!,
-                          createdAt: DateTime.now().toString(),
-                        ),
-                      );
-                  Navigator.pop(context);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Maydonlar to\'ldirilmagan'),
-                    ),
-                  );
-                }
-              },
-              child: const Text(
-                "Add Category",
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: SizedBox(
+              height: 52.h,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Color(0xFFF83758)),
+                ),
+                onPressed: () {
+                  print(_imageUrl);
+                  if (context
+                          .read<CategoryProvider>()
+                          .categoryNamecontroller
+                          .text
+                          .isNotEmpty &&
+                      context
+                          .read<CategoryProvider>()
+                          .categoryDesccontroller
+                          .text
+                          .isNotEmpty &&
+                      _imageUrl != null) {
+                    context.read<CategoryProvider>().addCategory(
+                          context: context,
+                          categoryModel: CategoryModel(
+                            categoryId: '',
+                            categoryName: context
+                                .read<CategoryProvider>()
+                                .categoryNamecontroller
+                                .text,
+                            description: context
+                                .read<CategoryProvider>()
+                                .categoryDesccontroller
+                                .text,
+                            imageUrl: _imageUrl!,
+                            createdAt: DateTime.now().toString(),
+                          ),
+                        );
+                    Navigator.pop(context);
+                  }
+                  else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Maydonlar to\'ldirilmagan'),
+                      ),
+                    );
+                  }
+                },
+                child: const Text(
+                  "Add Category",
+                ),
               ),
             ),
-          ],
-        ),
+          ),
+          SizedBox(height: 5.h),
+        ],
       ),
     );
   }

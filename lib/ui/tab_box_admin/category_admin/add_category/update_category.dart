@@ -81,7 +81,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                   hintText: "Add Category name",
                   textAlign: TextAlign.start,
                   controller:
-                      context.read<CategoryProvider>().categoryNamecontroller),
+                      context.read<CategoryProvider>().categoryNamecontroller, label: 'Name',),
               SizedBox(
                 height: 10.h,
               ),
@@ -90,7 +90,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                   maxLines: 5,
                   textAlign: TextAlign.start,
                   controller:
-                      context.read<CategoryProvider>().categoryDesccontroller),
+                      context.read<CategoryProvider>().categoryDesccontroller, label: 'Description',),
               SizedBox(
                 height: 10.h,
               ),
