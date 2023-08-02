@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
@@ -32,8 +31,7 @@ class CategorySelectionWidget extends StatelessWidget {
               CategoryModel x = categories[index];
               return GestureDetector(
                 onTap: () {
-                  onCategorySelected(x
-                      .categoryId);
+                  onCategorySelected(x.categoryId);
                   Navigator.pop(context);
                 },
                 child: Row(
@@ -41,14 +39,16 @@ class CategorySelectionWidget extends StatelessWidget {
                     SizedBox(
                       height: 100,
                       width: 100,
-                      child: Text(x.categoryName, style: TextStyle(fontSize: 30),),
+                      child: Text(
+                        x.categoryName,
+                        style: const TextStyle(fontSize: 30),
+                      ),
                     ),
                   ],
                 ),
               );
             },
           );
-          ;
         }
       },
     );
