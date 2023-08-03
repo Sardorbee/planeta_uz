@@ -42,7 +42,7 @@ class OrderService {
     }
   }
 
-   Future<UniversalData> deleteProduct(
+   Future<UniversalData> deleteOrder(
       {required String orderId}) async {
     try {
       await FirebaseFirestore.instance

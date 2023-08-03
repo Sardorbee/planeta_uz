@@ -206,6 +206,7 @@ class _UpdateproductsState extends State<Updateproducts> {
                     context.read<ProductsProvider>().updateProducts(
                           context: context,
                           productModel: ProductModel(
+                            isCarted: 0,
                               count: int.parse(context
                                   .read<ProductsProvider>()
                                   .ProductsCountcontroller

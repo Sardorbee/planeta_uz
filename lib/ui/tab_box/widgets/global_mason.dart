@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +39,6 @@ class _GlobalMasonState extends State<GlobalMason> {
                 MaterialPageRoute(
                   builder: (context) => ProductDetailScreen(
                     productModel: x,
-                    
                   ),
                 ),
               );
@@ -55,11 +55,12 @@ class _GlobalMasonState extends State<GlobalMason> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: CachedNetworkImage(
-                        imageUrl: x.productImages[0],
-                        placeholder: (context, url) => const ShimmerPhoto(),
-                      ),),
+                    borderRadius: BorderRadius.circular(15),
+                    child: CachedNetworkImage(
+                      imageUrl: x.productImages[0],
+                      placeholder: (context, url) => const ShimmerPhoto(),
+                    ),
+                  ),
                   SizedBox(height: 8.h),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,26 +71,49 @@ class _GlobalMasonState extends State<GlobalMason> {
                               fontSize: 20, fontWeight: FontWeight.w600),
                         ),
                         IconButton(
-                          onPressed: () {
-                            context.read<OrderProvider>().addOrder(
-                                context: context,
-                                orderModel: OrderModel(
-                                    count: 1,
-                                    totalPrice: x.price,
-                                    orderPrice: x.price,
-                                    orderCurrency: x.currency,
-                                    orderId: '',
-                                    orderImg: x.productImages[0],
-                                    productId: x.productId,
-                                    userId:
-                                        context.read<LoginProvider>().user!.uid,
-                                    orderStatus: "waiting",
-                                    createdAt: DateTime.now().toString(),
-                                    productName: x.productName));
+                          onPressed: () async {
+                            if (x.isCarted == 0) {
+                              context.read<OrderProvider>().addOrders(
+                                  context: context,
+                                  orderModel: OrderModel(
+                                      count: 1,
+                                      totalPrice: x.price,
+                                      orderPrice: x.price,
+                                      orderCurrency: x.currency,
+                                      orderId: '',
+                                      orderImg: x.productImages[0],
+                                      productId: x.productId,
+                                      userId: context
+                                          .read<LoginProvider>()
+                                          .user!
+                                          .uid,
+                                      orderStatus: "waiting",
+                                      createdAt: DateTime.now().toString(),
+                                      productName: x.productName));
+
+                              await FirebaseFirestore.instance
+                                  .collection("products")
+                                  .doc(x.productId)
+                                  .update({
+                                "isCarted": 1,
+                              });
+                            } else {
+                              context
+                                  .read<OrderProvider>()
+                                  .deleteDocumentByProductId(x.productId);
+                              await FirebaseFirestore.instance
+                                  .collection("products")
+                                  .doc(x.productId)
+                                  .update({
+                                "isCarted": 0,
+                              });
+                            }
                           },
                           splashRadius: 2,
-                          icon: const Icon(
-                            Icons.shopping_cart_outlined,
+                          icon: Icon(
+                            x.isCarted == 0
+                                ? Icons.shopping_cart_outlined
+                                : Icons.shopping_cart_rounded,
                           ),
                         ),
                       ]),
