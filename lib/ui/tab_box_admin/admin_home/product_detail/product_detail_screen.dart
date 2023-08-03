@@ -2,17 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
-import 'package:planeta_uz/provider/products_provider.dart';
-import 'package:planeta_uz/ui/tab_box/widgets/global_mason.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:planeta_uz/utils/constants.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class ProductDetailScreen extends StatelessWidget {
-  ProductDetailScreen({super.key, required this.productModel});
+  ProductDetailScreen({
+    super.key,
+    required this.productModel,
+  });
 
   ProductModel productModel;
 
@@ -22,6 +21,10 @@ class ProductDetailScreen extends StatelessWidget {
       backgroundColor: AppColors.c_F9F9F9,
       appBar: AppBar(
         elevation: 0,
+        title: Text(
+          productModel.productName.capitalize(),
+          style: const TextStyle(color: Colors.black),
+        ),
         backgroundColor: AppColors.c_F9F9F9,
         leading: IconButton(
           onPressed: () {
@@ -32,39 +35,16 @@ class ProductDetailScreen extends StatelessWidget {
             color: AppColors.black,
           ),
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              color: AppColors.black,
-            ),
-          ),
-        ],
       ),
       body: ListView(
         children: [
           SizedBox(height: 16.h),
           CarouselSlider(
             items: [
-              Hero(
-                tag: productModel.productImages[0],
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.fill,
-                    imageUrl: productModel.productImages[0],
-                    height: 213.h,
-                    width: double.infinity,
-                  ),
-                ),
-              ),
               ...List.generate(
                 productModel.productImages.length,
                 (index) => Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  padding: EdgeInsets.symmetric(horizontal: 8.w),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: CachedNetworkImage(
@@ -77,7 +57,9 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               )
             ],
-            options: CarouselOptions(),
+            options: CarouselOptions(
+              aspectRatio: 1,
+            ),
           ),
           SizedBox(height: 16.h),
           Padding(
@@ -125,7 +107,8 @@ class ProductDetailScreen extends StatelessWidget {
                   children: [
                     Container(
                       margin: EdgeInsets.all(8.h),
-                      padding: EdgeInsets.only(top: 8.h,bottom: 8.h,right: 8.w,left: 40.w),
+                      padding: EdgeInsets.only(
+                          top: 8.h, bottom: 8.h, right: 8.w, left: 40.w),
                       decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -136,7 +119,7 @@ class ProductDetailScreen extends StatelessWidget {
                         color: Colors.blueAccent,
                       ),
                       child: Text(
-                        'Go to cart',
+                        'Add to cart',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 16.sp,
@@ -145,43 +128,24 @@ class ProductDetailScreen extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      top: 2,
+                      top: 6.h,
                       left: 0,
                       child: Container(
-                      padding: EdgeInsets.all(8.h),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.blue,
+                        padding: EdgeInsets.all(8.h),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.blue,
+                        ),
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: AppColors.white,
+                        ),
                       ),
-                      child: Icon(Icons.shopping_cart_outlined,color: AppColors.white,),
-                    ),),
+                    ),
                   ],
                 ),
               ],
             ),
-          ),
-          StreamBuilder<List<ProductModel>>(
-            stream:context
-                .read<ProductsProvider>()
-                .getProductsByCategoryId(productModel.categoryId),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<ProductModel>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SizedBox();
-              } else if (snapshot.hasError) {
-                return Center(child: Text(snapshot.error.toString()));
-              } else {
-                List<ProductModel>? products = snapshot.data;
-                if (products != null && products.isNotEmpty) {
-                  return SizedBox(
-                      height: 200.h,
-                      child: GlobalMason(products: products));
-                } else {
-                  // Empty data
-                  return Center(child: Lottie.asset("assets/lottie/empty_box.json"));
-                }
-              }
-            },
           ),
         ],
       ),

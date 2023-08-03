@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
@@ -32,7 +33,9 @@ class ProductScreenAdmin extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ProductDetailScreen(
-                                        productModel: productModel)));
+                                          productModel: productModel,
+                                          
+                                        )));
                           },
                           onLongPress: () {
                             showDialog(
@@ -63,8 +66,9 @@ class ProductScreenAdmin extends StatelessWidget {
                             );
                           },
                           leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(productModel.productImages[0]),
+                            backgroundImage: CachedNetworkImageProvider(
+                              productModel.productImages[0],
+                            ),
                           ),
                           title: Text(productModel.productName),
                           subtitle: Text(productModel.description),

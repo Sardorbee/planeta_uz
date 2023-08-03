@@ -38,9 +38,9 @@ class _GlobalMasonState extends State<GlobalMason> {
                 MaterialPageRoute(
                   builder: (context) => ProductDetailScreen(
                     productModel: x,
+                    
                   ),
                 ),
-
               );
             },
             child: Container(
@@ -55,62 +55,44 @@ class _GlobalMasonState extends State<GlobalMason> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Hero(
-                      tag: x.productImages[0],
+                      borderRadius: BorderRadius.circular(15),
                       child: CachedNetworkImage(
                         imageUrl: x.productImages[0],
                         placeholder: (context, url) => const ShimmerPhoto(),
-                SizedBox(height: 8.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      x.productName,
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w600),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        context.read<OrderProvider>().addOrder(
-                            context: context,
-                            orderModel: OrderModel(
-                                count: 1,
-                                totalPrice: x.price,
-                                orderPrice: x.price,
-                                orderCurrency: x.currency,
-                                orderId: '',
-                                orderImg: x.productImages[0],
-                                productId: x.productId,
-                                userId: context.read<LoginProvider>().user!.uid,
-                                orderStatus: "waiting",
-                                createdAt: DateTime.now().toString(),
-                                productName: x.productName));
-                      },
-                      splashRadius: 2,
-                      icon: const Icon(
-                        Icons.shopping_cart_outlined,
-                      ),
-                    ),
-                  ),
+                      ),),
                   SizedBox(height: 8.h),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        x.productName,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        splashRadius: 2,
-                        icon: const Icon(
-                          Icons.shopping_cart_outlined,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          x.productName,
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600),
                         ),
-                      ),
-                    ],
-                  ),
+                        IconButton(
+                          onPressed: () {
+                            context.read<OrderProvider>().addOrder(
+                                context: context,
+                                orderModel: OrderModel(
+                                    count: 1,
+                                    totalPrice: x.price,
+                                    orderPrice: x.price,
+                                    orderCurrency: x.currency,
+                                    orderId: '',
+                                    orderImg: x.productImages[0],
+                                    productId: x.productId,
+                                    userId:
+                                        context.read<LoginProvider>().user!.uid,
+                                    orderStatus: "waiting",
+                                    createdAt: DateTime.now().toString(),
+                                    productName: x.productName));
+                          },
+                          splashRadius: 2,
+                          icon: const Icon(
+                            Icons.shopping_cart_outlined,
+                          ),
+                        ),
+                      ]),
                   SizedBox(height: 4.h),
                   Text(
                     x.description,
