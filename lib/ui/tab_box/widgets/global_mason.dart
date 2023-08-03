@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:planeta_uz/data/model/order_model.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/product_detail/product_detail_screen.dart';
+import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
+import 'package:planeta_uz/provider/order_provider.dart';
 import 'package:planeta_uz/utils/shimmer_photo.dart';
+import 'package:provider/provider.dart';
 
 class GlobalMason extends StatefulWidget {
   const GlobalMason({super.key, required this.products});
@@ -36,6 +40,7 @@ class _GlobalMasonState extends State<GlobalMason> {
                     productModel: x,
                   ),
                 ),
+
               );
             },
             child: Container(
@@ -56,6 +61,35 @@ class _GlobalMasonState extends State<GlobalMason> {
                       child: CachedNetworkImage(
                         imageUrl: x.productImages[0],
                         placeholder: (context, url) => const ShimmerPhoto(),
+                SizedBox(height: 8.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      x.productName,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        context.read<OrderProvider>().addOrder(
+                            context: context,
+                            orderModel: OrderModel(
+                                count: 1,
+                                totalPrice: x.price,
+                                orderPrice: x.price,
+                                orderCurrency: x.currency,
+                                orderId: '',
+                                orderImg: x.productImages[0],
+                                productId: x.productId,
+                                userId: context.read<LoginProvider>().user!.uid,
+                                orderStatus: "waiting",
+                                createdAt: DateTime.now().toString(),
+                                productName: x.productName));
+                      },
+                      splashRadius: 2,
+                      icon: const Icon(
+                        Icons.shopping_cart_outlined,
                       ),
                     ),
                   ),

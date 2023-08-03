@@ -6,8 +6,6 @@ import 'package:planeta_uz/data/model/order_model.dart';
 import 'package:planeta_uz/data/model/universal.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 
-
-
 class OrderProvider with ChangeNotifier {
   OrderProvider(
     this.orderService,
@@ -15,26 +13,30 @@ class OrderProvider with ChangeNotifier {
 
   final OrderService orderService;
 
-  int newCount = 1;
+  List<OrderModel> userOrders = [];
 
-  addcount() {
-    newCount++;
-    notifyListeners();
-  }
-  minuscount() {
-    if(newCount>=1){
-      newCount--;
-    notifyListeners();
-    }
-  }
-
-  Future<void> addOrders({
+  Future<void> addOrder({
     required BuildContext context,
     required OrderModel orderModel,
   }) async {
+    List<OrderModel> exists = userOrders
+        .where((element) => element.productId == orderModel.productId)
+        .toList();
+
+    OrderModel? oldOrderModel;
+    if (exists.isNotEmpty) {
+      oldOrderModel = exists.first;
+      oldOrderModel = oldOrderModel.copWith(
+          count: orderModel.count + oldOrderModel.count,
+          totalPrice:
+              (orderModel.count + oldOrderModel.count) * orderModel.totalPrice);
+    }
+
     showLoading(context: context);
-    UniversalData universalData =
-        await OrderService.addOrders(orderModel: orderModel);
+    UniversalData universalData = exists.isNotEmpty
+        ? await orderService.updateOrders(orderModel: oldOrderModel!)
+        : await orderService.addOrders(orderModel: orderModel);
+
     if (context.mounted) {
       hideLoading(dialogContext: context);
     }
@@ -55,7 +57,7 @@ class OrderProvider with ChangeNotifier {
   }) async {
     showLoading(context: context);
     UniversalData universalData =
-        await OrderService.updateOrders(orderModel: orderModel);
+        await orderService.updateOrders(orderModel: orderModel);
     if (context.mounted) {
       hideLoading(dialogContext: context);
     }
@@ -76,7 +78,7 @@ class OrderProvider with ChangeNotifier {
   }) async {
     showLoading(context: context);
     UniversalData universalData =
-        await OrderService.deleteProduct(orderId: orderId);
+        await orderService.deleteProduct(orderId: orderId);
     if (context.mounted) {
       hideLoading(dialogContext: context);
     }
@@ -98,11 +100,22 @@ class OrderProvider with ChangeNotifier {
                 .toList(),
           );
 
-  Stream<List<OrderModel>> getOrdersByID(String userId) {
+  Stream<List<OrderModel>> getOrdersByUID(String userId) {
     final databaseReference = FirebaseFirestore.instance.collection('orders');
 
     return databaseReference.where('userId', isEqualTo: userId).snapshots().map(
         (querySnapshot) => querySnapshot.docs
+            .map((doc) => OrderModel.fromJson(doc.data()))
+            .toList());
+  }
+
+  Stream<List<OrderModel>> getOrdersByOrderID(String orderId) {
+    final databaseReference = FirebaseFirestore.instance.collection('orders');
+
+    return databaseReference
+        .where('orderId', isEqualTo: orderId)
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs
             .map((doc) => OrderModel.fromJson(doc.data()))
             .toList());
   }
