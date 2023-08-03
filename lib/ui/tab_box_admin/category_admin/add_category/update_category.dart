@@ -46,8 +46,14 @@ class _UpdateCategoryState extends State<UpdateCategory> {
         return true;
       },
       child: Scaffold(
+        backgroundColor: const Color(0xFFF2F2F2),
         appBar: AppBar(
-          title: const Text("Category Update"),
+          title: const Text(
+            'Admin Product Page',
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
           leading: IconButton(
             onPressed: () {
               context.read<CategoryProvider>().tozalash();
@@ -55,66 +61,67 @@ class _UpdateCategoryState extends State<UpdateCategory> {
             },
             icon: const Icon(
               Icons.arrow_back,
+              color: Colors.black,
             ),
           ),
+          backgroundColor: const Color(0xFFF2F2F2),
+          elevation: 0,
         ),
-        body: Padding(
+        body: ListView(
           padding: EdgeInsets.all(10.h),
-          child: ListView(
-            children: [
-              SizedBox(height: 10.h),
-              GlobalTextField(
-                hintText: "Add Category name",
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<CategoryProvider>().categoryNamecontroller,
-                label: 'Name',
-              ),
-              SizedBox(height: 10.h),
-              GlobalTextField(
-                hintText: "Add Category description",
-                maxLines: 5,
-                textAlign: TextAlign.start,
-                controller:
-                    context.read<CategoryProvider>().categoryDesccontroller,
-                label: 'Description',
-              ),
+          children: [
+            SizedBox(height: 10.h),
+            GlobalTextField(
+              hintText: "Add Category name",
+              textAlign: TextAlign.start,
+              controller:
+                  context.read<CategoryProvider>().categoryNamecontroller,
+              label: 'Name',
+            ),
+            SizedBox(height: 10.h),
+            GlobalTextField(
+              hintText: "Add Category description",
+              maxLines: 5,
+              textAlign: TextAlign.start,
+              controller:
+                  context.read<CategoryProvider>().categoryDesccontroller,
+              label: 'Description',
+            ),
 
-              SizedBox(
-                height: 150,
-                width: 150,
-                child: context.watch<CategoryProvider>().categoryUrl.isEmpty
-                    ? Image.network(widget.categoryModel.imageUrl)
-                    : Image.network(
-                        context.watch<CategoryProvider>().categoryUrl),
+            SizedBox(
+              height: 150,
+              width: 150,
+              child: context.watch<CategoryProvider>().categoryUrl.isEmpty
+                  ? Image.network(widget.categoryModel.imageUrl)
+                  : Image.network(
+                      context.watch<CategoryProvider>().categoryUrl),
+            ),
+            ElevatedButton(
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.black),
               ),
-              ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.black),
-                ),
-                onPressed: () async {
-                  showBottomSheetDialog(context);
-                },
-                child: const Text('Upload Image'),
+              onPressed: () async {
+                showBottomSheetDialog(context);
+              },
+              child: const Text('Upload Image'),
 
+            ),
+            const SizedBox(width: 20),
+            ElevatedButton(
+              style: const ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.black),
               ),
-              const SizedBox(width: 20),
-              ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.black),
-                ),
-                onPressed: () {
-                  context.read<CategoryProvider>().updateCategory(
-                      context: context, category: widget.categoryModel);
-                  Navigator.pop(context);
+              onPressed: () {
+                context.read<CategoryProvider>().updateCategory(
+                    context: context, category: widget.categoryModel);
+                Navigator.pop(context);
 
-                },
-                child: const Text(
-                  "Update Category",
-                ),
+              },
+              child: const Text(
+                "Update Category",
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

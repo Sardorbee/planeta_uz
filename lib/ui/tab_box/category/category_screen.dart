@@ -12,8 +12,7 @@ class CategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-      backgroundColor: const Color(0xFFF2F2F2),
-
+        backgroundColor: const Color(0xFFF2F2F2),
         title: const Text('Category Screen'),
       ),
       body: StreamBuilder<List<CategoryModel>>(
@@ -32,8 +31,8 @@ class CategoryScreen extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductsByCAt(
-                                      category: categoryModel),
+                                  builder: (context) =>
+                                      ProductsByCAt(category: categoryModel),
                                 ));
                           },
                           leading: CircleAvatar(
@@ -46,7 +45,7 @@ class CategoryScreen extends StatelessWidget {
                       },
                     ),
                   )
-                :  Center(child: Lottie.asset("assets/lottie/empty_box.json"));
+                : Center(child: Lottie.asset("assets/lottie/empty_box.json"));
           }
           if (snapshot.hasError) {
             return Center(
