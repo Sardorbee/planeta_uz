@@ -16,7 +16,11 @@ class CategoryScreenAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Category Page'),
+        backgroundColor: const Color(0xFFF2F2F2),
+        title: const Text(
+          'Admin Category Page',
+          style: TextStyle(color: Colors.black),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -28,6 +32,7 @@ class CategoryScreenAdmin extends StatelessWidget {
             icon: context.read<ProfileProvider>().currentUser!.photoURL == null
                 ? Icon(
                     Icons.account_circle,
+                    color: Colors.black,
                     size: 40.h,
                   )
                 : CircleAvatar(
@@ -69,7 +74,6 @@ class CategoryScreenAdmin extends StatelessWidget {
                                       child: const Text('No')),
                                   TextButton(
                                     onPressed: () {
-
                                       Navigator.pop(context);
 
                                       showLoading(context: context);
@@ -83,7 +87,6 @@ class CategoryScreenAdmin extends StatelessWidget {
                                           );
                                       hideLoading(dialogContext: context);
                                       Navigator.pop(context);
-
                                     },
                                     child: const Text('Yes'),
                                   ),

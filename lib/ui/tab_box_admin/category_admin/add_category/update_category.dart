@@ -1,13 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
-import 'package:planeta_uz/data/upload_service.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
-import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
-import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
 import 'package:planeta_uz/ui/utils/global_textf.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +18,6 @@ class UpdateCategory extends StatefulWidget {
 
 class _UpdateCategoryState extends State<UpdateCategory> {
   ImagePicker picker = ImagePicker();
-
 
   textInit() {
     context.read<CategoryProvider>().categoryNamecontroller.text =
@@ -47,7 +41,11 @@ class _UpdateCategoryState extends State<UpdateCategory> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Category Update"),
+          backgroundColor: const Color(0xFFF2F2F2),
+          title: const Text(
+            "Category Update",
+            style: TextStyle(color: Colors.black),
+          ),
           leading: IconButton(
             onPressed: () {
               context.read<CategoryProvider>().tozalash();
@@ -79,7 +77,6 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                     context.read<CategoryProvider>().categoryDesccontroller,
                 label: 'Description',
               ),
-
               SizedBox(
                 height: 150,
                 width: 150,
@@ -96,7 +93,6 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                   showBottomSheetDialog(context);
                 },
                 child: const Text('Upload Image'),
-
               ),
               const SizedBox(width: 20),
               ElevatedButton(
@@ -107,7 +103,6 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                   context.read<CategoryProvider>().updateCategory(
                       context: context, category: widget.categoryModel);
                   Navigator.pop(context);
-
                 },
                 child: const Text(
                   "Update Category",
@@ -186,5 +181,4 @@ class _UpdateCategoryState extends State<UpdateCategory> {
     }
     Navigator.pop(context);
   }
-
 }

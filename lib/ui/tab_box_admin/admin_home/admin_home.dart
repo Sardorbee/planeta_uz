@@ -14,7 +14,11 @@ class ProductScreenAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Product Page'),
+        backgroundColor: const Color(0xFFF2F2F2),
+        title: const Text(
+          'Admin Product Page',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: StreamBuilder<List<ProductModel>>(
         stream: context.read<ProductsProvider>().getProducts(),
@@ -34,7 +38,6 @@ class ProductScreenAdmin extends StatelessWidget {
                                 MaterialPageRoute(
                                     builder: (context) => ProductDetailScreen(
                                           productModel: productModel,
-                                          
                                         )));
                           },
                           onLongPress: () {

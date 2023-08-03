@@ -73,7 +73,11 @@ class _UpdateproductsState extends State<Updateproducts> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Update Products"),
+          backgroundColor: const Color(0xFFF2F2F2),
+          title: const Text(
+            "Update Products",
+            style: TextStyle(color: Colors.black),
+          ),
           leading: IconButton(
             onPressed: () {
               context.read<ProductsProvider>().tozalash();
@@ -90,37 +94,46 @@ class _UpdateproductsState extends State<Updateproducts> {
             children: [
               SizedBox(height: 10.h),
               GlobalTextField(
-                  hintText: "Add Product name",
-                  textAlign: TextAlign.start,
-                  controller:
-                      context.read<ProductsProvider>().ProductsNamecontroller, label: 'Name',),
+                hintText: "Add Product name",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<ProductsProvider>().ProductsNamecontroller,
+                label: 'Name',
+              ),
               SizedBox(height: 10.h),
               GlobalTextField(
-                  hintText: "Add Product count",
-                  textAlign: TextAlign.start,
-                  keyboardType: TextInputType.number,
-                  controller:
-                      context.read<ProductsProvider>().ProductsCountcontroller, label: 'Count',),
+                hintText: "Add Product count",
+                textAlign: TextAlign.start,
+                keyboardType: TextInputType.number,
+                controller:
+                    context.read<ProductsProvider>().ProductsCountcontroller,
+                label: 'Count',
+              ),
               SizedBox(height: 10.h),
               GlobalTextField(
-                  hintText: "Add Product description",
-                  textAlign: TextAlign.start,
-                  controller:
-                      context.read<ProductsProvider>().ProductsDesccontroller, label: 'Description',),
+                hintText: "Add Product description",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<ProductsProvider>().ProductsDesccontroller,
+                label: 'Description',
+              ),
               SizedBox(height: 10.h),
               GlobalTextField(
-                  keyboardType: TextInputType.number,
-                  hintText: "Add Product Price",
-                  textAlign: TextAlign.start,
-                  controller:
-                      context.read<ProductsProvider>().ProductsPricecontroller, label: 'Price',),
+                keyboardType: TextInputType.number,
+                hintText: "Add Product Price",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<ProductsProvider>().ProductsPricecontroller,
+                label: 'Price',
+              ),
               SizedBox(height: 10.h),
               GlobalTextField(
-                  hintText: "Add Product Currency",
-                  textAlign: TextAlign.start,
-                  controller: context
-                      .read<ProductsProvider>()
-                      .ProductsCurrencycontroller, label: 'Currency',),
+                hintText: "Add Product Currency",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<ProductsProvider>().ProductsCurrencycontroller,
+                label: 'Currency',
+              ),
               SizedBox(height: 10.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,7 +147,7 @@ class _UpdateproductsState extends State<Updateproducts> {
                         context: context,
                         builder: (BuildContext context) {
                           return CategorySelectionWidget(
-                            onCategorySelected: (p0,name) {
+                            onCategorySelected: (p0, name) {
                               setState(() {
                                 catID = p0;
                                 catName = name;
@@ -144,9 +157,11 @@ class _UpdateproductsState extends State<Updateproducts> {
                         },
                       );
                     },
-                    child: catName!=null ? Text(catName!.capitalize()) : const Text(
-                      "Choose Category",
-                    ),
+                    child: catName != null
+                        ? Text(catName!.capitalize())
+                        : const Text(
+                            "Choose Category",
+                          ),
                   ),
                   ElevatedButton(
                     style: const ButtonStyle(
@@ -206,7 +221,7 @@ class _UpdateproductsState extends State<Updateproducts> {
                     context.read<ProductsProvider>().updateProducts(
                           context: context,
                           productModel: ProductModel(
-                            isCarted: 0,
+                              isCarted: 0,
                               count: int.parse(context
                                   .read<ProductsProvider>()
                                   .ProductsCountcontroller
