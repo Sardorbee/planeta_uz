@@ -21,7 +21,7 @@ class _TabBoxAdminState extends State<TabBoxAdmin> {
     screens = [
       const ProductScreenAdmin(),
       const CategoryScreenAdmin(),
-      const OrdersAdmin(),
+      const CartAdmin(),
       const ProfileScreen(),
     ];
 

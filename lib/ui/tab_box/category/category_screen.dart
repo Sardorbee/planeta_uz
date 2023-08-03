@@ -13,7 +13,10 @@ class CategoryScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFF2F2F2),
-        title: const Text('Category Screen'),
+        title: const Text(
+          'Category Screen',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: StreamBuilder<List<CategoryModel>>(
         stream: context.read<CategoryProvider>().getCategories(),
