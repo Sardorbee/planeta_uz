@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class SocialButtons extends StatelessWidget {
   const SocialButtons({
@@ -18,7 +20,9 @@ class SocialButtons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            
+            onTap: (){
+              context.read<LoginProvider>().signInWithGoogle2(context);
+            },
             child: Container(
               padding: EdgeInsets.all(15.h),
               decoration: BoxDecoration(

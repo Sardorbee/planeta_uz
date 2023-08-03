@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/chat/chat_page.dart';
 import 'package:planeta_uz/chat/chat_provider.dart';
 import 'package:planeta_uz/chat/chat_service.dart';
+import 'package:planeta_uz/data/firebase/auth_service.dart';
 import 'package:planeta_uz/data/firebase/category_service.dart';
 import 'package:planeta_uz/data/firebase/order_service.dart';
 import 'package:planeta_uz/data/firebase/products_service.dart';
@@ -23,7 +24,7 @@ Future<void> main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => LoginProvider(),
+          create: (context) => LoginProvider(firebaseServices: AuthService()),
           lazy: true,
         ),
         ChangeNotifierProvider(
