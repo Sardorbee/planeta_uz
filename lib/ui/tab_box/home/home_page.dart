@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.08,
+              height: MediaQuery.of(context).size.height * 0.11,
               child: StreamBuilder<List<CategoryModel>>(
                 stream: context.read<CategoryProvider>().getCategories(),
                 builder: (BuildContext context,
@@ -201,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
