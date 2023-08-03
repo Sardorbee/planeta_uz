@@ -72,13 +72,11 @@ class _UpdateproductsState extends State<Updateproducts> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
         appBar: AppBar(
+          backgroundColor: const Color(0xFFF2F2F2),
           title: const Text(
-            'Admin Product Page',
-            style: TextStyle(
-              color: Colors.black,
-            ),
+            "Update Products",
+            style: TextStyle(color: Colors.black),
           ),
           leading: IconButton(
             onPressed: () {
@@ -87,175 +85,181 @@ class _UpdateproductsState extends State<Updateproducts> {
             },
             icon: const Icon(
               Icons.arrow_back,
-              color: Colors.black,
             ),
           ),
-          backgroundColor: const Color(0xFFF2F2F2),
-          elevation: 0,
         ),
-        body: ListView(
+        body: Padding(
           padding: EdgeInsets.all(10.h),
-          children: [
-            SizedBox(height: 10.h),
-            GlobalTextField(
-              hintText: "Add Product name",
-              textAlign: TextAlign.start,
-              controller:
-                  context.read<ProductsProvider>().ProductsNamecontroller,
-              label: 'Name',
-            ),
-            SizedBox(height: 10.h),
-            GlobalTextField(
-              hintText: "Add Product count",
-              textAlign: TextAlign.start,
-              keyboardType: TextInputType.number,
-              controller:
-                  context.read<ProductsProvider>().ProductsCountcontroller,
-              label: 'Count',
-            ),
-            SizedBox(height: 10.h),
-            GlobalTextField(
-              hintText: "Add Product description",
-              textAlign: TextAlign.start,
-              controller:
-                  context.read<ProductsProvider>().ProductsDesccontroller,
-              label: 'Description',
-            ),
-            SizedBox(height: 10.h),
-            GlobalTextField(
-              keyboardType: TextInputType.number,
-              hintText: "Add Product Price",
-              textAlign: TextAlign.start,
-              controller:
-                  context.read<ProductsProvider>().ProductsPricecontroller,
-              label: 'Price',
-            ),
-            SizedBox(height: 10.h),
-            GlobalTextField(
-              hintText: "Add Product Currency",
-              textAlign: TextAlign.start,
-              controller:
-                  context.read<ProductsProvider>().ProductsCurrencycontroller,
-              label: 'Currency',
-            ),
-            SizedBox(height: 10.h),
-            ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.black),
+          child: ListView(
+            children: [
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                hintText: "Add Product name",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<ProductsProvider>().ProductsNamecontroller,
+                label: 'Name',
               ),
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return CategorySelectionWidget(
-                      onCategorySelected: (p0, name) {
-                        setState(() {
-                          catID = p0;
-                          catName = name;
-                        });
-                      },
-                    );
-                  },
-                );
-              },
-              child: catName != null
-                  ? Text(catName!.capitalize())
-                  : const Text(
-                      "Choose Category",
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                hintText: "Add Product count",
+                textAlign: TextAlign.start,
+                keyboardType: TextInputType.number,
+                controller:
+                    context.read<ProductsProvider>().ProductsCountcontroller,
+                label: 'Count',
+              ),
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                hintText: "Add Product description",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<ProductsProvider>().ProductsDesccontroller,
+                label: 'Description',
+              ),
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                keyboardType: TextInputType.number,
+                hintText: "Add Product Price",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<ProductsProvider>().ProductsPricecontroller,
+                label: 'Price',
+              ),
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                hintText: "Add Product Currency",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<ProductsProvider>().ProductsCurrencycontroller,
+                label: 'Currency',
+              ),
+              SizedBox(height: 10.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.black),
                     ),
-            ),
-            const SizedBox(width: 20),
-            _imageFile != null
-                ? Image.file(
-                    File(
-                      _imageFile!.path,
-                    ),
-                    height: 70,
-                  )
-                : Image.network(
-                    widget.productModel.productImages[0],
-                    height: 70,
-                  ),
-            ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.black),
-              ),
-              onPressed: () async {
-                await _pickImage();
-
-                await _uploadImage();
-              },
-              child: const Text('Upload Image'),
-            ),
-            const SizedBox(width: 20),
-            ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.black),
-              ),
-              onPressed: () {
-                if (context
-                        .read<ProductsProvider>()
-                        .ProductsNamecontroller
-                        .text
-                        .isNotEmpty &&
-                    context
-                        .read<ProductsProvider>()
-                        .ProductsDesccontroller
-                        .text
-                        .isNotEmpty &&
-                    context
-                        .read<ProductsProvider>()
-                        .ProductsCountcontroller
-                        .text
-                        .isNotEmpty &&
-                    context
-                        .read<ProductsProvider>()
-                        .ProductsCurrencycontroller
-                        .text
-                        .isNotEmpty &&
-                    context
-                        .read<ProductsProvider>()
-                        .ProductsPricecontroller
-                        .text
-                        .isNotEmpty) {
-                  context.read<ProductsProvider>().updateProducts(
+                    onPressed: () {
+                      showModalBottomSheet(
                         context: context,
-                        productModel: ProductModel(
-                            count: int.parse(context
-                                .read<ProductsProvider>()
-                                .ProductsCountcontroller
-                                .text),
-                            price: int.parse(context
-                                .read<ProductsProvider>()
-                                .ProductsPricecontroller
-                                .text),
-                            productImages: [
-                              _imageUrl ?? widget.productModel.productImages[0]
-                            ],
-                            categoryId: catID ?? widget.productModel.categoryId,
-                            productId: widget.productModel.productId,
-                            productName: context
-                                .read<ProductsProvider>()
-                                .ProductsNamecontroller
-                                .text,
-                            description: context
-                                .read<ProductsProvider>()
-                                .ProductsDesccontroller
-                                .text,
-                            createdAt: widget.productModel.createdAt,
-                            currency: context
-                                .read<ProductsProvider>()
-                                .ProductsCurrencycontroller
-                                .text),
+                        builder: (BuildContext context) {
+                          return CategorySelectionWidget(
+                            onCategorySelected: (p0, name) {
+                              setState(() {
+                                catID = p0;
+                                catName = name;
+                              });
+                            },
+                          );
+                        },
                       );
-                  Navigator.pop(context);
-                }
-              },
-              child: const Text(
-                "Update Product",
+                    },
+                    child: catName != null
+                        ? Text(catName!.capitalize())
+                        : const Text(
+                            "Choose Category",
+                          ),
+                  ),
+                  ElevatedButton(
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.black),
+                    ),
+                    onPressed: () async {
+                      await _pickImage();
+
+                      await _uploadImage();
+                    },
+                    child: const Text('Upload Image'),
+                  ),
+                  const SizedBox(width: 20),
+                  _imageFile != null
+                      ? Image.file(
+                          File(
+                            _imageFile!.path,
+                          ),
+                          height: 70,
+                        )
+                      : Image.network(
+                          widget.productModel.productImages[0],
+                          height: 70,
+                        ),
+                ],
               ),
-            )
-          ],
+              ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                ),
+                onPressed: () {
+                  if (context
+                          .read<ProductsProvider>()
+                          .ProductsNamecontroller
+                          .text
+                          .isNotEmpty &&
+                      context
+                          .read<ProductsProvider>()
+                          .ProductsDesccontroller
+                          .text
+                          .isNotEmpty &&
+                      context
+                          .read<ProductsProvider>()
+                          .ProductsCountcontroller
+                          .text
+                          .isNotEmpty &&
+                      context
+                          .read<ProductsProvider>()
+                          .ProductsCurrencycontroller
+                          .text
+                          .isNotEmpty &&
+                      context
+                          .read<ProductsProvider>()
+                          .ProductsPricecontroller
+                          .text
+                          .isNotEmpty) {
+                    context.read<ProductsProvider>().updateProducts(
+                          context: context,
+                          productModel: ProductModel(
+                              isCarted: 0,
+                              count: int.parse(context
+                                  .read<ProductsProvider>()
+                                  .ProductsCountcontroller
+                                  .text),
+                              price: int.parse(context
+                                  .read<ProductsProvider>()
+                                  .ProductsPricecontroller
+                                  .text),
+                              productImages: [
+                                _imageUrl ??
+                                    widget.productModel.productImages[0]
+                              ],
+                              categoryId:
+                                  catID ?? widget.productModel.categoryId,
+                              productId: widget.productModel.productId,
+                              productName: context
+                                  .read<ProductsProvider>()
+                                  .ProductsNamecontroller
+                                  .text,
+                              description: context
+                                  .read<ProductsProvider>()
+                                  .ProductsDesccontroller
+                                  .text,
+                              createdAt: widget.productModel.createdAt,
+                              currency: context
+                                  .read<ProductsProvider>()
+                                  .ProductsCurrencycontroller
+                                  .text),
+                        );
+                    Navigator.pop(context);
+                  }
+                },
+                child: const Text(
+                  "Update Product",
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,13 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
-import 'package:planeta_uz/data/upload_service.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
-import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
-import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
 import 'package:planeta_uz/ui/utils/global_textf.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +18,6 @@ class UpdateCategory extends StatefulWidget {
 
 class _UpdateCategoryState extends State<UpdateCategory> {
   ImagePicker picker = ImagePicker();
-
 
   textInit() {
     context.read<CategoryProvider>().categoryNamecontroller.text =
@@ -46,13 +40,11 @@ class _UpdateCategoryState extends State<UpdateCategory> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFFF2F2F2),
         appBar: AppBar(
+          backgroundColor: const Color(0xFFF2F2F2),
           title: const Text(
-            'Admin Product Page',
-            style: TextStyle(
-              color: Colors.black,
-            ),
+            "Category Update",
+            style: TextStyle(color: Colors.black),
           ),
           leading: IconButton(
             onPressed: () {
@@ -61,67 +53,63 @@ class _UpdateCategoryState extends State<UpdateCategory> {
             },
             icon: const Icon(
               Icons.arrow_back,
-              color: Colors.black,
             ),
           ),
-          backgroundColor: const Color(0xFFF2F2F2),
-          elevation: 0,
         ),
-        body: ListView(
+        body: Padding(
           padding: EdgeInsets.all(10.h),
-          children: [
-            SizedBox(height: 10.h),
-            GlobalTextField(
-              hintText: "Add Category name",
-              textAlign: TextAlign.start,
-              controller:
-                  context.read<CategoryProvider>().categoryNamecontroller,
-              label: 'Name',
-            ),
-            SizedBox(height: 10.h),
-            GlobalTextField(
-              hintText: "Add Category description",
-              maxLines: 5,
-              textAlign: TextAlign.start,
-              controller:
-                  context.read<CategoryProvider>().categoryDesccontroller,
-              label: 'Description',
-            ),
-
-            SizedBox(
-              height: 150,
-              width: 150,
-              child: context.watch<CategoryProvider>().categoryUrl.isEmpty
-                  ? Image.network(widget.categoryModel.imageUrl)
-                  : Image.network(
-                      context.watch<CategoryProvider>().categoryUrl),
-            ),
-            ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.black),
+          child: ListView(
+            children: [
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                hintText: "Add Category name",
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<CategoryProvider>().categoryNamecontroller,
+                label: 'Name',
               ),
-              onPressed: () async {
-                showBottomSheetDialog(context);
-              },
-              child: const Text('Upload Image'),
-
-            ),
-            const SizedBox(width: 20),
-            ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.black),
+              SizedBox(height: 10.h),
+              GlobalTextField(
+                hintText: "Add Category description",
+                maxLines: 5,
+                textAlign: TextAlign.start,
+                controller:
+                    context.read<CategoryProvider>().categoryDesccontroller,
+                label: 'Description',
               ),
-              onPressed: () {
-                context.read<CategoryProvider>().updateCategory(
-                    context: context, category: widget.categoryModel);
-                Navigator.pop(context);
-
-              },
-              child: const Text(
-                "Update Category",
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: context.watch<CategoryProvider>().categoryUrl.isEmpty
+                    ? Image.network(widget.categoryModel.imageUrl)
+                    : Image.network(
+                        context.watch<CategoryProvider>().categoryUrl),
               ),
-            ),
-          ],
+              ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                ),
+                onPressed: () async {
+                  showBottomSheetDialog(context);
+                },
+                child: const Text('Upload Image'),
+              ),
+              const SizedBox(width: 20),
+              ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                ),
+                onPressed: () {
+                  context.read<CategoryProvider>().updateCategory(
+                      context: context, category: widget.categoryModel);
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  "Update Category",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -193,5 +181,4 @@ class _UpdateCategoryState extends State<UpdateCategory> {
     }
     Navigator.pop(context);
   }
-
 }

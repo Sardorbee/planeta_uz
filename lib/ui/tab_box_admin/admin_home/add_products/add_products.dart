@@ -42,7 +42,11 @@ class _AddproductsState extends State<Addproducts> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Add Products"),
+          backgroundColor: const Color(0xFFF2F2F2),
+
+        title: const Text("Add Products",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Column(
         children: [

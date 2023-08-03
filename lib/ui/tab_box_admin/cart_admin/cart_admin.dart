@@ -1,77 +1,160 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:planeta_uz/data/model/order_model.dart';
+import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/order_provider.dart';
-import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
-import 'package:planeta_uz/utils/constants.dart';
 import 'package:provider/provider.dart';
 
-class OrdersAdmin extends StatelessWidget {
-  const OrdersAdmin({super.key});
+class CartAdmin extends StatelessWidget {
+  const CartAdmin({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F2),
-      appBar: AppBar(
-        title: const Text(
-          'Admin Orders Page',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
-        backgroundColor: const Color(0xFFF2F2F2),
-        elevation: 0,
-      ),
       body: StreamBuilder<List<OrderModel>>(
-        stream: context.read<OrderProvider>().getOrders(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<OrderModel>> snapshot) {
-          if (snapshot.hasData) {
-            return snapshot.data!.isNotEmpty
-                ? ListView(
-              children: List.generate(
-                snapshot.data!.length,
-                    (index) {
-                  OrderModel orderModel = snapshot.data![index];
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16.w,vertical: 10.h),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                    ),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage:
-                        NetworkImage(orderModel.orderImg),
-                      ),
-                      title: Text(orderModel.productName.capitalize()),
-                      subtitle: Text(orderModel.orderPrice.toString().capitalize()),
-                    ),
-                  );
-                },
+        stream: context
+            .read<OrderProvider>()
+            .getOrdersByOrdered(context.read<LoginProvider>().user!.uid),
+        builder: (context, snapshot) {
+          return CustomScrollView(
+            slivers: [
+              const SliverAppBar(
+                backgroundColor: Color(0xFFF2F2F2),
+                title: Text(
+                  'Cart Screen',
+                  style: TextStyle(color: Colors.black),
+                ),
+                pinned: true,
               ),
-            )
-                : const Center(child: Text("Empty!"));
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error.toString()),
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
+              if (snapshot.connectionState == ConnectionState.waiting)
+                const SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              else if (snapshot.hasError)
+                SliverFillRemaining(
+                  child: Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  ),
+                )
+              else if (snapshot.data!.isNotEmpty)
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) {
+                      OrderModel x = snapshot.data![index];
+                      return GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.all(8),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 170.h,
+                                width: 150.w,
+                                child: CachedNetworkImage(imageUrl: x.orderImg),
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        x.productName,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Text(
+                                        "Status: ${x.orderStatus}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Text(
+                                        "Order Amount: ${x.count}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Text(
+                                        "Order Price: ${x.totalPrice} ${x.orderCurrency}",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      SizedBox(height: 20.h),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    Colors.grey.shade400)),
+                                        onPressed: () {
+                                          context
+                                              .read<OrderProvider>()
+                                              .updateByOrderField(
+                                                  collectionName: 'orders',
+                                                  collectionDocId: x.orderId,
+                                                  docField: "orderStatus",
+                                                  updatedText: "Canceled");
+                                        },
+                                        child: const Text(
+                                          "Cancel",
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5.w,
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          context
+                                              .read<OrderProvider>()
+                                              .updateByOrderField(
+                                                  collectionName: 'orders',
+                                                  collectionDocId: x.orderId,
+                                                  docField: "orderStatus",
+                                                  updatedText: "Delivering");
+                                        },
+                                        child: const Text(
+                                          "Deliver",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: snapshot.data!.length,
+                  ),
+                )
+              else if (snapshot.data!.isEmpty)
+                SliverFillRemaining(
+                  child: LottieBuilder.asset("assets/lottie/empty_box.json"),
+                ),
+            ],
+          );
         },
       ),
     );

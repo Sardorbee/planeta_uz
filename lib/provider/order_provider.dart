@@ -13,37 +13,13 @@ class OrderProvider with ChangeNotifier {
 
   final OrderService orderService;
 
-  List<OrderModel> userOrders = [];
-
-  Future<void> addOrder({
+  Future<void> addOrders({
     required BuildContext context,
     required OrderModel orderModel,
   }) async {
-    List<OrderModel> exists = userOrders
-        .where((element) => element.productId == orderModel.productId)
-        .toList();
-
-    OrderModel? oldOrderModel;
-    if (exists.isNotEmpty) {
-      oldOrderModel = exists.first;
-      oldOrderModel = oldOrderModel.copWith(
-          count: orderModel.count + oldOrderModel.count,
-          totalPrice:
-              (orderModel.count + oldOrderModel.count) * orderModel.totalPrice);
-    }
-
-    showLoading(context: context);
-    UniversalData universalData = exists.isNotEmpty
-        ? await orderService.updateOrders(orderModel: oldOrderModel!)
-        : await orderService.addOrders(orderModel: orderModel);
-
-    if (context.mounted) {
-      hideLoading(dialogContext: context);
-    }
+    UniversalData universalData =
+        await orderService.addOrders(orderModel: orderModel);
     if (universalData.error.isEmpty) {
-      if (context.mounted) {
-        showMessage(context, universalData.data as String);
-      }
     } else {
       if (context.mounted) {
         showMessage(context, universalData.error);
@@ -72,13 +48,13 @@ class OrderProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteProducts({
+  Future<void> deleteOrders({
     required BuildContext context,
     required String orderId,
   }) async {
     showLoading(context: context);
     UniversalData universalData =
-        await orderService.deleteProduct(orderId: orderId);
+        await orderService.deleteOrder(orderId: orderId);
     if (context.mounted) {
       hideLoading(dialogContext: context);
     }
@@ -93,6 +69,23 @@ class OrderProvider with ChangeNotifier {
     }
   }
 
+  Future<void> deleteDocumentByProductId(String productId) async {
+    final CollectionReference ordersCollection =
+        FirebaseFirestore.instance.collection('orders');
+
+    QuerySnapshot querySnapshot =
+        await ordersCollection.where('productId', isEqualTo: productId).get();
+
+    if (querySnapshot.size > 0) {
+      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+        await documentSnapshot.reference.delete();
+      }
+      print('Document(s) with productId $productId deleted successfully.');
+    } else {
+      print('No document with productId $productId found.');
+    }
+  }
+
   Stream<List<OrderModel>> getOrders() =>
       FirebaseFirestore.instance.collection("orders").snapshots().map(
             (event1) => event1.docs
@@ -100,15 +93,33 @@ class OrderProvider with ChangeNotifier {
                 .toList(),
           );
 
-  Stream<List<OrderModel>> getOrdersByUID(String userId) {
+  Stream<List<OrderModel>> getOrdersByOrdered(
+    String userId,
+  ) {
     final databaseReference = FirebaseFirestore.instance.collection('orders');
 
-    return databaseReference.where('userId', isEqualTo: userId).snapshots().map(
-        (querySnapshot) => querySnapshot.docs
-            .map((doc) => OrderModel.fromJson(doc.data()))
-            .toList());
+    return databaseReference
+        .where('orderStatus', isEqualTo: "Ordered")
+        .snapshots()
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => OrderModel.fromJson(doc.data()))
+              .toList(),
+        );
   }
 
+  Future updateByOrderField(
+      {required String collectionName,
+      required String collectionDocId,
+      required String docField,
+      required updatedText}) async {
+    await FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(collectionDocId)
+        .update({
+      docField: updatedText,
+    });
+  }
   Stream<List<OrderModel>> getOrdersByOrderID(String orderId) {
     final databaseReference = FirebaseFirestore.instance.collection('orders');
 
@@ -120,8 +131,74 @@ class OrderProvider with ChangeNotifier {
             .toList());
   }
 
+  Stream<List<OrderModel>> getOrdersUID(String uID) {
+    final databaseReference = FirebaseFirestore.instance.collection('orders');
+
+    return databaseReference
+        .where('userId', isEqualTo: uID)
+        .orderBy('createdAt')
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs
+            .map((doc) => OrderModel.fromJson(doc.data()))
+            .toList());
+  }
+
   showMessage(BuildContext context, String error) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: const Duration(microseconds: 1000), content: Text(error)));
     notifyListeners();
   }
+
+
+   Stream<List<OrderModel>> getOrdersByUIDWaiting(
+    String userId,
+  ) {
+    final databaseReference = FirebaseFirestore.instance.collection('orders');
+
+    return databaseReference
+        .where('userId', isEqualTo: userId)
+        .where('orderStatus', isEqualTo: "waiting")
+        
+        .snapshots()
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => OrderModel.fromJson(doc.data()))
+              .toList(),
+        );
+  }
+
+ Stream<List<OrderModel>> getOrdersByUIShipping(
+    String userId,
+  ) {
+    final databaseReference = FirebaseFirestore.instance.collection('orders');
+
+    return databaseReference
+        .where('userId', isEqualTo: userId)
+        .where('orderStatus', isEqualTo: "Shipping")
+        
+        .snapshots()
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => OrderModel.fromJson(doc.data()))
+              .toList(),
+        );
+  }
+ Stream<List<OrderModel>> getOrdersByUICanceled(
+    String userId,
+  ) {
+    final databaseReference = FirebaseFirestore.instance.collection('orders');
+
+    return databaseReference
+        .where('userId', isEqualTo: userId)
+        .where('orderStatus', isEqualTo: "Canceled")
+        
+        .snapshots()
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => OrderModel.fromJson(doc.data()))
+              .toList(),
+        );
+  }
+  
+
 }

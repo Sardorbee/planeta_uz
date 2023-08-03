@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:planeta_uz/ui/tab_box/cart/cart_screen.dart';
+import 'package:planeta_uz/ui/tab_box/cart/cart_pagevieew.dart';
 import 'package:planeta_uz/ui/tab_box/home/home_page.dart';
-import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_detail.dart';
 import 'package:planeta_uz/ui/tab_box/category/category_screen.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
 
@@ -22,7 +21,7 @@ class _TabBoxState extends State<TabBox> {
     screens = [
       const HomeScreen(),
       const CategoryScreen(),
-      const CartScreen(),
+      CartPageView(),
       const ProfileScreen(),
     ];
 

@@ -59,6 +59,7 @@ class AddProductButton extends StatelessWidget {
                         .read<ProductsProvider>()
                         .ProductsPricecontroller
                         .text),
+                        isCarted: 0,
                     productImages: [_imageUrl],
                     categoryId: _catID!,
                     productId: '',
