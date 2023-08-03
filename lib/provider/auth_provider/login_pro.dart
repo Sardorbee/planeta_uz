@@ -98,7 +98,7 @@ class LoginProvider with ChangeNotifier {
         }
         showConfirmMessage(
             message: "logged in successfully! ", context: context);
-
+        hideLoading(dialogContext: context);
         tozalash();
       }
     } on FirebaseAuthException catch (e) {
