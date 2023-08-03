@@ -57,9 +57,8 @@ class ProductDetailScreen extends StatelessWidget {
                 ),
               )
             ],
-            options: CarouselOptions(
-              aspectRatio: 1,
-            ),
+            options:
+                CarouselOptions(aspectRatio: 1, enableInfiniteScroll: false),
           ),
           SizedBox(height: 16.h),
           Padding(
