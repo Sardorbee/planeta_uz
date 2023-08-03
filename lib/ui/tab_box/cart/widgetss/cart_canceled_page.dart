@@ -8,8 +8,8 @@ import 'package:planeta_uz/provider/order_provider.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_detail.dart';
 import 'package:provider/provider.dart';
 
-class CartScreen extends StatelessWidget {
-  const CartScreen({
+class CartCanceledPage extends StatelessWidget {
+  const CartCanceledPage({
     super.key,
   });
 
@@ -19,18 +19,10 @@ class CartScreen extends StatelessWidget {
       body: StreamBuilder<List<OrderModel>>(
         stream: context
             .read<OrderProvider>()
-            .getOrdersByUID(context.read<LoginProvider>().user!.uid),
+            .getOrdersByUICanceled(context.read<LoginProvider>().user!.uid),
         builder: (context, snapshot) {
           return CustomScrollView(
             slivers: [
-              const SliverAppBar(
-                backgroundColor: Color(0xFFF2F2F2),
-                title: Text(
-                  'Cart Screen',
-                  style: TextStyle(color: Colors.black),
-                ),
-                pinned: true,
-              ),
               if (snapshot.connectionState == ConnectionState.waiting)
                 const SliverFillRemaining(
                   child: Center(
@@ -49,13 +41,21 @@ class CartScreen extends StatelessWidget {
                     (BuildContext context, int index) {
                       OrderModel x = snapshot.data![index];
                       return GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  CartDetails(order: x),
-                            )),
+                        onTap: () {
+                          if (x.orderStatus == "waiting") {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CartDetails(order: x),
+                                ));
+                          }
+                        },
                         child: Container(
+                          color: x.orderStatus == "Shipping"
+                              ? Colors.green
+                              : x.orderStatus == "Canceled"
+                                  ? Colors.grey.shade400
+                                  : Colors.white,
                           margin: const EdgeInsets.all(8),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class CartScreen extends StatelessWidget {
                                   ),
                                   SizedBox(height: 5.h),
                                   Text(
-                                    x.count.toString(),
+                                    x.orderStatus,
                                     style: const TextStyle(
                                       fontSize: 14,
                                     ),
