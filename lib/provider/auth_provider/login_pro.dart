@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:planeta_uz/data/firebase/auth_service.dart';
+import 'package:planeta_uz/data/model/universal.dart';
 import 'package:planeta_uz/provider/ui_utils/error_message_dialog.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 import 'package:planeta_uz/ui/auth/sign_in/sign_in_page.dart';
@@ -9,6 +11,8 @@ import 'package:planeta_uz/ui/tab_box/tab_box.dart';
 import 'package:planeta_uz/ui/tab_box_admin/tab_box_admin.dart';
 
 class LoginProvider with ChangeNotifier {
+  LoginProvider({required this.firebaseServices});
+  AuthService firebaseServices;
   final TextEditingController emailcontroller = TextEditingController();
   final TextEditingController passwordcontroller = TextEditingController();
   final TextEditingController repeatpasswordcontroller =
@@ -158,5 +162,32 @@ class LoginProvider with ChangeNotifier {
   obs2() {
     obscureText1 = !obscureText1;
     notifyListeners();
+  }
+
+
+  Future<void> signInWithGoogle2(BuildContext context) async {
+    showLoading(context: context);
+    UniversalData universalData = await firebaseServices.signInWithGoogle();
+
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const TabBox(),
+          ),
+              (route) => false);
+    }
+
+    if (universalData.error.isEmpty) {
+      if (context.mounted) {
+        showConfirmMessage(
+            message: "User Signed Up with Google.", context: context);
+      }
+    } else {
+      if (context.mounted) {
+        showErrorMessage(message: universalData.error, context: context);
+      }
+    }
   }
 }
