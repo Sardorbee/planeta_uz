@@ -102,47 +102,53 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 14.h),
-                Stack(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.all(8.h),
-                      padding: EdgeInsets.only(
-                          top: 8.h, bottom: 8.h, right: 8.w, left: 40.w),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          topRight: Radius.circular(4),
-                          bottomRight: Radius.circular(4),
-                        ),
-                        color: Colors.blueAccent,
-                      ),
-                      child: Text(
-                        'Add to cart',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 6.h,
-                      left: 0,
-                      child: Container(
-                        padding: EdgeInsets.all(8.h),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: Colors.blue,
-                        ),
-                        child: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // InkWell(
+                //   onTap: () {
+                    
+                    
+                //   },
+                //   child: Stack(
+                //     children: [
+                //       Container(
+                //         margin: EdgeInsets.all(8.h),
+                //         padding: EdgeInsets.only(
+                //             top: 8.h, bottom: 8.h, right: 8.w, left: 40.w),
+                //         decoration: const BoxDecoration(
+                //           borderRadius: BorderRadius.only(
+                //             topLeft: Radius.circular(20),
+                //             bottomLeft: Radius.circular(20),
+                //             topRight: Radius.circular(4),
+                //             bottomRight: Radius.circular(4),
+                //           ),
+                //           color: Colors.blueAccent,
+                //         ),
+                //         child: Text(
+                //           'Add to cart',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.w500,
+                //             fontSize: 16.sp,
+                //             color: AppColors.white,
+                //           ),
+                //         ),
+                //       ),
+                //       Positioned(
+                //         top: 6.h,
+                //         left: 0,
+                //         child: Container(
+                //           padding: EdgeInsets.all(8.h),
+                //           decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(100),
+                //             color: Colors.blue,
+                //           ),
+                //           child: Icon(
+                //             Icons.shopping_cart_outlined,
+                //             color: AppColors.white,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

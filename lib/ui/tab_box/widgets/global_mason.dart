@@ -22,6 +22,8 @@ class GlobalMason extends StatefulWidget {
 }
 
 class _GlobalMasonState extends State<GlobalMason> {
+  double currentRating = 0.0;
+  bool ratingUpdated = false;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -126,22 +128,28 @@ class _GlobalMasonState extends State<GlobalMason> {
                   SizedBox(height: 4.h),
                   Text("${x.price} ${x.currency}"),
                   RatingStars(
-                    value: x.count.toDouble(),
-                    // onValueChanged: (v) {
-                    //   //
-                    //   // setState(() {
-                    //   //   // value = v;
-                    //   // });
-                    // },
-
+                    value: x.rating! / 5,
+                    onValueChanged: (v) async {
+                      if (!ratingUpdated) {
+                        setState(() {
+                          currentRating = x.rating!;
+                          ratingUpdated =
+                              true; 
+                        });
+                        await FirebaseFirestore.instance
+                            .collection("products")
+                            .doc(x.productId)
+                            .update({
+                          "rating": x.rating! + v,
+                        });
+                      }
+                    },
                     starCount: 5,
                     starSize: 20,
                     valueLabelVisibility: false,
-                    maxValue: 50,
-                    starSpacing: 1.5,
-
-                    animationDuration: const Duration(milliseconds: 1000),
-
+                    maxValue: 5,
+                    starSpacing: 1.5.w,
+                    animationDuration: const Duration(milliseconds: 700),
                     starOffColor: const Color(0xffe7e8ea),
                     starColor: Colors.yellow,
                   ),

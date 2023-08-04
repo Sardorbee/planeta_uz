@@ -2,6 +2,7 @@ class ProductModel {
   int count;
   int price;
   int isCarted;
+  double? rating;
   List<dynamic> productImages;
   String categoryId;
   String productId;
@@ -13,6 +14,7 @@ class ProductModel {
   ProductModel({
     required this.count,
     required this.price,
+     this.rating,
     required this.isCarted,
     required this.productImages,
     required this.categoryId,
@@ -27,6 +29,7 @@ class ProductModel {
     int? count,
     int? price,
     int? isCarted,
+    double? rating,
     List<dynamic>? productImages,
     String? categoryId,
     String? productId,
@@ -38,6 +41,7 @@ class ProductModel {
     return ProductModel(
       count: count ?? this.count,
       price: price ?? this.price,
+      rating: rating ?? this.rating,
       isCarted: isCarted ?? this.isCarted,
       productImages: productImages ?? this.productImages,
       categoryId: categoryId ?? this.categoryId,
@@ -53,6 +57,7 @@ class ProductModel {
     return ProductModel(
       count: jsonData['count'] as int? ?? 0,
       price: jsonData['price'] as int? ?? 0,
+      rating: jsonData['rating'] as double? ?? 0.0,
       isCarted: jsonData['isCarted'] as int? ?? 0,
       productImages: (jsonData['productImages'] as List<dynamic>? ?? []),
       categoryId: jsonData['categoryId'] as String? ?? '',
@@ -68,6 +73,7 @@ class ProductModel {
     return {
       'count': count,
       'price': price,
+      'rating': rating,
       'isCarted': isCarted,
       'productImages': productImages,
       'categoryId': categoryId,
@@ -84,6 +90,7 @@ class ProductModel {
     return '''
       count: $count,
       price: $price,
+      rating: $rating,
       isCarted: $isCarted,
       productImages: $productImages,
       categoryId: $categoryId,

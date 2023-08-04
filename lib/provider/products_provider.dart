@@ -111,6 +111,16 @@ class ProductsProvider with ChangeNotifier {
             .map((doc) => ProductModel.fromJson(doc.data()))
             .toList());
   }
+  Stream<List<ProductModel>> getProductsById(String productId) {
+    final databaseReference = FirebaseFirestore.instance.collection('products');
+
+    return databaseReference
+        .where('productId', isEqualTo: productId)
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))
+            .toList());
+  }
 
   showMessage(BuildContext context, String error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));

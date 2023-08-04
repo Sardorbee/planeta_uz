@@ -58,8 +58,9 @@ class LoginProvider with ChangeNotifier {
         showErrorMessage(
             message: "Ikkala password ham bir hil bo'lishi kerak! ",
             context: context);
+            hideLoading(dialogContext: context);
       }
-      hideLoading(dialogContext: context);
+      
     } on FirebaseAuthException catch (e) {
       showErrorMessage(message: e.code.toString(), context: context);
       if (e.code == 'weak-password') {

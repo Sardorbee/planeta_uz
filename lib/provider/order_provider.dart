@@ -174,7 +174,7 @@ class OrderProvider with ChangeNotifier {
 
     return databaseReference
         .where('userId', isEqualTo: userId)
-        .where('orderStatus', isEqualTo: "Shipping")
+        .where('orderStatus', isEqualTo: "Delivering")
         
         .snapshots()
         .map(
