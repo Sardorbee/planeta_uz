@@ -80,9 +80,9 @@ class OrderProvider with ChangeNotifier {
       for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
         await documentSnapshot.reference.delete();
       }
-      print('Document(s) with productId $productId deleted successfully.');
+      // print('Document(s) with productId $productId deleted successfully.');
     } else {
-      print('No document with productId $productId found.');
+      // print('No document with productId $productId found.');
     }
   }
 

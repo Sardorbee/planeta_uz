@@ -59,35 +59,35 @@ class GlobalTextField extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   width: 1,
-                  color: AppColors.c_C8C8C8,
+                  color: AppColors.cC8C8C8,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   width: 1,
-                  color: AppColors.c_C8C8C8,
+                  color: AppColors.cC8C8C8,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   width: 1,
-                  color: AppColors.c_C8C8C8,
+                  color: AppColors.cC8C8C8,
                 ),
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   width: 1,
-                  color: AppColors.c_C8C8C8,
+                  color: AppColors.cC8C8C8,
                 ),
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(
                   width: 1,
-                  color: AppColors.c_C8C8C8,
+                  color: AppColors.cC8C8C8,
                 ),
               ),
             ),

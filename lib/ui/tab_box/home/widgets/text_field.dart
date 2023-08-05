@@ -19,18 +19,18 @@ class MyTextField extends StatelessWidget {
           fillColor: AppColors.white,
           prefixIcon: Icon(
             Icons.search,
-            color: AppColors.c_BBBBBB,
+            color: AppColors.bbbbbb,
             size: 20,
           ),
           hintText: 'Search any product..',
           hintStyle: TextStyle(
-            color: AppColors.c_BBBBBB,
+            color: AppColors.bbbbbb,
             fontWeight: FontWeight.w400,
             fontSize: 14.sp,
           ),
           suffixIcon: Icon(
             Icons.keyboard_voice_outlined,
-            color: AppColors.c_BBBBBB,
+            color: AppColors.bbbbbb,
             size: 20,
           ),
           border: OutlineInputBorder(

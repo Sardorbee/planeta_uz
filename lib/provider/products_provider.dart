@@ -13,17 +13,17 @@ class ProductsProvider with ChangeNotifier {
 
   final ProductService productService;
 
-  TextEditingController ProductsNamecontroller = TextEditingController();
-  TextEditingController ProductsCountcontroller = TextEditingController();
-  TextEditingController ProductsPricecontroller = TextEditingController();
-  TextEditingController ProductsCurrencycontroller = TextEditingController();
-  TextEditingController ProductsDesccontroller = TextEditingController();
+  TextEditingController productsNamecontroller = TextEditingController();
+  TextEditingController productsCountcontroller = TextEditingController();
+  TextEditingController productsPricecontroller = TextEditingController();
+  TextEditingController productsCurrencycontroller = TextEditingController();
+  TextEditingController productsDesccontroller = TextEditingController();
   tozalash() {
-    ProductsNamecontroller.clear();
-    ProductsCountcontroller.clear();
-    ProductsPricecontroller.clear();
-    ProductsCurrencycontroller.clear();
-    ProductsDesccontroller.clear();
+    productsNamecontroller.clear();
+    productsCountcontroller.clear();
+    productsPricecontroller.clear();
+    productsCurrencycontroller.clear();
+    productsDesccontroller.clear();
   }
 
   Future<void> addProducts({
@@ -58,10 +58,8 @@ class ProductsProvider with ChangeNotifier {
     if (context.mounted) {
       hideLoading(dialogContext: context);
       tozalash();
-      
-
     }
-    
+
     if (universalData.error.isEmpty) {
       if (context.mounted) {
         showMessage(context, universalData.data as String);
@@ -111,6 +109,7 @@ class ProductsProvider with ChangeNotifier {
             .map((doc) => ProductModel.fromJson(doc.data()))
             .toList());
   }
+
   Stream<List<ProductModel>> getProductsById(String productId) {
     final databaseReference = FirebaseFirestore.instance.collection('products');
 

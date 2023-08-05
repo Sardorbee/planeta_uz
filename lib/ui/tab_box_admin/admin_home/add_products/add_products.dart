@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
-import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/addButton.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/add_button.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/select_cat.dart';
 import 'package:planeta_uz/ui/utils/global_textf.dart';
 import 'package:planeta_uz/utils/constants.dart';
@@ -60,7 +60,7 @@ class _AddproductsState extends State<Addproducts> {
                     textAlign: TextAlign.start,
                     controller: context
                         .read<ProductsProvider>()
-                        .ProductsNamecontroller, label: 'Name',),
+                        .productsNamecontroller, label: 'Name',),
                 SizedBox(height: 10.h),
                 GlobalTextField(
                     hintText: "Add Product count",
@@ -68,14 +68,14 @@ class _AddproductsState extends State<Addproducts> {
                     keyboardType: TextInputType.number,
                     controller: context
                         .read<ProductsProvider>()
-                        .ProductsCountcontroller, label: 'Count',),
+                        .productsCountcontroller, label: 'Count',),
                 SizedBox(height: 10.h),
                 GlobalTextField(
                     hintText: "Add Product description",
                     textAlign: TextAlign.start,
                     controller: context
                         .read<ProductsProvider>()
-                        .ProductsDesccontroller, label: 'Description',),
+                        .productsDesccontroller, label: 'Description',),
                 SizedBox(height: 10.h),
                 GlobalTextField(
                     keyboardType: TextInputType.number,
@@ -83,14 +83,14 @@ class _AddproductsState extends State<Addproducts> {
                     textAlign: TextAlign.start,
                     controller: context
                         .read<ProductsProvider>()
-                        .ProductsPricecontroller, label: 'Price',),
+                        .productsPricecontroller, label: 'Price',),
                 SizedBox(height: 10.h),
                 GlobalTextField(
                     hintText: "Add Product Currency",
                     textAlign: TextAlign.start,
                     controller: context
                         .read<ProductsProvider>()
-                        .ProductsCurrencycontroller, label: 'Currency',),
+                        .productsCurrencycontroller, label: 'Currency',),
                 SizedBox(height: 10.h),
                 ElevatedButton(
                   style: const ButtonStyle(

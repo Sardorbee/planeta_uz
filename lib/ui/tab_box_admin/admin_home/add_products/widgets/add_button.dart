@@ -21,30 +21,30 @@ class AddProductButton extends StatelessWidget {
         backgroundColor: MaterialStatePropertyAll(Color(0xFFF83758)),
       ),
       onPressed: () {
-        print(_imageUrl);
+        // print(_imageUrl);
         if (context
                 .read<ProductsProvider>()
-                .ProductsNamecontroller
+                .productsNamecontroller
                 .text
                 .isNotEmpty &&
             context
                 .read<ProductsProvider>()
-                .ProductsDesccontroller
+                .productsDesccontroller
                 .text
                 .isNotEmpty &&
             context
                 .read<ProductsProvider>()
-                .ProductsCountcontroller
+                .productsCountcontroller
                 .text
                 .isNotEmpty &&
             context
                 .read<ProductsProvider>()
-                .ProductsCurrencycontroller
+                .productsCurrencycontroller
                 .text
                 .isNotEmpty &&
             context
                 .read<ProductsProvider>()
-                .ProductsPricecontroller
+                .productsPricecontroller
                 .text
                 .isNotEmpty &&
             _imageUrl != null) {
@@ -53,11 +53,11 @@ class AddProductButton extends StatelessWidget {
                 productModel: ProductModel(
                     count: int.parse(context
                         .read<ProductsProvider>()
-                        .ProductsCountcontroller
+                        .productsCountcontroller
                         .text),
                     price: int.parse(context
                         .read<ProductsProvider>()
-                        .ProductsPricecontroller
+                        .productsPricecontroller
                         .text),
                         isCarted: 0,
                     productImages: [_imageUrl],
@@ -65,16 +65,16 @@ class AddProductButton extends StatelessWidget {
                     productId: '',
                     productName: context
                         .read<ProductsProvider>()
-                        .ProductsNamecontroller
+                        .productsNamecontroller
                         .text,
                     description: context
                         .read<ProductsProvider>()
-                        .ProductsDesccontroller
+                        .productsDesccontroller
                         .text,
                     createdAt: DateTime.now().toString(),
                     currency: context
                         .read<ProductsProvider>()
-                        .ProductsCurrencycontroller
+                        .productsCurrencycontroller
                         .text),
               );
           ScaffoldMessenger.of(context).showSnackBar(

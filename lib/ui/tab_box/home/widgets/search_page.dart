@@ -1,11 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/ui/tab_box/widgets/global_mason.dart';
-import 'package:planeta_uz/utils/shimmer_photo.dart';
 
 import 'package:provider/provider.dart';
 

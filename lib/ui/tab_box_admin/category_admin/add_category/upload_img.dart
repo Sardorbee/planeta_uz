@@ -21,7 +21,7 @@ Future<String?> uploadImageToFirebase(XFile? imageFile) async {
     String downloadURL = await ref.getDownloadURL();
     return downloadURL;
   } catch (e) {
-    print('Error uploading image: $e');
+    // print('Error uploading image: $e');
     return null;
   }
 }
@@ -37,7 +37,7 @@ Future<XFile?> pickImage() async {
   try {
     pickedFile = await picker.pickImage(source: ImageSource.gallery,maxHeight: 512,maxWidth: 512);
   } catch (e) {
-    print('Error picking image: $e');
+    // print('Error picking image: $e');
   }
 
   return pickedFile;

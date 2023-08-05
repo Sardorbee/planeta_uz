@@ -41,19 +41,21 @@ class _UpdateproductsState extends State<Updateproducts> {
     setState(() {
       _imageUrl = downloadUrl;
     });
-    hideLoading(dialogContext: context);
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
+    }
   }
 
   textInit() {
-    context.read<ProductsProvider>().ProductsNamecontroller.text =
+    context.read<ProductsProvider>().productsNamecontroller.text =
         widget.productModel.productName;
-    context.read<ProductsProvider>().ProductsDesccontroller.text =
+    context.read<ProductsProvider>().productsDesccontroller.text =
         widget.productModel.description;
-    context.read<ProductsProvider>().ProductsCountcontroller.text =
+    context.read<ProductsProvider>().productsCountcontroller.text =
         widget.productModel.count.toString();
-    context.read<ProductsProvider>().ProductsCurrencycontroller.text =
+    context.read<ProductsProvider>().productsCurrencycontroller.text =
         widget.productModel.currency;
-    context.read<ProductsProvider>().ProductsPricecontroller.text =
+    context.read<ProductsProvider>().productsPricecontroller.text =
         widget.productModel.price.toString();
   }
 
@@ -97,7 +99,7 @@ class _UpdateproductsState extends State<Updateproducts> {
                 hintText: "Add Product name",
                 textAlign: TextAlign.start,
                 controller:
-                    context.read<ProductsProvider>().ProductsNamecontroller,
+                    context.read<ProductsProvider>().productsNamecontroller,
                 label: 'Name',
               ),
               SizedBox(height: 10.h),
@@ -106,7 +108,7 @@ class _UpdateproductsState extends State<Updateproducts> {
                 textAlign: TextAlign.start,
                 keyboardType: TextInputType.number,
                 controller:
-                    context.read<ProductsProvider>().ProductsCountcontroller,
+                    context.read<ProductsProvider>().productsCountcontroller,
                 label: 'Count',
               ),
               SizedBox(height: 10.h),
@@ -114,7 +116,7 @@ class _UpdateproductsState extends State<Updateproducts> {
                 hintText: "Add Product description",
                 textAlign: TextAlign.start,
                 controller:
-                    context.read<ProductsProvider>().ProductsDesccontroller,
+                    context.read<ProductsProvider>().productsDesccontroller,
                 label: 'Description',
               ),
               SizedBox(height: 10.h),
@@ -123,7 +125,7 @@ class _UpdateproductsState extends State<Updateproducts> {
                 hintText: "Add Product Price",
                 textAlign: TextAlign.start,
                 controller:
-                    context.read<ProductsProvider>().ProductsPricecontroller,
+                    context.read<ProductsProvider>().productsPricecontroller,
                 label: 'Price',
               ),
               SizedBox(height: 10.h),
@@ -131,7 +133,7 @@ class _UpdateproductsState extends State<Updateproducts> {
                 hintText: "Add Product Currency",
                 textAlign: TextAlign.start,
                 controller:
-                    context.read<ProductsProvider>().ProductsCurrencycontroller,
+                    context.read<ProductsProvider>().productsCurrencycontroller,
                 label: 'Currency',
               ),
               SizedBox(height: 10.h),
@@ -195,27 +197,27 @@ class _UpdateproductsState extends State<Updateproducts> {
                 onPressed: () {
                   if (context
                           .read<ProductsProvider>()
-                          .ProductsNamecontroller
+                          .productsNamecontroller
                           .text
                           .isNotEmpty &&
                       context
                           .read<ProductsProvider>()
-                          .ProductsDesccontroller
+                          .productsDesccontroller
                           .text
                           .isNotEmpty &&
                       context
                           .read<ProductsProvider>()
-                          .ProductsCountcontroller
+                          .productsCountcontroller
                           .text
                           .isNotEmpty &&
                       context
                           .read<ProductsProvider>()
-                          .ProductsCurrencycontroller
+                          .productsCurrencycontroller
                           .text
                           .isNotEmpty &&
                       context
                           .read<ProductsProvider>()
-                          .ProductsPricecontroller
+                          .productsPricecontroller
                           .text
                           .isNotEmpty) {
                     context.read<ProductsProvider>().updateProducts(
@@ -224,11 +226,11 @@ class _UpdateproductsState extends State<Updateproducts> {
                               isCarted: 0,
                               count: int.parse(context
                                   .read<ProductsProvider>()
-                                  .ProductsCountcontroller
+                                  .productsCountcontroller
                                   .text),
                               price: int.parse(context
                                   .read<ProductsProvider>()
-                                  .ProductsPricecontroller
+                                  .productsPricecontroller
                                   .text),
                               productImages: [
                                 _imageUrl ??
@@ -239,16 +241,16 @@ class _UpdateproductsState extends State<Updateproducts> {
                               productId: widget.productModel.productId,
                               productName: context
                                   .read<ProductsProvider>()
-                                  .ProductsNamecontroller
+                                  .productsNamecontroller
                                   .text,
                               description: context
                                   .read<ProductsProvider>()
-                                  .ProductsDesccontroller
+                                  .productsDesccontroller
                                   .text,
                               createdAt: widget.productModel.createdAt,
                               currency: context
                                   .read<ProductsProvider>()
-                                  .ProductsCurrencycontroller
+                                  .productsCurrencycontroller
                                   .text),
                         );
                     Navigator.pop(context);

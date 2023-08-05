@@ -9,6 +9,7 @@ class CartPageView extends StatefulWidget {
   const CartPageView({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _CartPageViewState createState() => _CartPageViewState();
 }
 

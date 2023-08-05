@@ -7,6 +7,7 @@ import 'package:planeta_uz/provider/order_provider.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class CartDetails extends StatelessWidget {
   CartDetails({super.key, required this.order});
 

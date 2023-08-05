@@ -18,14 +18,14 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.c_F9F9F9,
+      backgroundColor: AppColors.cF9F9F9,
       appBar: AppBar(
         elevation: 0,
         title: Text(
           productModel.productName.capitalize(),
           style: const TextStyle(color: Colors.black),
         ),
-        backgroundColor: AppColors.c_F9F9F9,
+        backgroundColor: AppColors.cF9F9F9,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

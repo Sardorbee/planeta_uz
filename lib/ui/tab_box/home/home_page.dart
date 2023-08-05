@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
@@ -14,7 +12,6 @@ import 'package:planeta_uz/ui/tab_box/home/widgets/text_field.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
 import 'package:planeta_uz/ui/tab_box/widgets/global_mason.dart';
 import 'package:planeta_uz/ui/utils/colors.dart';
-import 'package:planeta_uz/utils/shimmer_photo.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -110,7 +107,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       setState(() {
                                         selectedCategoryId = "all";
                                       });
-                                      print(selectedCategoryId);
                                     },
                                     child: const Padding(
                                       padding: EdgeInsets.all(6.0),
@@ -139,7 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             selectedCategoryId =
                                                 categoryModel.categoryId;
                                           });
-                                          print(selectedCategoryId);
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.all(6.0),
@@ -196,7 +191,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       return GlobalMason(products: products);
                     } else {
                       // Empty data
-                      return Center(child: Lottie.asset("assets/lottie/empty_box.json"));
+                      return Center(
+                          child: Lottie.asset("assets/lottie/empty_box.json"));
                     }
                   }
                 },

@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return App();
+            return const App();
           },
         ),
       );
