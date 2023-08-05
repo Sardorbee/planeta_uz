@@ -11,7 +11,7 @@ import 'package:planeta_uz/ui/tab_box/home/widgets/small_button.dart';
 import 'package:planeta_uz/ui/tab_box/home/widgets/text_field.dart';
 import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
 import 'package:planeta_uz/ui/tab_box/widgets/global_mason.dart';
-import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:planeta_uz/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {

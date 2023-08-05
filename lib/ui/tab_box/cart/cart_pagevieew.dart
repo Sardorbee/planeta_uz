@@ -3,7 +3,7 @@ import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_canceled_page.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_history.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_shipping_page.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_waiting_screen.dart';
-import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:planeta_uz/utils/colors.dart';
 
 class CartPageView extends StatefulWidget {
   const CartPageView({Key? key}) : super(key: key);

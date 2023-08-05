@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
-import 'package:planeta_uz/ui/utils/global_textf.dart';
+import 'package:planeta_uz/utils/global_textf.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable

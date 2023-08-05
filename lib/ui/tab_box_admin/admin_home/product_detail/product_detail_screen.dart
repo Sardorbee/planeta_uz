@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
-import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:planeta_uz/utils/colors.dart';
 import 'package:planeta_uz/utils/constants.dart';
 
 // ignore: must_be_immutable

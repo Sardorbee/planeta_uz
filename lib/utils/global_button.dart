@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:planeta_uz/utils/colors.dart';
 
 class GlobalButton extends StatelessWidget {
   const GlobalButton({Key? key, required this.title, required this.onTap})

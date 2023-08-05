@@ -8,7 +8,7 @@ import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
 import 'package:planeta_uz/ui/tab_box_admin/category_admin/add_category/upload_img.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/widgets/select_cat.dart';
-import 'package:planeta_uz/ui/utils/global_textf.dart';
+import 'package:planeta_uz/utils/global_textf.dart';
 import 'package:planeta_uz/utils/constants.dart';
 import 'package:provider/provider.dart';
 

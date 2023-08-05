@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:planeta_uz/ui/tab_box/home/widgets/search_page.dart';
-import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:planeta_uz/utils/colors.dart';
 
 class MyTextField extends StatelessWidget {
   const MyTextField({super.key});
