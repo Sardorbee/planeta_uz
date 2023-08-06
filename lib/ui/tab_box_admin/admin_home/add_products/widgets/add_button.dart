@@ -6,12 +6,9 @@ import 'package:provider/provider.dart';
 class AddProductButton extends StatelessWidget {
   const AddProductButton({
     super.key,
-    required String? imageUrl,
     required String? catId,
-  })  : _imageUrl = imageUrl,
-        _catID = catId;
+  }) : _catID = catId;
 
-  final String? _imageUrl;
   final String? _catID;
 
   @override
@@ -47,7 +44,7 @@ class AddProductButton extends StatelessWidget {
                 .productsPricecontroller
                 .text
                 .isNotEmpty &&
-            _imageUrl != null) {
+            context.read<ProductsProvider>().uploadedImagesUrls.isNotEmpty) {
           context.read<ProductsProvider>().addProducts(
                 context: context,
                 productModel: ProductModel(
@@ -59,8 +56,9 @@ class AddProductButton extends StatelessWidget {
                         .read<ProductsProvider>()
                         .productsPricecontroller
                         .text),
-                        isCarted: 0,
-                    productImages: [_imageUrl],
+                    isCarted: 0,
+                    productImages:
+                        context.read<ProductsProvider>().uploadedImagesUrls,
                     categoryId: _catID!,
                     productId: '',
                     productName: context
@@ -82,8 +80,9 @@ class AddProductButton extends StatelessWidget {
               content: Text('Product added'),
             ),
           );
+          context.read<ProductsProvider>().uploadedImagesUrls.clear();
           Navigator.pop(context);
-        }else{
+        } else {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Maydonlar to\'ldirilmadi'),

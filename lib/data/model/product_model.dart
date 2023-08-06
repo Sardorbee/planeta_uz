@@ -14,7 +14,7 @@ class ProductModel {
   ProductModel({
     required this.count,
     required this.price,
-     this.rating,
+    this.rating,
     required this.isCarted,
     required this.productImages,
     required this.categoryId,

@@ -83,10 +83,10 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ProductsCount(selectedId: selectedCategoryId),
                 const Spacer(),
-                SmallButton(text: 'Sort', iconData: Icons.sort),
-                SizedBox(width: 12.w),
-                SmallButton(
-                    text: 'Filter', iconData: Icons.filter_alt_outlined),
+                // SmallButton(text: 'Sort', iconData: Icons.sort),
+                // SizedBox(width: 12.w),
+                // SmallButton(
+                //     text: 'Filter', iconData: Icons.filter_alt_outlined),
               ],
             ),
             SizedBox(

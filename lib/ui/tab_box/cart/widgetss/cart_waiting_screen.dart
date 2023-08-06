@@ -6,6 +6,7 @@ import 'package:planeta_uz/data/model/order_model.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/order_provider.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_detail.dart';
+import 'package:planeta_uz/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class CartWaitingPage extends StatelessWidget {
@@ -69,22 +70,46 @@ class CartWaitingPage extends StatelessWidget {
                                 width: 15,
                               ),
                               Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    x.productName,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        x.productName,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      SizedBox(height: 5.h),
+                                      Text(
+                                        x.orderStatus,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      SizedBox(height: 60.h),
+                                    ],
                                   ),
-                                  SizedBox(height: 5.h),
-                                  Text(
-                                    x.orderStatus,
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                                  ElevatedButton(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                AppColors.mainButtonColor)),
+                                    onPressed: () {
+                                      context
+                                          .read<OrderProvider>()
+                                          .updateByOrderField(
+                                              collectionName: 'orders',
+                                              collectionDocId: x.orderId,
+                                              docField: 'orderStatus',
+                                              updatedText: "Canceled");
+                                    },
+                                    child: const Text(
+                                      'Cancel order',
                                     ),
                                   ),
-                                  SizedBox(height: 5.h),
                                 ],
                               )
                             ],

@@ -9,6 +9,7 @@ import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/product_detail/product_detail_screen.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/order_provider.dart';
+import 'package:planeta_uz/utils/colors.dart';
 import 'package:planeta_uz/utils/shimmer_photo.dart';
 import 'package:provider/provider.dart';
 
@@ -116,12 +117,15 @@ class _GlobalMasonState extends State<GlobalMason> {
                             x.isCarted == 0
                                 ? Icons.shopping_cart_outlined
                                 : Icons.shopping_cart_rounded,
+                            color: AppColors.mainButtonColor,
                           ),
                         ),
                       ]),
                   SizedBox(height: 4.h),
                   Text(
                     x.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w400),
                   ),
@@ -133,8 +137,7 @@ class _GlobalMasonState extends State<GlobalMason> {
                       if (!ratingUpdated) {
                         setState(() {
                           currentRating = x.rating!;
-                          ratingUpdated =
-                              true; 
+                          ratingUpdated = true;
                         });
                         await FirebaseFirestore.instance
                             .collection("products")
