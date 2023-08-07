@@ -5,7 +5,7 @@ import 'package:planeta_uz/provider/ui_utils/error_message_dialog.dart';
 import 'package:planeta_uz/ui/auth/sign_in/sign_in_page.dart';
 import 'package:planeta_uz/ui/auth/sign_in/widgets/social_buttons.dart';
 
-import 'package:planeta_uz/ui/utils/colors.dart';
+import 'package:planeta_uz/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {

@@ -5,6 +5,7 @@ import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/add_products.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/add_products/update_products.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/product_detail/product_detail_screen.dart';
+import 'package:planeta_uz/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class ProductScreenAdmin extends StatelessWidget {
@@ -74,7 +75,11 @@ class ProductScreenAdmin extends StatelessWidget {
                             ),
                           ),
                           title: Text(productModel.productName),
-                          subtitle: Text(productModel.description),
+                          subtitle: Text(
+                            productModel.description,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           trailing: IconButton(
                             onPressed: () {
                               Navigator.push(
@@ -85,6 +90,10 @@ class ProductScreenAdmin extends StatelessWidget {
                                   ),
                                 ),
                               );
+                              context
+                                  .read<ProductsProvider>()
+                                  .uploadedImagesUrls
+                                  .addAll(productModel.productImages);
                             },
                             icon: const Icon(Icons.edit),
                           ),
@@ -103,6 +112,7 @@ class ProductScreenAdmin extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.mainButtonColor,
         onPressed: () {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const Addproducts()));

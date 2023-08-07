@@ -51,7 +51,7 @@ class CartShippingPage extends StatelessWidget {
                           }
                         },
                         child: Container(
-                          color: x.orderStatus == "Shipping"
+                          color: x.orderStatus == "Delivering"
                               ? Colors.green
                               : x.orderStatus == "Canceled"
                                   ? Colors.grey.shade400

@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/model/category_model.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
-import 'package:planeta_uz/ui/utils/global_textf.dart';
+import 'package:planeta_uz/utils/colors.dart';
+import 'package:planeta_uz/utils/global_textf.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -53,6 +54,7 @@ class _UpdateCategoryState extends State<UpdateCategory> {
             },
             icon: const Icon(
               Icons.arrow_back,
+              color: Colors.black,
             ),
           ),
         ),
@@ -86,8 +88,9 @@ class _UpdateCategoryState extends State<UpdateCategory> {
                         context.watch<CategoryProvider>().categoryUrl),
               ),
               ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll(AppColors.mainButtonColor),
                 ),
                 onPressed: () async {
                   showBottomSheetDialog(context);
@@ -96,8 +99,9 @@ class _UpdateCategoryState extends State<UpdateCategory> {
               ),
               const SizedBox(width: 20),
               ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(Colors.black),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll(AppColors.mainButtonColor),
                 ),
                 onPressed: () {
                   context.read<CategoryProvider>().updateCategory(
@@ -160,12 +164,15 @@ class _UpdateCategoryState extends State<UpdateCategory> {
       maxWidth: 512,
     );
 
-    if (xFile != null) {
-      await context
-          .read<CategoryProvider>()
-          .uploadCategoryImage(context, xFile);
+    if (context.mounted) {
+      if (xFile != null) {
+        await context
+            .read<CategoryProvider>()
+            .uploadCategoryImage(context, xFile);
+      }
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
   }
 
   Future<void> _getFromGallery(BuildContext context) async {
@@ -174,11 +181,14 @@ class _UpdateCategoryState extends State<UpdateCategory> {
       maxHeight: 512,
       maxWidth: 512,
     );
-    if (xFile != null) {
-      await context
-          .read<CategoryProvider>()
-          .uploadCategoryImage(context, xFile);
+    if (context.mounted) {
+      if (xFile != null) {
+        await context
+            .read<CategoryProvider>()
+            .uploadCategoryImage(context, xFile);
+      }
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
   }
 }

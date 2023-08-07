@@ -1,11 +1,7 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/model/universal.dart';
-import 'package:planeta_uz/provider/category_provider.dart';
-import 'package:provider/provider.dart';
 
 class ImageHandler {
   static Future<UniversalData> imageUploader(XFile xFile) async {
@@ -30,7 +26,7 @@ class ImageHandler {
     var imageRef = storageRef.child("files/pdf/$fileName");
     await imageRef.putFile(File(file.path));
     downloadUrl = await imageRef.getDownloadURL();
-    print("FILE DOWNLOAD URL:$downloadUrl");
+    // print("FILE DOWNLOAD URL:$downloadUrl");
     return downloadUrl;
   }
 }

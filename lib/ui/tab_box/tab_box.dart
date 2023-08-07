@@ -21,7 +21,7 @@ class _TabBoxState extends State<TabBox> {
     screens = [
       const HomeScreen(),
       const CategoryScreen(),
-      CartPageView(),
+      const CartPageView(),
       const ProfileScreen(),
     ];
 

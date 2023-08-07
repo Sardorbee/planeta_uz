@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
-import 'package:planeta_uz/ui/utils/global_textf.dart';
+import 'package:planeta_uz/utils/global_textf.dart';
 import 'package:provider/provider.dart';
 
 class CategoryADD extends StatefulWidget {
@@ -134,12 +134,16 @@ class _CategoryADDState extends State<CategoryADD> {
       maxWidth: 512,
     );
 
-    if (xFile != null) {
+    if(context.mounted){
+      if (xFile != null) {
       await context
           .read<CategoryProvider>()
           .uploadCategoryImage(context, xFile);
+            }
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    
     }
-    Navigator.pop(context);
   }
 
   Future<void> _getFromGallery(BuildContext context) async {
@@ -148,11 +152,15 @@ class _CategoryADDState extends State<CategoryADD> {
       maxHeight: 512,
       maxWidth: 512,
     );
-    if (xFile != null) {
+    if(context.mounted){
+      if (xFile != null) {
       await context
           .read<CategoryProvider>()
           .uploadCategoryImage(context, xFile);
+            }
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    
     }
-    Navigator.pop(context);
   }
 }

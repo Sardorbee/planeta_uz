@@ -3,11 +3,13 @@ import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_canceled_page.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_history.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_shipping_page.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_waiting_screen.dart';
+import 'package:planeta_uz/utils/colors.dart';
 
 class CartPageView extends StatefulWidget {
   const CartPageView({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _CartPageViewState createState() => _CartPageViewState();
 }
 
@@ -25,7 +27,11 @@ class _CartPageViewState extends State<CartPageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cart Pages'),
+        backgroundColor: const Color(0xFFF2F2F2),
+        title: const Text(
+          'Cart Pages',
+          style: TextStyle(color: Colors.black),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -34,7 +40,7 @@ class _CartPageViewState extends State<CartPageView> {
               });
             },
             icon: const Icon(Icons.access_time),
-            color: _currentIndex == 0 ? Colors.white : Colors.grey,
+            color: _currentIndex == 0 ? AppColors.mainButtonColor : Colors.grey,
           ),
           IconButton(
             onPressed: () {
@@ -43,7 +49,7 @@ class _CartPageViewState extends State<CartPageView> {
               });
             },
             icon: const Icon(Icons.local_shipping),
-            color: _currentIndex == 1 ? Colors.white : Colors.grey,
+            color: _currentIndex == 1 ? AppColors.mainButtonColor : Colors.grey,
           ),
           IconButton(
             onPressed: () {
@@ -52,7 +58,7 @@ class _CartPageViewState extends State<CartPageView> {
               });
             },
             icon: const Icon(Icons.cancel),
-            color: _currentIndex == 2 ? Colors.white : Colors.grey,
+            color: _currentIndex == 2 ? AppColors.mainButtonColor : Colors.grey,
           ),
           IconButton(
             onPressed: () {
@@ -61,7 +67,7 @@ class _CartPageViewState extends State<CartPageView> {
               });
             },
             icon: const Icon(Icons.history),
-            color: _currentIndex == 3 ? Colors.white : Colors.grey,
+            color: _currentIndex == 3 ? AppColors.mainButtonColor : Colors.grey,
           ),
         ],
       ),

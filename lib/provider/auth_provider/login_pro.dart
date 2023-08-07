@@ -58,8 +58,8 @@ class LoginProvider with ChangeNotifier {
         showErrorMessage(
             message: "Ikkala password ham bir hil bo'lishi kerak! ",
             context: context);
+        hideLoading(dialogContext: context);
       }
-      hideLoading(dialogContext: context);
     } on FirebaseAuthException catch (e) {
       showErrorMessage(message: e.code.toString(), context: context);
       if (e.code == 'weak-password') {
@@ -146,7 +146,9 @@ class LoginProvider with ChangeNotifier {
         idToken: googleAuth?.idToken,
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
-      hideLoading(dialogContext: context);
+      if (context.mounted) {
+        hideLoading(dialogContext: context);
+      }
     } on FirebaseAuthException catch (e) {
       showErrorMessage(message: e.code.toString(), context: context);
     } catch (error) {
@@ -164,7 +166,6 @@ class LoginProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   Future<void> signInWithGoogle2(BuildContext context) async {
     showLoading(context: context);
     UniversalData universalData = await firebaseServices.signInWithGoogle();
@@ -176,7 +177,7 @@ class LoginProvider with ChangeNotifier {
           MaterialPageRoute(
             builder: (context) => const TabBox(),
           ),
-              (route) => false);
+          (route) => false);
     }
 
     if (universalData.error.isEmpty) {

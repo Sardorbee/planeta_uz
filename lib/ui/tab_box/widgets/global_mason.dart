@@ -9,6 +9,7 @@ import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/ui/tab_box_admin/admin_home/product_detail/product_detail_screen.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/order_provider.dart';
+import 'package:planeta_uz/utils/colors.dart';
 import 'package:planeta_uz/utils/shimmer_photo.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,8 @@ class GlobalMason extends StatefulWidget {
 }
 
 class _GlobalMasonState extends State<GlobalMason> {
+  double currentRating = 0.0;
+  bool ratingUpdated = false;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -114,34 +117,42 @@ class _GlobalMasonState extends State<GlobalMason> {
                             x.isCarted == 0
                                 ? Icons.shopping_cart_outlined
                                 : Icons.shopping_cart_rounded,
+                            color: AppColors.mainButtonColor,
                           ),
                         ),
                       ]),
                   SizedBox(height: 4.h),
                   Text(
                     x.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w400),
                   ),
                   SizedBox(height: 4.h),
                   Text("${x.price} ${x.currency}"),
                   RatingStars(
-                    value: x.count.toDouble(),
-                    // onValueChanged: (v) {
-                    //   //
-                    //   // setState(() {
-                    //   //   // value = v;
-                    //   // });
-                    // },
-
+                    value: x.rating! / 5,
+                    onValueChanged: (v) async {
+                      if (!ratingUpdated) {
+                        setState(() {
+                          currentRating = x.rating!;
+                          ratingUpdated = true;
+                        });
+                        await FirebaseFirestore.instance
+                            .collection("products")
+                            .doc(x.productId)
+                            .update({
+                          "rating": x.rating! + v,
+                        });
+                      }
+                    },
                     starCount: 5,
                     starSize: 20,
                     valueLabelVisibility: false,
-                    maxValue: 50,
-                    starSpacing: 1.5,
-
-                    animationDuration: const Duration(milliseconds: 1000),
-
+                    maxValue: 5,
+                    starSpacing: 1.5.w,
+                    animationDuration: const Duration(milliseconds: 700),
                     starOffColor: const Color(0xffe7e8ea),
                     starColor: Colors.yellow,
                   ),

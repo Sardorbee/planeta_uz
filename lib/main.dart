@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:planeta_uz/chat/chat_page.dart';
 import 'package:planeta_uz/chat/chat_provider.dart';
 import 'package:planeta_uz/chat/chat_service.dart';
 import 'package:planeta_uz/data/firebase/auth_service.dart';
@@ -9,6 +8,7 @@ import 'package:planeta_uz/data/firebase/category_service.dart';
 import 'package:planeta_uz/data/firebase/order_service.dart';
 import 'package:planeta_uz/data/firebase/products_service.dart';
 import 'package:planeta_uz/data/firebase/profile_service.dart';
+import 'package:planeta_uz/data/service/notification/notify_service.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/category_provider.dart';
 import 'package:planeta_uz/provider/order_provider.dart';
@@ -28,7 +28,8 @@ Future<void> main() async {
           lazy: true,
         ),
         ChangeNotifierProvider(
-          create: (context) => CategoryProvider(categoryService: CategoryService()),
+          create: (context) =>
+              CategoryProvider(categoryService: CategoryService()),
           lazy: true,
         ),
         ChangeNotifierProvider(
@@ -45,8 +46,7 @@ Future<void> main() async {
           lazy: true,
         ),
         ChangeNotifierProvider(
-          create: (context) =>
-              ChatProvider(ChatService()),
+          create: (context) => ChatProvider(ChatService()),
           lazy: true,
         )
       ],
@@ -60,14 +60,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+    LocalNotificationService.localNotificationService.init(navigatorKey);
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return const MaterialApp(
+        return MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: SplashPage(),
+          home: const SplashPage(),
+          navigatorKey: navigatorKey,
         );
       },
     );

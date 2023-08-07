@@ -14,8 +14,20 @@ class ProductsByCAt extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF2F2F2),
       appBar: AppBar(
-        title: Text(category.categoryName),
+        backgroundColor: const Color(0xFFF2F2F2),
+        title: Text(
+          category.categoryName,
+          style: const TextStyle(color: Colors.black),
+        ),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: StreamBuilder<List<ProductModel>>(
         stream: context
