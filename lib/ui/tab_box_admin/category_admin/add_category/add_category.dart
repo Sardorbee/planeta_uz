@@ -19,7 +19,17 @@ class _CategoryADDState extends State<CategoryADD> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Category Add"),
+        backgroundColor: const Color(0xFFF2F2F2),
+        title: const Text(
+          "Category Add",
+          style: TextStyle(color: Colors.black),
+        ),
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )),
       ),
       body: Padding(
         padding: EdgeInsets.all(10.h),
