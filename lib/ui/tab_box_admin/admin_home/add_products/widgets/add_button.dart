@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
+import 'package:planeta_uz/data/service/notification/notify_service.dart';
+import 'package:planeta_uz/provider/order_provider.dart';
 import 'package:planeta_uz/provider/products_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +46,10 @@ class AddProductButton extends StatelessWidget {
                 .productsPricecontroller
                 .text
                 .isNotEmpty &&
-            context.read<ProductsProvider>().uploadedImagesUrls.isNotEmpty) {
+            context
+                .read<ProductsProvider>()
+                .uploadedImagesUrls
+                .isNotEmpty) {
           context.read<ProductsProvider>().addProducts(
                 context: context,
                 productModel: ProductModel(
@@ -75,6 +80,13 @@ class AddProductButton extends StatelessWidget {
                         .productsCurrencycontroller
                         .text),
               );
+
+          context.read<OrderProvider>().updateByOrderField(
+              collectionName: "notify",
+              collectionDocId: "first",
+              docField: "isNotified",
+              updatedText: true);
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Product added'),

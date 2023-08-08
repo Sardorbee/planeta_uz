@@ -37,7 +37,10 @@ class ProductsByCAt extends StatelessWidget {
             (BuildContext context, AsyncSnapshot<List<ProductModel>> snapshot) {
           if (snapshot.hasData) {
             return snapshot.data!.isNotEmpty
-                ? GlobalMason(products: snapshot.data!)
+                ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GlobalMason(products: snapshot.data!),
+                )
                 : Center(child: Lottie.asset("assets/lottie/empty_box.json"));
           }
           if (snapshot.hasError) {

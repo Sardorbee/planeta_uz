@@ -8,8 +8,14 @@ import 'package:planeta_uz/ui/tab_box_admin/admin_home/product_detail/product_de
 import 'package:planeta_uz/utils/colors.dart';
 import 'package:provider/provider.dart';
 
-class ProductScreenAdmin extends StatelessWidget {
+class ProductScreenAdmin extends StatefulWidget {
   const ProductScreenAdmin({super.key});
+
+  @override
+  State<ProductScreenAdmin> createState() => _ProductScreenAdminState();
+}
+
+class _ProductScreenAdminState extends State<ProductScreenAdmin> {
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +32,7 @@ class ProductScreenAdmin extends StatelessWidget {
         builder:
             (BuildContext context, AsyncSnapshot<List<ProductModel>> snapshot) {
           if (snapshot.hasData) {
+        
             return snapshot.data!.isNotEmpty
                 ? ListView(
                     children: List.generate(
