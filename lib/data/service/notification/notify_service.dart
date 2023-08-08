@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:planeta_uz/data/model/notify_model.dart';
 // ignore: depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
 // ignore: depend_on_referenced_packages
@@ -90,11 +92,13 @@ class LocalNotificationService {
 
   void showNotification({
     required int id,
+    required String title,
+    required String body,
   }) {
     flutterLocalNotificationsPlugin.show(
       id,
-      "Sardor",
-      "Bugun darsga keldim ",
+      title,
+      body,
       NotificationDetails(
         android: AndroidNotificationDetails(
           androidNotificationChannel.id,
@@ -156,5 +160,15 @@ class LocalNotificationService {
 
   void cancelNotificationById(int id) {
     flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  Stream<List<NotifyModel>> getnotify() {
+    final databaseReference = FirebaseFirestore.instance.collection('notify');
+
+    return databaseReference.snapshots().map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => NotifyModel.fromJson(doc.data()))
+              .toList(),
+        );
   }
 }
