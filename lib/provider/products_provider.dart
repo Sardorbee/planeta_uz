@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:planeta_uz/data/firebase/products_service.dart';
 import 'package:planeta_uz/data/model/product_model.dart';
 import 'package:planeta_uz/data/model/universal.dart';
+import 'package:planeta_uz/data/upload_service.dart';
 import 'package:planeta_uz/provider/ui_utils/loading_dialog.dart';
-
-
 
 class ProductsProvider with ChangeNotifier {
   ProductsProvider(
@@ -15,11 +15,18 @@ class ProductsProvider with ChangeNotifier {
 
   final ProductService productService;
 
-  TextEditingController ProductsNamecontroller = TextEditingController();
-  TextEditingController ProductsCountcontroller = TextEditingController();
-  TextEditingController ProductsPricecontroller = TextEditingController();
-  TextEditingController ProductsCurrencycontroller = TextEditingController();
-  TextEditingController ProductsDesccontroller = TextEditingController();
+  TextEditingController productsNamecontroller = TextEditingController();
+  TextEditingController productsCountcontroller = TextEditingController();
+  TextEditingController productsPricecontroller = TextEditingController();
+  TextEditingController productsCurrencycontroller = TextEditingController();
+  TextEditingController productsDesccontroller = TextEditingController();
+  tozalash() {
+    productsNamecontroller.clear();
+    productsCountcontroller.clear();
+    productsPricecontroller.clear();
+    productsCurrencycontroller.clear();
+    productsDesccontroller.clear();
+  }
 
   Future<void> addProducts({
     required BuildContext context,
@@ -30,6 +37,7 @@ class ProductsProvider with ChangeNotifier {
         await ProductService.addProduct(productModel: productModel);
     if (context.mounted) {
       hideLoading(dialogContext: context);
+      tozalash();
     }
     if (universalData.error.isEmpty) {
       if (context.mounted) {
@@ -51,7 +59,9 @@ class ProductsProvider with ChangeNotifier {
         await ProductService.updateProduct(productModel: productModel);
     if (context.mounted) {
       hideLoading(dialogContext: context);
+      tozalash();
     }
+
     if (universalData.error.isEmpty) {
       if (context.mounted) {
         showMessage(context, universalData.data as String);
@@ -76,11 +86,33 @@ class ProductsProvider with ChangeNotifier {
     if (universalData.error.isEmpty) {
       if (context.mounted) {
         showMessage(context, universalData.data as String);
+        Navigator.pop(context);
       }
     } else {
       if (context.mounted) {
         showMessage(context, universalData.error);
       }
+    }
+  }
+
+  List<dynamic> uploadedImagesUrls = [];
+  Future<void> uploadProductImages({
+    required BuildContext context,
+    required List<XFile> images,
+  }) async {
+    showLoading(context: context);
+
+    for (var element in images) {
+      UniversalData data = await ImageHandler.imageUploader(element);
+      if (data.error.isEmpty) {
+        uploadedImagesUrls.add(data.data as String);
+      }
+    }
+
+    notifyListeners();
+
+    if (context.mounted) {
+      hideLoading(dialogContext: context);
     }
   }
 
@@ -90,6 +122,27 @@ class ProductsProvider with ChangeNotifier {
                 .map((doc) => ProductModel.fromJson(doc.data()))
                 .toList(),
           );
+  Stream<List<ProductModel>> getProductsByCategoryId(String categoryId) {
+    final databaseReference = FirebaseFirestore.instance.collection('products');
+
+    return databaseReference
+        .where('categoryId', isEqualTo: categoryId)
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))
+            .toList());
+  }
+
+  Stream<List<ProductModel>> getProductsById(String productId) {
+    final databaseReference = FirebaseFirestore.instance.collection('products');
+
+    return databaseReference
+        .where('productId', isEqualTo: productId)
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs
+            .map((doc) => ProductModel.fromJson(doc.data()))
+            .toList());
+  }
 
   showMessage(BuildContext context, String error) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));

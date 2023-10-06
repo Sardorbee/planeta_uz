@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:planeta_uz/ui/tab_box_admin/home/home_page_admin.dart';
-import 'package:planeta_uz/ui/tab_box_admin/search/search_screen_admin.dart';
-import 'package:planeta_uz/ui/tab_box_admin/settings/settings_screen_admin.dart';
-import 'package:planeta_uz/ui/tab_box_admin/wishlist/wishlist_screen_admin.dart';
+import 'package:planeta_uz/ui/tab_box/profile/profile_screen.dart';
+import 'package:planeta_uz/ui/tab_box_admin/category_admin/category_admin.dart';
+import 'package:planeta_uz/ui/tab_box_admin/cart_admin/cart_admin.dart';
+import 'package:planeta_uz/ui/tab_box_admin/admin_home/admin_home.dart';
 
 class TabBoxAdmin extends StatefulWidget {
   const TabBoxAdmin({super.key});
@@ -20,9 +20,9 @@ class _TabBoxAdminState extends State<TabBoxAdmin> {
   void initState() {
     screens = [
       const ProductScreenAdmin(),
-      const HomeScreenAdmin(),
-      const SearchScreenAdmin(),
-      const SettingsScreenAdmin(),
+      const CategoryScreenAdmin(),
+      const CartAdmin(),
+      const ProfileScreen(),
     ];
 
     super.initState();
@@ -39,9 +39,9 @@ class _TabBoxAdminState extends State<TabBoxAdmin> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(
               icon: Icon(Icons.category), label: "Category"),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: "Settings"),
+              icon: Icon(Icons.person), label: "Profile"),
         ],
         currentIndex: currentIndex,
         onTap: (index) {

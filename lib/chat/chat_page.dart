@@ -16,7 +16,7 @@ class ChatScreen extends StatelessWidget {
               onPressed: () {
                 context.read<LoginProvider>().logOut(context);
               },
-              icon: Icon(Icons.logout))
+              icon: const Icon(Icons.logout))
         ],
       ),
       body: Container(
@@ -51,6 +51,7 @@ class ChatScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
+                                      
                                       Text(
                                         x.message,
                                         style: const TextStyle(fontSize: 25),

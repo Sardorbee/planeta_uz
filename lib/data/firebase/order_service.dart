@@ -4,7 +4,7 @@ import 'package:planeta_uz/data/model/universal.dart';
 
 
 class OrderService {
-  static Future<UniversalData> addOrders(
+   Future<UniversalData> addOrders(
       {required OrderModel orderModel}) async {
     try {
       DocumentReference newOrder = await FirebaseFirestore.instance
@@ -26,7 +26,7 @@ class OrderService {
     }
   }
 
-  static Future<UniversalData> updateOrders(
+   Future<UniversalData> updateOrders(
       {required OrderModel orderModel}) async {
     try {
       await FirebaseFirestore.instance
@@ -42,7 +42,7 @@ class OrderService {
     }
   }
 
-  static Future<UniversalData> deleteProduct(
+   Future<UniversalData> deleteOrder(
       {required String orderId}) async {
     try {
       await FirebaseFirestore.instance
