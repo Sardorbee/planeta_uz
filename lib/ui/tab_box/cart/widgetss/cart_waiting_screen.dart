@@ -9,6 +9,8 @@ import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_detail.dart';
 import 'package:planeta_uz/utils/colors.dart';
 import 'package:provider/provider.dart';
 
+import 'check.dart';
+
 class CartWaitingPage extends StatelessWidget {
   const CartWaitingPage({
     super.key,
@@ -51,68 +53,77 @@ class CartWaitingPage extends StatelessWidget {
                                 ));
                           }
                         },
-                        child: Container(
-                          color: x.orderStatus == "Shipping"
-                              ? Colors.green
-                              : x.orderStatus == "Canceled"
-                                  ? Colors.grey.shade400
-                                  : Colors.white,
-                          margin: const EdgeInsets.all(8),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 170.h,
-                                width: 150.w,
-                                child: CachedNetworkImage(imageUrl: x.orderImg),
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Column(
-                                // crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        x.productName,
-                                        style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                      SizedBox(height: 5.h),
-                                      Text(
-                                        x.orderStatus,
-                                        style: const TextStyle(
-                                          fontSize: 14,
+                        child: GestureDetector(
+                          onLongPress: (){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Checkscreen(order: x),
+                                ));
+                          },
+                          child: Container(
+                            color: x.orderStatus == "Shipping"
+                                ? Colors.green
+                                : x.orderStatus == "Canceled"
+                                    ? Colors.grey.shade400
+                                    : Colors.white,
+                            margin: const EdgeInsets.all(8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 170.h,
+                                  width: 150.w,
+                                  child: CachedNetworkImage(imageUrl: x.orderImg),
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                Column(
+                                  // crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          x.productName,
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600),
                                         ),
-                                      ),
-                                      SizedBox(height: 60.h),
-                                    ],
-                                  ),
-                                  ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            MaterialStatePropertyAll(
-                                                AppColors.mainButtonColor)),
-                                    onPressed: () {
-                                      context
-                                          .read<OrderProvider>()
-                                          .updateByOrderField(
-                                              collectionName: 'orders',
-                                              collectionDocId: x.orderId,
-                                              docField: 'orderStatus',
-                                              updatedText: "Canceled");
-                                    },
-                                    child: const Text(
-                                      'Cancel order',
+                                        SizedBox(height: 5.h),
+                                        Text(
+                                          x.orderStatus,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        SizedBox(height: 60.h),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStatePropertyAll(
+                                                  AppColors.mainButtonColor)),
+                                      onPressed: () {
+                                        context
+                                            .read<OrderProvider>()
+                                            .updateByOrderField(
+                                                collectionName: 'orders',
+                                                collectionDocId: x.orderId,
+                                                docField: 'orderStatus',
+                                                updatedText: "Canceled");
+                                      },
+                                      child: const Text(
+                                        'Cancel order',
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );

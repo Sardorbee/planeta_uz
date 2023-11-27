@@ -27,7 +27,7 @@ Future<void> main() async {
           create: (context) => LoginProvider(firebaseServices: AuthService()),
           lazy: true,
         ),
-        ChangeNotifierProvider(/*jhdgiuhdfuioghidfuhguidf*/
+        ChangeNotifierProvider(
           create: (context) =>
               CategoryProvider(categoryService: CategoryService()),
           lazy: true,
