@@ -90,14 +90,14 @@ class _AddproductsState extends State<Addproducts> {
                     label: 'Price',
                   ),
                   SizedBox(height: 10.h),
-                  GlobalTextField(
+                 /* GlobalTextField(
                     hintText: "Add Product Currency",
                     textAlign: TextAlign.start,
                     controller: context
                         .read<ProductsProvider>()
                         .productsCurrencycontroller,
                     label: 'Currency',
-                  ),
+                  ),*/
                   SizedBox(height: 10.h),
                   ElevatedButton(
                     style: const ButtonStyle(

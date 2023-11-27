@@ -36,11 +36,11 @@ class AddProductButton extends StatelessWidget {
                 .productsCountcontroller
                 .text
                 .isNotEmpty &&
-            context
+           /* context
                 .read<ProductsProvider>()
                 .productsCurrencycontroller
                 .text
-                .isNotEmpty &&
+                .isNotEmpty &&*/
             context
                 .read<ProductsProvider>()
                 .productsPricecontroller
