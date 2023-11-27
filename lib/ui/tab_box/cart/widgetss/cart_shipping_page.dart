@@ -6,6 +6,7 @@ import 'package:planeta_uz/data/model/order_model.dart';
 import 'package:planeta_uz/provider/auth_provider/login_pro.dart';
 import 'package:planeta_uz/provider/order_provider.dart';
 import 'package:planeta_uz/ui/tab_box/cart/widgetss/cart_detail.dart';
+import 'package:planeta_uz/ui/tab_box/cart/widgetss/check.dart';
 import 'package:provider/provider.dart';
 
 class CartShippingPage extends StatelessWidget {
@@ -50,44 +51,53 @@ class CartShippingPage extends StatelessWidget {
                                 ));
                           }
                         },
-                        child: Container(
-                          color: x.orderStatus == "Delivering"
-                              ? Colors.green
-                              : x.orderStatus == "Canceled"
-                                  ? Colors.grey.shade400
-                                  : Colors.white,
-                          margin: const EdgeInsets.all(8),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: 170.h,
-                                width: 150.w,
-                                child: CachedNetworkImage(imageUrl: x.orderImg),
-                              ),
-                              const SizedBox(
-                                width: 15,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    x.productName,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(height: 5.h),
-                                  Text(
-                                    x.orderStatus,
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                        child: GestureDetector(
+                          onLongPress: (){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Checkscreen(order: x),
+                                ));
+                          },
+                          child: Container(
+                            color: x.orderStatus == "Delivering"
+                                ? Colors.green
+                                : x.orderStatus == "Canceled"
+                                    ? Colors.grey.shade400
+                                    : Colors.white,
+                            margin: const EdgeInsets.all(8),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 170.h,
+                                  width: 150.w,
+                                  child: CachedNetworkImage(imageUrl: x.orderImg),
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      x.productName,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
                                     ),
-                                  ),
-                                  SizedBox(height: 5.h),
-                                ],
-                              )
-                            ],
+                                    SizedBox(height: 5.h),
+                                    Text(
+                                      x.orderStatus,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    SizedBox(height: 5.h),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );
