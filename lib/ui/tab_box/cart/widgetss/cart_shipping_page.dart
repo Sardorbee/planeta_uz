@@ -41,6 +41,13 @@ class CartShippingPage extends StatelessWidget {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
                       OrderModel x = snapshot.data![index];
+                      context
+                          .read<OrderProvider>()
+                          .updateByOrderField(
+                          collectionName: 'orders',
+                          collectionDocId: x.orderId,
+                          docField: "orderStatus",
+                          updatedText: "Deleted");
                       return GestureDetector(
                         onTap: () {
                           if (x.orderStatus == "waiting") {
