@@ -44,8 +44,9 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       SocialButtons(w: w),
                       Padding(
-                        padding: EdgeInsets.all(w * 0.18),
+                        padding: EdgeInsets.only(top: w * 0.20),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text("Don't have an account yet? "),
                             InkWell(
@@ -194,8 +195,6 @@ class _SignInPageState extends State<SignInPage> {
                                 duration: Duration(seconds: 1)),
                           );
                         }
-
-                        
                       }),
                       child: const Center(
                         child: Text('Sign In'),
@@ -207,7 +206,6 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ),
         ),
-        
       ],
     );
   }
